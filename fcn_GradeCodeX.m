@@ -95,6 +95,8 @@ end
 code_Names{1} = 'fcn_CodeX_01_getKey';
 code_Depth(1) = 7;
 code_Pass(1) = 42;
+code_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/f73b75c9b4a72f361b81efde566e2acde3627ec7/Functions/fcn_CodeX_01_getKey.zip?raw=true';
+
 
 code_Names{2} = 'fcn_CodeX_02_putNumber';
 code_Depth(2) = 7;
@@ -132,7 +134,18 @@ if 1==flag_first_time
         flag_functionsAdded = 1;
     end
     
-    disp('Done setting up environment and first problem. Nice job.');
+    disp('Done setting up environment. Adding first problem.');
+    
+    problem_number = 1;
+    dependency_name = code_Names{problem_number};
+    dependency_subfolders = {};
+    dependency_url = code_url{1};
+    fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
+    clear dependency_name dependency_subfolders dependency_url
+    
+    
+    
+    disp('Done setting up first problem. Nice job.');
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
     
 end % Ends environment setup
@@ -159,6 +172,8 @@ if problem_number>=1 % Each function self-grades!
     if answer_right_wrong
         problem_number = problem_number + 1;
         fprintf(1,'Well done! Problem %.0d is now being created for you.\n',problem_number);
+        
+        
         fprintf(1,'Type: "help %s" to get started on the next problem.\n',code_Names{problem_number});
     else
         disp('Unfortunately, your answer was wrong. Try again!');
