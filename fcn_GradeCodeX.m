@@ -95,7 +95,7 @@ end
 code_Names{1} = 'fcn_CodeX_01_getKey';
 code_Depth(1) = 7;
 code_Pass(1) = 42;
-code_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/f73b75c9b4a72f361b81efde566e2acde3627ec7/Functions/fcn_CodeX_01_getKey.zip?raw=true';
+code_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/fcn_CodeX_01_getKey.zip?raw=true';
 
 
 code_Names{2} = 'fcn_CodeX_02_putNumber';
@@ -136,8 +136,8 @@ if 1==flag_first_time
     
     disp('Done setting up environment. Adding first problem.');
     
-    problem_number = 1;
-    dependency_name = code_Names{problem_number};
+    % Set up problem 1
+    dependency_name = code_Names{1};
     dependency_subfolders = {};
     dependency_url = code_url{1};
     fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
@@ -310,18 +310,25 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
         
     end
         
-    % Do the subfolders exist?
-    flag_allFoldersThere = 1;
-    for ith_folder = 1:length(dependency_subfolders)
-        subfolder_name = dependency_subfolders{ith_folder};
+    % Do the subfolders exist? If there are no subfolders, then we are
+    % trying to do a file copy
+    if isempty(dependency_subfolders)
+        flag_allFoldersThere = 0;
+    else
+        % Check if folders already made?
+        flag_allFoldersThere = 1;
         
-        % Create the entire path
-        subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
-    
-        % Check if the folder and file exists that is typically created when
-        % unzipping.
-        if ~exist(subfunction_folder,'dir')
-            flag_allFoldersThere = 0;
+        for ith_folder = 1:length(dependency_subfolders)
+            subfolder_name = dependency_subfolders{ith_folder};
+            
+            % Create the entire path
+            subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
+            
+            % Check if the folder and file exists that is typically created when
+            % unzipping.
+            if ~exist(subfunction_folder,'dir')
+                flag_allFoldersThere = 0;
+            end
         end
     end
     
