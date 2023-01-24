@@ -90,12 +90,15 @@ end
 %  |_|  |_|\__,_|_|_| |_|
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Say what the library is called, and where to find the codes
+library_name{1} = 'CodeX_Functions';
+library_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/CodeX_Functions.zip?raw=true';
+
 
 % Initialize file array
-code_Names{1} = 'fcn_CodeX_01_getKey';
+code_Names{1} = 'CodeExerciseFunctions';
 code_Depth(1) = 7;
 code_Pass(1) = 42;
-code_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/fcn_CodeX_01_getKey.zip?raw=true';
 
 
 code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
@@ -138,11 +141,11 @@ if 1==flag_first_time
     
     disp('Done setting up environment. Adding first problem.');
     
-    % Set up problem 1
-    dependency_name = code_Names{1};
+    % Set up CodeX library
+    dependency_name = library_name{1};
     dependency_subfolders = {};
-    dependency_url = code_url{1};
-    fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
+    dependency_url = library_url{1};
+    fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url);
     clear dependency_name dependency_subfolders dependency_url
     
     
