@@ -42,7 +42,13 @@ result = fcn_CodeX_01_getKey;
 fcn_GradeCodeX(result)
 
 
-
+%% Problem 2 - arguments in
+% Write code to call a function - fcn_CodeX_01_getKey. Note: you may have
+% saved this file into a different name, which is fine.
+% result = fcn_CodeX_01_getKey;
+% 
+% % Grade it
+% fcn_GradeCodeX(result)
 
 %% Revision History:
 %      2022_01_23:

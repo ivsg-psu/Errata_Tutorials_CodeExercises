@@ -38,7 +38,7 @@ function fcn_GradeCodeX(varargin)
 global flag_functionsAdded
 global problem_number
 
-flag_do_debug = 0; % Flag to show the results for debugging
+flag_do_debug = 1; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
 
@@ -77,7 +77,7 @@ if nargin==1
     problem_number = 1;
     student_answer = varargin{1};
 elseif nargin>1
-    student_selected_problem_number = varargin{1};
+    student_selected_problem_number = varargin{1}; %#ok<NASGU>
 end
 
 %% Main code starts here
@@ -98,9 +98,9 @@ code_Pass(1) = 42;
 code_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/fcn_CodeX_01_getKey.zip?raw=true';
 
 
-code_Names{2} = 'fcn_CodeX_02_putNumber';
+code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
 code_Depth(2) = 7;
-code_Pass(2) = 42;
+code_Pass(2) = 24;
 
 code_Names{3} = 'fcn_CodeX_03_headsOrTails';
 code_Depth(3) = 4;
@@ -128,10 +128,12 @@ if 1==flag_first_time
     fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
     clear dependency_name dependency_subfolders dependency_url
     
-    % Set dependencies for this project
-    if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)
-        fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
-        flag_functionsAdded = 1;
+    % Set dependencies for this project? Only need this in debugging mode
+    if flag_do_debug
+        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)
+            fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
+            flag_functionsAdded = 1;
+        end
     end
     
     disp('Done setting up environment. Adding first problem.');
