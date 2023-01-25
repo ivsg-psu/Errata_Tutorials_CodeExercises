@@ -37,7 +37,7 @@ fcn_GradeCodeX;
 %% Problem 1 - a blank function call
 % Write code to call a function - fcn_CodeX_01_getKey. Note: you may have
 % saved this file into a different name, which is fine.
-result = fcn_CodeX_01_getKey_KEEP;
+result = fcn_CodeX_01_getKey;
 
 % Grade it
 fcn_GradeCodeX(result)

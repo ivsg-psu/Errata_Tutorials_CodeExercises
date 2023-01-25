@@ -84,14 +84,16 @@ end
 % See: http://patorjk.com/software/taag/#p=display&f=Big&t=Inputs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+nargin_lock_number = 42;
+
 if flag_check_inputs
     % Are there the right number of inputs?
-    narginchk(0,7);    
+    narginchk(0,nargin_lock_number);    
 end
 
-if nargin==7
-    code_value = varargin{7};    
-else % Force an error
+if nargin==nargin_lock_number
+    code_value = varargin{nargin_lock_number};    
+elseif nargin>0 % Force an error
     narginchk(0,0);
 end
 
@@ -112,21 +114,7 @@ end
 key_string{1} = license;
 
 % Get the MAC address
-networkinterfaces = java.net.NetworkInterface.getNetworkInterfaces;
-nimacs = cell(0, 2);
-while networkinterfaces.hasMoreElements
-     networkinterface = networkinterfaces.nextElement;
-     macstring = strjoin(cellstr(dec2hex(typecast(networkinterface.getHardwareAddress, 'uint8'))), ':');
-     nimacs = [nimacs; {char(networkinterface.getDisplayName), macstring}]; %#ok<AGROW>
-end
-
-key_string{2} = [];
-for ith_address = 1:length(nimacs(:,1))
-    data = nimacs{ith_address,2};
-    if ~isempty(data)
-        key_string{2}  = cat(2,key_string{2},data);
-    end
-end
+key_string{2} = fcn_INTERNAL_getMACaddress;
 scrambling_hash = upper(key_string{2});
 
 
@@ -178,14 +166,14 @@ scrambled_key = fcn_INTERNAL_scrambleString(string_to_convert,scrambling_hash);
 
 
 %% Step 4 - check student answer and share hash string
-lock_value = 42;
 
-% Calculate the lock value
-st = dbstack; %#ok<*UNRCH>
-fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
+if nargin==nargin_lock_number
+    % Calculate the lock value
+    st = dbstack; %#ok<*UNRCH>
+    this_fname = st(1).file;
+    lock_value = fcn_INTERNAL_calculateLockValue(this_fname);
 
-if nargin==7
-    if isequal(code_value,lock_value)
+    if strcmp(code_value,lock_value)
         temp{1} = scrambled_key; 
         student_answer = varargin{1};
         if(isequal(scrambled_key,student_answer))
@@ -249,11 +237,34 @@ end % Ends main function
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
-function lock_value = fcn_INTERNAL_calculateLockValue
-% Calculate the lock value
-st = dbstack; %#ok<*UNRCH>
-fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
+%% fcn_INTERNAL_calculateLockValue
+function lock_value = fcn_INTERNAL_calculateLockValue(this_fname)
+which_result = which(this_fname);
+if isempty(which_result)
+    error('Unable to find self file - quitting.');
+end
+file_listing = dir(which_result);
+lock_value = sprintf('%.0f',file_listing(1).datenum);
+end % Ends fcn_INTERNAL_calculateLockValue
 
+%% fcn_INTERNAL_getMACaddress
+function mac_string = fcn_INTERNAL_getMACaddress
+networkinterfaces = java.net.NetworkInterface.getNetworkInterfaces;
+nimacs = cell(0, 2);
+while networkinterfaces.hasMoreElements
+     networkinterface = networkinterfaces.nextElement;
+     macstring = strjoin(cellstr(dec2hex(typecast(networkinterface.getHardwareAddress, 'uint8'))), ':');
+     nimacs = [nimacs; {char(networkinterface.getDisplayName), macstring}]; %#ok<AGROW>
+end
+
+mac_string = [];
+for ith_address = 1:length(nimacs(:,1))
+    data = nimacs{ith_address,2};
+    if ~isempty(data)
+        mac_string  = cat(2,mac_string,data);
+    end
+end
+end % Ends fcn_INTERNAL_getMACaddress
 
 function scrambled_string = fcn_INTERNAL_scrambleString(string_to_convert,scrambler_string)
 %% fcn_INTERNAL_scrambleString

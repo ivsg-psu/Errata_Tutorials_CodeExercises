@@ -35,10 +35,9 @@ function fcn_GradeCodeX(varargin)
 % TO DO
 % -- Add input argument checking
 
-global flag_functionsAdded
 global problem_number
 
-flag_do_debug = 1; % Flag to show the results for debugging
+flag_do_debug = 0; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
 
@@ -94,27 +93,7 @@ end
 library_name{1} = 'CodeX_Functions';
 library_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/CodeX_Functions.zip?raw=true';
 
-
-% Initialize file array
-code_Names{1} = 'CodeExerciseFunctions';
-code_Depth(1) = 7;
-code_Pass(1) = 42;
-
-
-code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
-code_Depth(2) = 7;
-code_Pass(2) = 24;
-
-code_Names{3} = 'fcn_CodeX_03_headsOrTails';
-code_Depth(3) = 4;
-code_Pass(3) = 555;
-
-code_Names{3} = 'fcn_CodeX_04_doubleOrNothing';
-code_Depth(3) = 5;
-code_Pass(3) = 2;
-
-
-
+nargin_lock_number = 42;
 
 %% Do we need to set up the work space?
 if 1==flag_first_time
@@ -139,7 +118,7 @@ if 1==flag_first_time
         end
     end
     
-    disp('Done setting up environment. Adding first problem.');
+    disp('Done setting up environment. Adding library of problems.');
     
     % Set up CodeX library
     dependency_name = library_name{1};
@@ -156,14 +135,28 @@ if 1==flag_first_time
 end % Ends environment setup
 
 
+% Initialize file array
+code_Names{1} = 'fcn_CodeX_01_getKey';
+code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
+code_Names{3} = 'fcn_CodeX_03_headsOrTails';
+code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
+
+
+
 if problem_number>=1 % Each function self-grades!
-    
+    % Build a string command that will call the function
     function_name = code_Names{problem_number};
     grading_function_call = cat(2,'results = ',function_name,'(student_answer,');
-    for i=2:(code_Depth(problem_number)-1)
+
+    % Fill the inputs from 2 to end-1 with empty arguments - the last one
+    % will be the lock value.
+    for i=2:(nargin_lock_number-1)
         grading_function_call = cat(2,grading_function_call,' [],');
     end
-    grading_function_call = cat(2,grading_function_call,sprintf('%.0d',code_Pass(problem_number)),');');
+
+    % Fill in the lock value to unlock the function
+    lock_value = fcn_INTERNAL_calculateLockValue(function_name);
+    grading_function_call = cat(2,grading_function_call,'''', lock_value,''');');
     
     
     % Run the code to get the correct answer
@@ -176,7 +169,7 @@ if problem_number>=1 % Each function self-grades!
     % Check that the student's input matches?
     if answer_right_wrong
         problem_number = problem_number + 1;
-        fprintf(1,'Well done! Problem %.0d is now being created for you.\n',problem_number);
+        fprintf(1,'Well done! Problem %.0d is now ready for you.\n',problem_number);
         
         
         fprintf(1,'Type: "help %s" to get started on the next problem.\n',code_Names{problem_number});
@@ -231,6 +224,17 @@ end % Ends main function
 %
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
+
+%% fcn_INTERNAL_calculateLockValue
+function lock_value = fcn_INTERNAL_calculateLockValue(this_fname)
+which_result = which(this_fname);
+if isempty(which_result)
+    error('Unable to find self file - quitting.');
+end
+file_listing = dir(which_result);
+lock_value = sprintf('%.0f',file_listing(1).datenum);
+end % Ends fcn_INTERNAL_calculateLockValue
+
 
 function fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
 % The code requires several other libraries to work, namely the following
