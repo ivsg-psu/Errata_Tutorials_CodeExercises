@@ -1,14 +1,11 @@
 
 %% Introduction to and Purpose of the Code
 % This is the explanation of the CodeX that can be found by running
+%
 %       script_demo_CodeX.m
+%
 % This is a script that self-teaches students how to code via a set of
 % challenges. 
-%
-% This code repo is maintained within the Intelligent Vehicles and Systems
-% Group (IVSG) at:
-%
-%   https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises
 %
 % If you have questions or comments, please contact Sean Brennan at
 % sbrennan@psu.edu
@@ -19,6 +16,7 @@
 %% We start by clearing the console - the part of the screen that we look at
 % This is easily done in MATLAB by calling the "clc" command, where clc is
 % shorthand for "clear console"
+
 clc
 
 % Other common "cleaning" commands include "clear all" which removes all variables
@@ -40,7 +38,8 @@ fcn_GradeCodeX;
 result = fcn_CodeX_01_getKey;
 
 % Grade it
-fcn_GradeCodeX(result)
+[right_or_wrong, next_functions, next_keys] = ...
+fcn_GradeCodeX('fcn_CodeX_01_getKey', result);
 
 
 %% Problem 2 - arguments in
@@ -55,3 +54,5 @@ fcn_GradeCodeX(result)
 %      2022_01_23:
 %      -- created a demo script of core debug utilities, getting problems 0
 %      to 1 to work
+% This code repo is version controlled within the Intelligent Vehicles and
+% Systems Group (IVSG) at: https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises

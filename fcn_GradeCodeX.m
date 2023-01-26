@@ -1,36 +1,63 @@
 function fcn_GradeCodeX(varargin)
-% This grades problems for the CodeX challenges. If the problems are
-% correct, the next problem is given.
+%FCN_GRADECODEX     grades problems for the CodeX challenges. 
+%   
+%   FCN_GRADECODEX with no input arguments with no inputs automatically
+%   builds a Utilities directory by downloading problems from the internet.
+%   It also sets up the work environment.
 %
-% FORMAT:
+%   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
+%   FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK) will query a function
+%   given by a string in FUNCTION_NAME, checking to see if ANSWER_TO_CHECK
+%   is the correct answer. If the answer is correct, then RIGHT_OR_WRONG is
+%   set to true, and NEXT_FUNCTIONS lists a cell array of strings of the
+%   next problems that can be done. Another cell array, NEXT_KEYS, lists
+%   the "entry keys" for each of the next problems, listed in the same
+%   ordering as NEXT_FUNCTIONS.
 %
-%      right_or_wrong = fcn_GradeCodeX(inputs)
+%   If the answer is wrong, RIGHT_OR_WRONG is set to false and the cell
+%   arrays are empty.
 %
-% INPUTS:
+%   FORMAT:
 %
-%      The inputs change problem to problem. To get started, just call the
-%      function, fcn_GradeCodeX, with no inputs. This will automatically
-%      create the first problem after setting up the work environment.
+%        [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
+%           FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK)
 %
-% OUTPUTS:
+%   INPUTS:
 %
-%      right_or_wrong: a true or false value, true if correct
+%        FUNCTION_NAME: A character array for the title of the functions to
+%        be solved. 
 %
-% DEPENDENCIES:
+%        ANSWER_TO_CHECK: The student's answer to check.
 %
-%      This code will automatically get dependent files from the internet,
-%      but of course this requires an internet connection!
+%   OUTPUTS:
 %
-% EXAMPLES:
+%        RIGHT_OR_WRONG: a true or false value, true if correct
 %
-%     See the script: script_demo_CodeX.m to get started
+%        NEXT_FUNCTIONS: a cell array of filenames that can be opened with
+%        the given keys.
 %
-% This function was written on 2023_01_23 by S. Brennan
-% Questions or comments? sbrennan@psu.edu
+%        NEXT_KEYS: the keys for each of the filenames.
+%
+%   DEPENDENCIES:
+%
+%        This code will automatically get dependent files from the internet,
+%        which requires an internet connection during the first instance
+%        that it is run. Note: an internet connection is not needed after
+%        the first run.
+%
+%   EXAMPLES:
+%
+%       See the script: script_demo_CodeX.m to get started.  To get
+%       started, just call the function, fcn_GradeCodeX, with no arguments.
+%
+%   This function was written on 2023_01_23 by S. Brennan
+%   Questions or comments? sbrennan@psu.edu
 
 % Revision history:
 % 2023_01_23:
 % -- wrote the code originally 
+% 2023_01_26:
+% -- improved header comments to match MATLAB style 
 
 % TO DO
 % -- Add input argument checking
@@ -93,6 +120,12 @@ end
 library_name{1} = 'CodeX_Functions';
 library_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/CodeX_Functions.zip?raw=true';
 
+% Initialize file array
+code_Names{1} = 'fcn_CodeX_01_getKey';
+code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
+code_Names{3} = 'fcn_CodeX_03_headsOrTails';
+code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
+
 nargin_lock_number = 42;
 
 %% Do we need to set up the work space?
@@ -107,7 +140,7 @@ if 1==flag_first_time
     dependency_name = 'DebugTools_v2023_01_18';
     dependency_subfolders = {'Functions','Data'};
     dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_18.zip?raw=true';
-    fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
+    fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
     clear dependency_name dependency_subfolders dependency_url
     
     % Set dependencies for this project? Only need this in debugging mode
@@ -124,7 +157,7 @@ if 1==flag_first_time
     dependency_name = library_name{1};
     dependency_subfolders = {};
     dependency_url = library_url{1};
-    fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url);
+    fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url);
     clear dependency_name dependency_subfolders dependency_url
     
     
@@ -132,18 +165,7 @@ if 1==flag_first_time
     disp('Done setting up first problem. Nice job.');
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
     
-end % Ends environment setup
-
-
-% Initialize file array
-code_Names{1} = 'fcn_CodeX_01_getKey';
-code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
-code_Names{3} = 'fcn_CodeX_03_headsOrTails';
-code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
-
-
-
-if problem_number>=1 % Each function self-grades!
+else % Each function self-grades!
     % Build a string command that will call the function
     function_name = code_Names{problem_number};
     grading_function_call = cat(2,'results = ',function_name,'(student_answer,');
@@ -236,7 +258,7 @@ lock_value = sprintf('%.0f',file_listing(1).datenum);
 end % Ends fcn_INTERNAL_calculateLockValue
 
 
-function fcn_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
+function fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
 % The code requires several other libraries to work, namely the following
 % 
 % * DebugTools - the repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_DebugTools
