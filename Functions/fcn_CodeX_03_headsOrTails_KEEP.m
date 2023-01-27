@@ -1,4 +1,4 @@
-function scrambled_key = fcn_CodeX_01_getKey(varargin)
+function scrambled_key = fcn_CodeX_03_headsOrTails(varargin)
 %FCN_CODEX_01_GETKEY - generate student and computer-specific key
 %   
 %   Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to

@@ -1,4 +1,4 @@
-function fcn_GradeCodeX(varargin)
+function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 %FCN_GRADECODEX     grades problems for the CodeX challenges. 
 %   
 %   FCN_GRADECODEX with no input arguments with no inputs automatically
@@ -62,7 +62,6 @@ function fcn_GradeCodeX(varargin)
 % TO DO
 % -- Add input argument checking
 
-global problem_number
 flag_do_debug = 0; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
@@ -87,13 +86,12 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if flag_check_inputs
-    % Are there the right number of inputs?
-    narginchk(0,7);    
+    % Are there the right number of inputs?  
     narginchk(0,2);    
 end
 
 if nargin==0
-    problem_number = 0;
+
     flag_first_time = 1;
 else
     flag_first_time = 0;
@@ -123,7 +121,13 @@ code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
 code_Names{3} = 'fcn_CodeX_03_headsOrTails';
 code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
 
-nargin_lock_number = 42;
+% Find the dependencies for each file
+for ith_codeName = 1:length(code_Names)
+    [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(code_Names{ith_codeName},[]);
+    code_Dependencies{ith_codeName} = function_dependencies; %#ok<AGROW>
+end
+
+
 
 %% Do we need to set up the work space?
 if 1==flag_first_time
@@ -136,13 +140,9 @@ if 1==flag_first_time
     % Get the DebugTools
     dependency_name = 'DebugTools_v2023_01_25';
     dependency_subfolders = {'Functions','Data'};
-<<<<<<< HEAD
-    dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_18.zip?raw=true';
-    fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
-=======
-    dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_25.zip?raw=true';
+    dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_26.zip?raw=true';
     fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url)
->>>>>>> 53339fe8049ce5d53cc1e9f6ee8abc7cbfd4805f
+
     clear dependency_name dependency_subfolders dependency_url
     
     % Set dependencies for this project? Only need this in debugging mode
@@ -159,11 +159,8 @@ if 1==flag_first_time
     dependency_name = library_name{1};
     dependency_subfolders = {};
     dependency_url = library_url{1};
-<<<<<<< HEAD
-    fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url);
-=======
+
     fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url);
->>>>>>> 53339fe8049ce5d53cc1e9f6ee8abc7cbfd4805f
     clear dependency_name dependency_subfolders dependency_url
     
     
@@ -171,55 +168,26 @@ if 1==flag_first_time
     disp('Done setting up first problem. Nice job.');
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
     
-<<<<<<< HEAD
 else % Each function self-grades!
-=======
-else
+
     %% Find what problem we are working on
 
     function_name = varargin{1};
     student_answer = varargin{2};
 
-    problem_number = fcn_INTERNAL_findProblemNumber(code_Names, function_name);
-
-
-    %% Check the problem
->>>>>>> 53339fe8049ce5d53cc1e9f6ee8abc7cbfd4805f
-    % Build a string command that will call the function
-    function_name = code_Names{problem_number};
-    grading_function_call = cat(2,'results = ',function_name,'(student_answer,');
-
-    % Fill the inputs from 2 to end-1 with empty arguments - the last one
-    % will be the lock value.
-    for i=2:(nargin_lock_number-1)
-        grading_function_call = cat(2,grading_function_call,' [],');
-    end
-
-    % Fill in the lock value to unlock the function
-    lock_value = fcn_INTERNAL_calculateLockValue(function_name);
-    grading_function_call = cat(2,grading_function_call,'''', lock_value,''');');
-    
-    
-    % Run the code to get the correct answer
-    if problem_number>0
-        eval(grading_function_call);
-        scrambler_hash = results{1}; %#ok<USENS>
-        answer_right_wrong = results{2};
-    end
+    [~, right_or_wrong, ~] = fcn_INTERNAL_gradeProblemNumber(function_name, student_answer);
     
     % Check that the student's input matches?
-    if answer_right_wrong
-        problem_number = problem_number + 1;
-        fprintf(1,'Well done! Problem %.0d is now ready for you.\n',problem_number);
-        
-        
-        fprintf(1,'Type: "help %s" to get started on the next problem.\n',code_Names{problem_number});
+    if right_or_wrong
+        % It is right
+        fcn_INTERNAL_printUnlockedCodes(function_name,code_Names,code_Dependencies)        
     else
+        % It is wrong
         disp('Unfortunately, your answer was wrong. Try again!');
     end
     
-    % Get results
-    second_scrambled_string = fcn_INTERNAL_scrambleString(student_answer,scrambler_hash); %#ok<NASGU>
+    % FOR DEBUGGING
+    % second_scrambled_string = fcn_INTERNAL_scrambleString(student_answer,correct_answer); %#ok<NASGU>
     %fprintf(1,'Decoded answers: %s\n',second_scrambled_string);
     
 end
@@ -266,72 +234,149 @@ end % Ends main function
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
+%% fcn_INTERNAL_printUnlockedCodes
+function fcn_INTERNAL_printUnlockedCodes(function_name,code_Names,code_Dependencies)
+
+fprintf(1,'\n\nWell done!\n');
+
+N_chars = 40;
+
+% Find the dependencies for each file, and check if they match the
+% current function
+flag_dependency_found = 0;
+for ith_codeName = 1:length(code_Names)
+    current_code = code_Names{ith_codeName};
+    current_dependency = code_Dependencies{ith_codeName};
+    current_dependencies_cells = fcn_DebugTools_parseStringIntoCells(current_dependency);
+    if any(strcmpi(function_name,current_dependencies_cells))
+        % Print the header?
+        if 0 == flag_dependency_found 
+            fprintf(1,'The following functions, with corresponding entry_keys, are now unlocked for you.\n');
+            fprintf(1,'Note: some entry keys can contain spaces. The keys are the entire string between the quotes.\n');
+            
+            % Print results to fixed width
+            header_1_str = sprintf('%s','FUNCTION');
+            fixed_header_1_str = fcn_DebugTools_debugPrintStringToNCharacters(header_1_str,N_chars);
+            header_2_str = sprintf('%s','''ENTRY_KEY''');
+            fixed_header_2_str = fcn_DebugTools_debugPrintStringToNCharacters(header_2_str,N_chars);
+            fprintf(1,'\t\t%s \t %s\n',fixed_header_1_str,fixed_header_2_str);
+        end    
+        
+        % Print the result
+        flag_dependency_found = 1;
+        current_name_hash = fcn_INTERNAL_calculateNameHash(upper(current_code));
+
+        % Print results to fixed width
+        header_1_str = sprintf('%s',current_code);
+        fixed_header_1_str = fcn_DebugTools_debugPrintStringToNCharacters(header_1_str,N_chars);
+        fprintf(1,'\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
+
+    end
+end
+if flag_dependency_found
+    fprintf(1,'Type: "help (functionName)" to start solving any of these functions.\n');
+else
+    fprintf(1,'It appears that all the functions have been completed! Check back later for more.\n');
+end
+
+end % ends fcn_INTERNAL_printUnlockedCodes
+
+%% fcn_INTERNAL_gradeProblemNumber
+function [correct_answer, right_or_wrong, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(function_name, student_answer)
+
+if ~isempty(student_answer)
+    fprintf(1,'Grading student_answer: %s\n',student_answer); % Forces the argument?
+end
+
+% Initialize the lock_number
+nargin_lock_number = 42;
+
+% Check the problem
+% 1) Build the front end with the function hash
+function_name_hash = fcn_INTERNAL_calculateNameHash(function_name);
+grading_function_call = cat(2,'results = ',function_name,'(''',sprintf('%s',function_name_hash),''',');
+
+% 2) Add the student answer as second argument
+if isempty(student_answer)
+    grading_function_call = cat(2,grading_function_call,'[],');
+else
+    grading_function_call = cat(2,grading_function_call,'student_answer,');
+end
+
+% Fill the inputs from 3 to end-1 with empty arguments - the last one
+% will be the lock value.
+for i=3:(nargin_lock_number-1)
+    grading_function_call = cat(2,grading_function_call,' [],');
+end
+
+% Fill in the date_lock value to unlock the function - this is the lock
+% value for Grading
+date_lock_value = fcn_INTERNAL_calculateDateLockValue(function_name);
+grading_function_call = cat(2,grading_function_call,'''', date_lock_value,''');');
+
+
+% Run the code to get the correct answer
+
+try
+    eval(grading_function_call);
+catch
+    disp('Debug here');
+end
+correct_answer = results{1}; %#ok<USENS>
+right_or_wrong = results{2};
+function_dependencies = results{3};
+end % ends fcn_INTERNAL_gradeProblemNumber
+
+
 %% fcn_INTERNAL_findProblemNumber
 function problem_number = fcn_INTERNAL_findProblemNumber(code_Names, function_name)
 % Given a list of code_names and a function_name, finds the index matching
 % the function name to the list, returning this as the current problem
 % number
 
-problem_number = -1; % No problem found
-for ith_code = 1:length(code_names)
-    if strcmp(code_Names{ith_code},function_name)
-        problem_number = ith_code;
-    end
-end
+problem_number = find(strcmp(code_Names,function_name)==1,1);
 
 end % Ends fcn_INTERNAL_findProblemNumber
 
 
-%% fcn_INTERNAL_calculateLockValue
-function lock_value = fcn_INTERNAL_calculateLockValue(this_fname)
+%% fcn_INTERNAL_calculateNameHash
+function name_hash = fcn_INTERNAL_calculateNameHash(this_fname)
+mac_string = fcn_INTERNAL_getMACaddress;
+name_hash = fcn_INTERNAL_scrambleString(upper(this_fname),mac_string);
+end % Ends fcn_INTERNAL_calculateDateLockValue
+
+
+%% fcn_INTERNAL_calculateDateLockValue
+function date_lock_value = fcn_INTERNAL_calculateDateLockValue(this_fname)
 which_result = which(this_fname);
 if isempty(which_result)
     error('Unable to find self file - quitting.');
 end
 file_listing = dir(which_result);
-lock_value = sprintf('%.0f',file_listing(1).datenum);
-end % Ends fcn_INTERNAL_calculateLockValue
+date_lock_value = sprintf('%.0f',file_listing(1).datenum);
+end % Ends fcn_INTERNAL_calculateDateLockValue
 
+%% fcn_INTERNAL_getMACaddress
+function mac_string = fcn_INTERNAL_getMACaddress
+networkinterfaces = java.net.NetworkInterface.getNetworkInterfaces;
+nimacs = cell(0, 2);
+while networkinterfaces.hasMoreElements
+     networkinterface = networkinterfaces.nextElement;
+     macstring = strjoin(cellstr(dec2hex(typecast(networkinterface.getHardwareAddress, 'uint8'))), ':');
+     nimacs = [nimacs; {char(networkinterface.getDisplayName), macstring}]; %#ok<AGROW>
+end
 
-<<<<<<< HEAD
-function fcn_INTERNAL_checkDependencies(dependency_name, dependency_subfolders, dependency_url)
-% The code requires several other libraries to work, namely the following
-% 
-% * DebugTools - the repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_DebugTools
-% 
-% Each should be installed in a folder called "Utilities" under the root
-% folder. This means you need to create a folder called
-%    ./Utilities/DebugTools/ 
-% If you wish to put these codes in different directories, the function
-% below can be easily modified with strings specifying the different
-% location.
-% 
-% For ease of transfer, zip files of the directories used - without the
-% .git repo information, to keep them small - are included in this repo.
-% 
-% The following code checks to see if the folders flag has been
-% initialized, and if not, it checks to see if the directory "Utilities"
-% exists, and if not, it creates it. It then checks if "DebugTools" exists,
-% and if not, creates it. It then unzips the DebugTools zip file into the
-% directory, which puts all the files in the DebugTools code set into this
-% directory.
-%
-% Once the directory and files are ready, it calls the DebugTools function
-% that loads the "path" information for MATLAB, namely: where can MATLAB
-% find the files in these folders?
+mac_string = [];
+for ith_address = 1:length(nimacs(:,1))
+    data = nimacs{ith_address,2};
+    if ~isempty(data)
+        mac_string  = cat(2,mac_string,data);
+    end
+end
+mac_string = upper(mac_string);
+end % Ends fcn_INTERNAL_getMACaddress
 
-% Is the flag set that says that the folders are initialized? Check this
-% using a command "exist", which takes a character string (the name inside
-% the '' marks, and a type string - in this case 'var') and checks if a
-% variable ('var') exists in matlab that has the same name as the string.
-% The ~ in front of exist says to do the opposite. So the following command
-% basically means: if the variable named 'flag_CodeX_Folders_Initialized'
-% does NOT exist in the workspace, run the code in the if statement. If we
-% look at the bottom of the if statement, we fill in that variable. That
-% way, the next time the code is run - assuming the if statement ran to the
-% end - this section of code will NOT be run twice.
-=======
-function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url)
+function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url, varargin)
 %% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES - MATLAB package installer from URL
 %
 % FCN_DEBUGTOOLS_INSTALLDEPENDENCIES installs code packages that are
@@ -340,24 +385,25 @@ function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency
 % subfoder or any specified sub-subfolders to the MATLAB path.
 %
 % If the Utilities folder does not exist, it is created.
-%
+% 
 % If the specified code package folder and all subfolders already exist,
 % the package is not installed. Otherwise, the folders are created as
 % needed, and the package is installed.
-%
+% 
 % If one does not wish to put these codes in different directories, the
 % function can be easily modified with strings specifying the
 % desired install location.
-%
+% 
 % For path creation, if the "DebugTools" package is being installed, the
 % code installs the package, then shifts temporarily into the package to
 % complete the path definitions for MATLAB. If the DebugTools is not
 % already installed, an error is thrown as these tools are needed for the
 % path creation.
-%
+% 
 % Finally, the code sets a global flag to indicate that the folders are
 % initialized so that, in this session, if the code is called again the
-% folders will not be installed.
+% folders will not be installed. This global flag can be overwritten by an
+% optional flag input.
 %
 % FORMAT:
 %
@@ -396,7 +442,7 @@ function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency
 % EXAMPLES:
 %
 % % Define the name of subfolder to be created in "Utilities" subfolder
-% dependency_name = 'DebugTools_v2023_01_25';
+% dependency_name = 'DebugTools_v2023_01_18';
 %
 % % Define sub-subfolders that are in the code package that also need to be
 % % added to the MATLAB path after install; the package install subfolder
@@ -407,7 +453,7 @@ function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency
 % % Define a universal resource locator (URL) pointing to the zip file to
 % % install. For example, here is the zip file location to the Debugtools
 % % package on GitHub:
-% dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_25.zip?raw=true';
+% dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_18.zip?raw=true';
 %
 % % Call the function to do the install
 % fcn_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url)
@@ -431,7 +477,6 @@ if flag_do_debug
     fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
 end
 
->>>>>>> 53339fe8049ce5d53cc1e9f6ee8abc7cbfd4805f
 
 %% check input arguments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -519,16 +564,20 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
 
     % Do the subfolders exist?
     flag_allFoldersThere = 1;
-    for ith_folder = 1:length(dependency_subfolders)
-        subfolder_name = dependency_subfolders{ith_folder};
-
-        % Create the entire path
-        subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
-
-        % Check if the folder and file exists that is typically created when
-        % unzipping.
-        if ~exist(subfunction_folder,'dir')
-            flag_allFoldersThere = 0;
+    if isempty(dependency_subfolders)
+        flag_allFoldersThere = 0;
+    else
+        for ith_folder = 1:length(dependency_subfolders)
+            subfolder_name = dependency_subfolders{ith_folder};
+            
+            % Create the entire path
+            subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
+            
+            % Check if the folder and file exists that is typically created when
+            % unzipping.
+            if ~exist(subfunction_folder,'dir')
+                flag_allFoldersThere = 0;
+            end
         end
     end
 
@@ -549,18 +598,21 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
 
         % Did this work?
         flag_allFoldersThere = 1;
-        for ith_folder = 1:length(dependency_subfolders)
-            subfolder_name = dependency_subfolders{ith_folder};
-
-            % Create the entire path
-            subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
-
-            % Check if the folder and file exists that is typically created when
-            % unzipping.
-            if ~exist(subfunction_folder,'dir')
-                flag_allFoldersThere = 0;
+        if ~isempty(dependency_subfolders)
+            for ith_folder = 1:length(dependency_subfolders)
+                subfolder_name = dependency_subfolders{ith_folder};
+                
+                % Create the entire path
+                subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
+                
+                % Check if the folder and file exists that is typically created when
+                % unzipping.
+                if ~exist(subfunction_folder,'dir')
+                    flag_allFoldersThere = 0;
+                end
             end
         end
+        
         if flag_allFoldersThere==0
             error('The necessary dependency: %s has an error in install, or error performing an unzip operation. Check the code install (see README.md) and try again.\n',dependency_name);
         else

@@ -37,9 +37,12 @@ fcn_GradeCodeX;
 % saved this file into a different name, which is fine.
 result = fcn_CodeX_01_getKey;
 
-% Grade it
-[right_or_wrong, next_functions, next_keys] = ...
+% Standard grade it
 fcn_GradeCodeX('fcn_CodeX_01_getKey', result);
+
+% Deep grade it
+% [correct_answer, right_or_wrong, next_functions] = ...
+% fcn_GradeCodeX('fcn_CodeX_01_getKey', result);
 
 
 %% Problem 2 - arguments in
