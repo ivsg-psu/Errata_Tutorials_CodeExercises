@@ -32,6 +32,12 @@ clc
 fcn_GradeCodeX; 
 
 
+%% Problem 0 - setting up, but with student number
+% Just call the function with no arguments to set up the next problem,
+% problem 1!
+student_number = 1234;
+fcn_GradeCodeX(student_number); 
+
 %% Problem 1 - a blank function call
 % Write code to call a function - fcn_CodeX_01_getKey. Note: you may have
 % saved this file into a different name, which is fine.

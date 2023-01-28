@@ -90,15 +90,23 @@ if flag_check_inputs
     narginchk(0,2);    
 end
 
-if nargin==0
-
+% First time entries always have 0 or 1 arguments
+if nargin<2
     flag_first_time = 1;
 else
     flag_first_time = 0;
 end
 
-if nargin==1
-    error('Expecting 0 or 2 inputs.')
+% Initialize student_number
+student_number = [];
+if 1 == nargin   
+    temp = varargin{end};
+    % Did the user give an positive integer?
+    if isnumeric(temp) && (round(temp)==temp) && (temp>0) 
+        student_number = temp;
+    else
+        error('Expecting student number, but input is not a positive integer.');
+    end
 end
 
 %% Main code starts here
@@ -121,9 +129,21 @@ code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
 code_Names{3} = 'fcn_CodeX_03_headsOrTails';
 code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
 
+% Check if student number is empty
+if isempty(student_number)
+    temp = input('Enter your student number: ','s');
+    number = str2double(temp);
+    if isempty(temp) || ~isnumeric(number) || ~(round(number)==number) || ~(number>0)
+        fprintf(1,'Bad input detected: %s\n',temp);
+        error('Empty or bad student number detected. Student numbers must be positive integers.');
+    else
+        student_number = number;
+    end
+end
+
 % Find the dependencies for each file
 for ith_codeName = 1:length(code_Names)
-    [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(code_Names{ith_codeName},[]);
+    [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, code_Names{ith_codeName},[]);
     code_Dependencies{ith_codeName} = function_dependencies; %#ok<AGROW>
 end
 
@@ -166,6 +186,7 @@ if 1==flag_first_time
     
     
     disp('Done setting up first problem. Nice job.');
+    [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number,'fcn_CodeX_01_getKey',code_Names,code_Dependencies);
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
     
 else % Each function self-grades!
@@ -175,21 +196,20 @@ else % Each function self-grades!
     function_name = varargin{1};
     student_answer = varargin{2};
 
-    [~, right_or_wrong, ~] = fcn_INTERNAL_gradeProblemNumber(function_name, student_answer);
+    [~, right_or_wrong, ~] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name, student_answer);
     
     % Check that the student's input matches?
+    next_functions = [];
+    next_keys = [];
     if right_or_wrong
         % It is right
-        fcn_INTERNAL_printUnlockedCodes(function_name,code_Names,code_Dependencies)        
+        [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies);       
     else
         % It is wrong
-        disp('Unfortunately, your answer was wrong. Try again!');
+        disp('Unfortunately, the answer was wrong. Try again!');
     end
     
-    % FOR DEBUGGING
-    % second_scrambled_string = fcn_INTERNAL_scrambleString(student_answer,correct_answer); %#ok<NASGU>
-    %fprintf(1,'Decoded answers: %s\n',second_scrambled_string);
-    
+   
 end
 
 
@@ -235,7 +255,7 @@ end % Ends main function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 %% fcn_INTERNAL_printUnlockedCodes
-function fcn_INTERNAL_printUnlockedCodes(function_name,code_Names,code_Dependencies)
+function [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies)
 
 fprintf(1,'\n\nWell done!\n');
 
@@ -243,6 +263,8 @@ N_chars = 40;
 
 % Find the dependencies for each file, and check if they match the
 % current function
+next_functions = [];
+next_keys = [];
 flag_dependency_found = 0;
 for ith_codeName = 1:length(code_Names)
     current_code = code_Names{ith_codeName};
@@ -262,15 +284,18 @@ for ith_codeName = 1:length(code_Names)
             fprintf(1,'\t\t%s \t %s\n',fixed_header_1_str,fixed_header_2_str);
         end    
         
-        % Print the result
+        % Calculate the hash for this function
         flag_dependency_found = 1;
-        current_name_hash = fcn_INTERNAL_calculateNameHash(upper(current_code));
+        student_number_string = sprintf('%.0d',student_number);
+        current_name_hash = fcn_CodeX_calculateNameHash(student_number_string,upper(current_code));
 
         % Print results to fixed width
         header_1_str = sprintf('%s',current_code);
         fixed_header_1_str = fcn_DebugTools_debugPrintStringToNCharacters(header_1_str,N_chars);
         fprintf(1,'\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
-
+        next_functions{end} = header_1_str;
+        next_keys{end} = current_name_hash;
+        URHERE
     end
 end
 if flag_dependency_found
@@ -282,7 +307,7 @@ end
 end % ends fcn_INTERNAL_printUnlockedCodes
 
 %% fcn_INTERNAL_gradeProblemNumber
-function [correct_answer, right_or_wrong, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(function_name, student_answer)
+function [correct_answer, right_or_wrong, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name, student_answer)
 
 if ~isempty(student_answer)
     fprintf(1,'Grading student_answer: %s\n',student_answer); % Forces the argument?
@@ -293,19 +318,23 @@ nargin_lock_number = 42;
 
 % Check the problem
 % 1) Build the front end with the function hash
-function_name_hash = fcn_INTERNAL_calculateNameHash(function_name);
+student_number_string = sprintf('%.0d',student_number);
+function_name_hash = fcn_CodeX_calculateNameHash(student_number_string,function_name);
 grading_function_call = cat(2,'results = ',function_name,'(''',sprintf('%s',function_name_hash),''',');
 
-% 2) Add the student answer as second argument
+% 2) Add the student_numnber as second argument
+grading_function_call = cat(2,grading_function_call,'student_number,');
+
+% 2) Add the student answer as third argument
 if isempty(student_answer)
     grading_function_call = cat(2,grading_function_call,'[],');
 else
     grading_function_call = cat(2,grading_function_call,'student_answer,');
 end
 
-% Fill the inputs from 3 to end-1 with empty arguments - the last one
+% Fill the inputs from 4 to end-1 with empty arguments - the last one
 % will be the lock value.
-for i=3:(nargin_lock_number-1)
+for i=4:(nargin_lock_number-1)
     grading_function_call = cat(2,grading_function_call,' [],');
 end
 
@@ -316,7 +345,6 @@ grading_function_call = cat(2,grading_function_call,'''', date_lock_value,''');'
 
 
 % Run the code to get the correct answer
-
 try
     eval(grading_function_call);
 catch
@@ -339,11 +367,7 @@ problem_number = find(strcmp(code_Names,function_name)==1,1);
 end % Ends fcn_INTERNAL_findProblemNumber
 
 
-%% fcn_INTERNAL_calculateNameHash
-function name_hash = fcn_INTERNAL_calculateNameHash(this_fname)
-mac_string = fcn_INTERNAL_getMACaddress;
-name_hash = fcn_INTERNAL_scrambleString(upper(this_fname),mac_string);
-end % Ends fcn_INTERNAL_calculateDateLockValue
+
 
 
 %% fcn_INTERNAL_calculateDateLockValue
@@ -356,25 +380,7 @@ file_listing = dir(which_result);
 date_lock_value = sprintf('%.0f',file_listing(1).datenum);
 end % Ends fcn_INTERNAL_calculateDateLockValue
 
-%% fcn_INTERNAL_getMACaddress
-function mac_string = fcn_INTERNAL_getMACaddress
-networkinterfaces = java.net.NetworkInterface.getNetworkInterfaces;
-nimacs = cell(0, 2);
-while networkinterfaces.hasMoreElements
-     networkinterface = networkinterfaces.nextElement;
-     macstring = strjoin(cellstr(dec2hex(typecast(networkinterface.getHardwareAddress, 'uint8'))), ':');
-     nimacs = [nimacs; {char(networkinterface.getDisplayName), macstring}]; %#ok<AGROW>
-end
 
-mac_string = [];
-for ith_address = 1:length(nimacs(:,1))
-    data = nimacs{ith_address,2};
-    if ~isempty(data)
-        mac_string  = cat(2,mac_string,data);
-    end
-end
-mac_string = upper(mac_string);
-end % Ends fcn_INTERNAL_getMACaddress
 
 function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url, varargin)
 %% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES - MATLAB package installer from URL
@@ -689,75 +695,4 @@ end % Ends function fcn_DebugTools_installDependencies
 
 
 
-function scrambled_string = fcn_INTERNAL_scrambleString(string_to_convert,scrambler_string)
-%% fcn_INTERNAL_scrambleString
-% This function scrambles a string using the XOR hash method
-% It goes letter by letter through the string to convert, and for each
-% letter, takes a letter out of the scrambler string and XORs with that
-% letter, cycling through the scrambler string beginning once it reaches
-% the end. To keep the letters readable, it unit shifts letters down by 32,
-% and performs operations only up to 63 after the shift, thereby forcing
-% the results to only occur in 6 bits maximum. It then shifts the results
-% back up by 32, producing readable characters. One consequence of this
-% readability is that only upper case letters can be used, and no letters
-% higher than 96 on the ASCII table. The code checks for both cases.
-
-
-% ASCII Table, readable form, goes from 33 to 127
-starting_ASCII = 32;
-ending_ASCII = starting_ASCII+63; % Force the result to only use bottom 64 bits
-ASCII_range = ending_ASCII - starting_ASCII + 1;
-
-% Convert strings to numbers, and check them
-numbers_to_convert = uint8(string_to_convert);
-scrambler_numbers = uint8(upper(scrambler_string));
-
-% Make sure these are well formed
-if ~strcmp(upper(string_to_convert),string_to_convert)
-    error('Only upper case letters allowed for conversion string');
-end
-   
-if any(numbers_to_convert<starting_ASCII)
-    error('Conversion string has characters that are not convertible because they are too low in ASCII table');
-end
-if any(scrambler_numbers<starting_ASCII)
-    error('Scrambler string has characters that are not convertible because they are too low in ASCII table');
-end
-if any(numbers_to_convert>ending_ASCII)
-    error('Conversion string has characters that are not convertible because they are too high in ASCII table');
-end
-if any(scrambler_numbers>ending_ASCII)
-    error('Scrambler string has characters that are not convertible because they are too high in ASCII table');
-end
-
-
-% Initial values
-Nconversions = length(string_to_convert);   
-scrambled_numbers_shifted = zeros(1,Nconversions,'uint8');
-jth_scrambler = 1; % Start at first character
-shiftedNumbersToConvert = numbers_to_convert - starting_ASCII;
-shiftedScramblerNumbers = scrambler_numbers - starting_ASCII;
-
-
-% Scrambled 
-for ith_conversion = 1:Nconversions
-
-    charNumber_to_convert = shiftedNumbersToConvert(ith_conversion);
-    scrambler_number = shiftedScramblerNumbers(jth_scrambler);
-    
-    % Do the scramble
-    scrambled_numbers_shifted(ith_conversion) = bitxor(charNumber_to_convert,scrambler_number);
-    
-    % Increment the scrambler
-    jth_scrambler = 1+mod(ith_conversion,length(scrambler_string));
-end
-
-% Check for errors
-if any(scrambled_numbers_shifted>=ASCII_range)
-    error('Bit overload error! This should not have happened.');
-end
-scrambled_numbers_unshifted = scrambled_numbers_shifted + starting_ASCII;
-scrambled_string = char(scrambled_numbers_unshifted);
-
-end % Ends the function
 

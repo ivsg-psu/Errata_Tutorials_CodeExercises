@@ -1,27 +1,30 @@
-function scrambled_key = fcn_CodeX_01_getKey(varargin)
+function scrambled_answer = fcn_CodeX_01_getKey(varargin)
 %FCN_CODEX_01_GETKEY - generate student and computer-specific key
 %   
 %   Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%   write code that queries this function, FCN_CODEX_01_GETKEY, with no
-%   arguments or inputs. The solution is literally one line of code that
-%   requests a code key (a strange set of characters) from the function.
-%   For example, to query a function called "fcn_be_happy" that produces a
-%   result "a", you would type in their script or at the MATLAB prompt:
+%   write code that queries this function, FCN_CODEX_01_GETKEY, with a key code
+%   input and your student number. The solution is literally one line of
+%   code that requests a code key (a strange set of characters) from the
+%   function.
 %
-%                      a = fcn_be_happy;
+%   For example, to solve this, one could type in their script or at the
+%   MATLAB prompt:
+% 
+%            entry_key = ' 234ADH&45'; % <--- this must be changed
+%            student_number = 1234; % <--- this must be changed                      
+%            answer = fcn_CodeX_01_getKey(entry_key,student_number);
+%            fcn_GradeCodeX('fcn_CodeX_01_getKey',answer);
 %
-%   This assignment asks students to write their own line of code for this
-%   function. And yes, it is stupidly easy.
+%   This assignment asks students to write their own script for these
+%   lines of code. And yes, it is as easy as copy/paste into a script, and
+%   editing the lines indicated.
 %
-%   To check if the answer is correct, call fcn_GradeCode. For example, if
-%   you stored the result as "a" like in the example above, you would call:
+%   To check if the answer is correct, the above lines call fcn_GradeCode. 
 %
-%   right_or_wrong = fcn_GradeCodeX(a);
-%
-%   If you are right, the grader prints information and gives you the next
-%   problem. If you are wrong, it gives a red text that says you are wrong
-%   and perhaps a hint to help you. May this message be enough to get you
-%   started on your code journey - the first step is always the hardest!
+%   If the answer is right, the Grader function gives the next problem. If
+%   it is wrong, it gives an error and perhaps a hint to help you. May this
+%   message be enough to get you started on your code journey - the first
+%   step is always the hardest!
 
 %   What does this code do? Finds computer information, and uses it to form a
 %   key sequence. This key sequence is used in later problems to encrypt
@@ -112,9 +115,10 @@ if flag_check_inputs
 end
 
 if nargin==nargin_lock_number
-    Student_entry_key = varargin{1};
+    student_entry_key = varargin{1};
+    student_number = varargin{2}; 
     Grader_input_code = varargin{nargin_lock_number};    
-elseif nargin>0 % Force an error
+elseif nargin>2 % Force an error
     narginchk(0,0);
 end
 
@@ -129,13 +133,36 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% Step 0 - make sure student_entry_key is correct
 % Find the filename, and strip out debug mode characters if necessary
 st = dbstack; 
 this_fname = st(1).name;
 if contains(this_fname,'_KEEP')
     this_fname = this_fname(1:end-5);
 end
+this_fname = upper(this_fname);
 
+student_number_string = sprintf('%.0d',student_number);
+
+% 
+% correct_entry_key = fcn_CodeX_calculateNameHash(student_number_string,this_fname);
+% if ~isequal(correct_entry_key,student_entry_key)
+%     error('The entry key for this function is incorrect. Note that the entry key depends on student number and the computer. Run fcn_GradeCodeX to get entry keys.');
+% end
+
+
+% Make sure student's entry code matches
+% Calculate the inverse name_hash to see if the user specified the right
+% function
+
+inverse_entry = fcn_CodeX_calculateNameHash(student_number_string,student_entry_key);
+if ~(strcmpi(inverse_entry,this_fname) || any(strcmpi(inverse_entry,dependencies_cells)))
+    if strcmp(inverse_entry(1:3),'FCN')
+        error('It appears the entry key for the wrong function was given. The entry key was for function: \n\t%s \nBut this function requires the entry key for one of the following: \n\t%s',inverse_entry,upper(dependencies));
+    else
+        error('Incorrect entry key given for this function. This function requires entry key for one of the following: \n\t%s',upper(dependencies));
+    end
+end
 
 %% Step 1 - get computer data
 %   1: MAC address
@@ -200,34 +227,24 @@ key_string{8} = getenv('UserName');
 
 %% Step 2 - % Now we need to assemble the results into a string
 % Create the string
-CSV_string = [];
+CSV_answer_string = [];
 for ith_key = 1:length(key_string)
-    CSV_string = cat(2,CSV_string,sprintf('%s',key_string{ith_key}));
+    CSV_answer_string = cat(2,CSV_answer_string,sprintf('%s',key_string{ith_key}));
     if ith_key<length(key_string)
-        CSV_string = cat(2,CSV_string,', ');
+        CSV_answer_string = cat(2,CSV_answer_string,', ');
     end
 end
 
 %% Step 3 - scramble the results
-string_to_convert = upper(CSV_string);
+string_to_convert = upper(CSV_answer_string);
 scrambling_hash = fcn_INTERNAL_getMACaddress;
-scrambled_key = fcn_INTERNAL_scrambleString(string_to_convert,scrambling_hash);
+scrambled_answer = fcn_INTERNAL_scrambleString(string_to_convert,scrambling_hash);
 
 
 %% Step 4 - grade student answer
 
 if nargin==nargin_lock_number
-    % Make sure student's entry code matches
-    % Calculate the inverse name_hash to see if the user specified the right
-    % function
-    inverse_entry = fcn_INTERNAL_calculateNameHash(Student_entry_key);
-    if ~(strcmpi(inverse_entry,this_fname) || any(strcmpi(inverse_entry,dependencies_cells)))
-        if strcmp(inverse_entry(1:3),'FCN')
-            error('It appears the entry key for the wrong function was given. The entry key was for function: \n\t%s \nBut this function requires the entry key for one of the following: \n\t%s',inverse_entry,upper(dependencies));
-        else
-            error('Incorrect entry key given for this function. This function requires entry key for one of the following: \n\t%s',upper(dependencies));
-        end
-    end
+
         
     % Calculate the lock value so that Grader can check
     date_lock_value = fcn_INTERNAL_calculateDateLockValue(this_fname);
@@ -236,11 +253,11 @@ if nargin==nargin_lock_number
     if strcmp(Grader_input_code,date_lock_value)
         % Grader is correct - return requested information
         % 1) Return the correct answer        
-        temp{1} = scrambled_key; 
+        temp{1} = scrambled_answer; 
         
         % 2) Grade the students answer
-        student_answer = varargin{2};
-        if(isequal(scrambled_key,student_answer))
+        student_answer = varargin{3};
+        if(isequal(scrambled_answer,student_answer))
             temp{2} = true;
         else
             temp{2} = false;
@@ -249,7 +266,7 @@ if nargin==nargin_lock_number
         % 3) Identify the function dependencies - NOTE: a function must
         % always be self-dependent!
         temp{3} = dependencies; % 
-        scrambled_key = temp;
+        scrambled_answer = temp;
              
     else % Force an error
         narginchk(0,0);
@@ -277,8 +294,8 @@ if flag_do_plots
     
     fprintf(1,'Input before scramble: %s\n',string_to_convert);
     fprintf(1,'Scrambler: %s\n',scrambler_string);
-    fprintf(1,'Scrambled input: %s\n',scrambled_key);
-    second_scrambled_string = fcn_INTERNAL_scrambleString(scrambled_key,scrambler_string);
+    fprintf(1,'Scrambled input: %s\n',scrambled_answer);
+    second_scrambled_string = fcn_INTERNAL_scrambleString(scrambled_answer,scrambler_string);
     fprintf(1,'Result after second scramble: %s\n',second_scrambled_string);
     
 
@@ -305,12 +322,6 @@ end % Ends main function
 %
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
-
-%% fcn_INTERNAL_calculateNameHash
-function name_hash = fcn_INTERNAL_calculateNameHash(this_fname)
-mac_string = fcn_INTERNAL_getMACaddress;
-name_hash = fcn_INTERNAL_scrambleString(upper(this_fname),mac_string);
-end % Ends fcn_INTERNAL_calculateDateLockValue
 
 %% fcn_INTERNAL_calculateDateLockValue
 function date_lock_value = fcn_INTERNAL_calculateDateLockValue(this_fname)
