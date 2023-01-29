@@ -1,9 +1,19 @@
 function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 %FCN_GRADECODEX     grades problems for the CodeX challenges. 
 %   
-%   FCN_GRADECODEX with no input arguments with no inputs automatically
+%   FCN_GRADECODEX with no input arguments automatically
 %   builds a Utilities directory by downloading problems from the internet.
-%   It also sets up the work environment.
+%   It also sets up the work environment, including resetting all solved
+%   problems to "unsolved". It also asks the user, via a prompt, to enter
+%   their student number.
+%
+%   FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as no inputs,
+%   except without asking users to enter their student ID via
+%   a prompt; the value in STUDENT_NUMBER is used instead. This enables
+%   scripts to automatically start the code, for example:
+%
+%   student_number = 1234; % Students would enter their number here
+%   fcn_GradeCodeX(student_number); % Initialize with this number
 %
 %   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
 %   FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK) will query a function
@@ -120,14 +130,59 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Say what the library is called, and where to find the codes
-library_name{1} = 'CodeX_Functions';
-library_url{1} = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Functions/CodeX_Functions.zip?raw=true';
+library_name{1}    = 'CodeX_Functions';
+library_folders{1} = {};
+library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_01_29.zip?raw=true';
 
 % Initialize file array
 code_Names{1} = 'fcn_CodeX_01_getKey';
 code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
 code_Names{3} = 'fcn_CodeX_03_headsOrTails';
 code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
+
+
+
+
+
+%% Do we need to set up the work space?
+if 1==flag_first_time
+    %% Dependencies and Setup of the Code
+    % This code depends on several other libraries of codes that contain
+    % commonly used functions. We check to see if these libraries are installed
+    % into our "Utilities" folder, and if not, we install them and then set a
+    % flag to not install them again.
+    
+    % Get the DebugTools
+    DebugTools_dependency_name = 'DebugTools_v2023_01_29';
+    DebugTools_dependency_subfolders = {'Functions','Data'};
+    DebugTools_dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_29.zip?raw=true';
+    fcn_INTERNAL_DebugTools_installDependencies(DebugTools_dependency_name, DebugTools_dependency_subfolders, DebugTools_dependency_url)
+
+    clear DebugTools_dependency_name DebugTools_dependency_subfolders DebugTools_dependency_url
+    
+    % Set dependencies for this project? Only need this in debugging mode
+    if flag_do_debug
+        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)
+            fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
+            flag_functionsAdded = 1;
+        end
+    end
+    
+    disp('Done setting up environment. Adding library of problems.');
+    
+    % Set up CodeX library
+    dependency_name = library_name{1};
+    dependency_subfolders = library_folders{1};
+    dependency_url = library_url{1};
+
+    fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url);
+    clear dependency_name dependency_subfolders dependency_url
+    
+    
+    
+    disp('Done setting up first problem. Nice job.');
+    
+end
 
 % Check if student number is empty
 if isempty(student_number)
@@ -148,46 +203,11 @@ for ith_codeName = 1:length(code_Names)
 end
 
 
-
-%% Do we need to set up the work space?
 if 1==flag_first_time
-    %% Dependencies and Setup of the Code
-    % This code depends on several other libraries of codes that contain
-    % commonly used functions. We check to see if these libraries are installed
-    % into our "Utilities" folder, and if not, we install them and then set a
-    % flag to not install them again.
-    
-    % Get the DebugTools
-    dependency_name = 'DebugTools_v2023_01_25';
-    dependency_subfolders = {'Functions','Data'};
-    dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_26.zip?raw=true';
-    fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url)
 
-    clear dependency_name dependency_subfolders dependency_url
-    
-    % Set dependencies for this project? Only need this in debugging mode
-    if flag_do_debug
-        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)
-            fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
-            flag_functionsAdded = 1;
-        end
-    end
-    
-    disp('Done setting up environment. Adding library of problems.');
-    
-    % Set up CodeX library
-    dependency_name = library_name{1};
-    dependency_subfolders = {};
-    dependency_url = library_url{1};
-
-    fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url);
-    clear dependency_name dependency_subfolders dependency_url
-    
-    
-    
-    disp('Done setting up first problem. Nice job.');
     [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number,'fcn_CodeX_01_getKey',code_Names,code_Dependencies);
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
+
     
 else % Each function self-grades!
 
