@@ -1,9 +1,11 @@
+function name_hash = fcn_CodeX_calculateNameHash(student_number_string,string_2_hash) %#ok<FNDEF>
 %% fcn_CodeX_calculateNameHash
 % This is a helper function for the CodeX library that hashes strings. It
 % it not a problem to be solved, but rather a function that is used often
 % in many of the problems and so is kept as a stand-alone function.
 
-function name_hash = fcn_CodeX_calculateNameHash(student_number_string,string_2_hash) %#ok<FNDEF>
+
+%% Prep the hashing string by combining student number with MAC
 mac_string = fcn_INTERNAL_getMACaddress;
 
 % Interlace strings
@@ -31,7 +33,7 @@ end
 % For debugging
 % fprintf(1,'Interlaced: %s\n',interlaced);
 
-name_hash = fcn_INTERNAL_scrambleString(upper(string_2_hash),interlaced);
+name_hash = fcn_INTERNAL_scrambleString(string_2_hash,interlaced);
 end % Ends fcn_CodeX_calculateNameHash
 
 
@@ -72,31 +74,43 @@ end % Ends fcn_INTERNAL_getMACaddress
 function scrambled_string = fcn_INTERNAL_scrambleString(string_to_convert,scrambler_string)
 %% fcn_INTERNAL_scrambleString
 % This function scrambles a string using the XOR hash method
-% It goes letter by letter through the string to convert, and for each
-% letter, takes a letter out of the scrambler string and XORs with that
+% It goes letter by letter through the scrambler_string to convert, and for each
+% letter, takes a letter out of the scrambler_string and XORs with that
 % letter, cycling through the scrambler string beginning once it reaches
-% the end. To keep the letters readable, it unit shifts letters down by 32,
+% the end. 
+%
+% To keep the letters readable, it unit shifts letters down by 32,
 % and performs operations only up to 63 after the shift, thereby forcing
 % the results to only occur in 6 bits maximum. It then shifts the results
 % back up by 32, producing readable characters. One consequence of this
 % readability is that only upper case letters can be used, and no letters
 % higher than 96 on the ASCII table. The code checks for both cases.
 
+% % Check ASCII tables
+% character_numbers = 0:127;
+% all_ASCII = char(character_numbers);
+% valid_uppercase_flag = all_ASCII==upper(all_ASCII);
+% 
+% % Find where upper-case switches to lower-case. Note: need -1 since ASCII
+% % chart starts with 0 indexing, but MATLAB starts at 1
+% largest_valid_character = find(diff(valid_uppercase_flag)==-1,1) - 1;
+% % This gives a largest valid character of 96. The lowest valid character
+% % is the one right after the single quote 
 
-% ASCII Table, readable form, goes from 33 to 127
-starting_ASCII = 32;
+
+
+% ASCII Table, readable form (after quote, which breaks strings), goes from
+% 40 to 96
+starting_ASCII = 40;
 ending_ASCII = starting_ASCII+63; % Force the result to only use bottom 64 bits
 ASCII_range = ending_ASCII - starting_ASCII + 1;
 
 % Convert strings to numbers, and check them
 numbers_to_convert = uint8(string_to_convert);
+
 scrambler_numbers = uint8(upper(scrambler_string));
 
-% Make sure these are well formed
-if ~strcmp(upper(string_to_convert),string_to_convert)
-    error('Only upper case letters allowed for conversion string');
-end
-   
+% Make sure these are well formed 
 if any(numbers_to_convert<starting_ASCII)
     error('Conversion string has characters that are not convertible because they are too low in ASCII table');
 end

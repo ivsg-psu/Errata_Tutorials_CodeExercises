@@ -27,6 +27,11 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 %   If the answer is wrong, RIGHT_OR_WRONG is set to false and the cell
 %   arrays are empty.
 %
+%   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
+%   FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK,STUDENT_NUMBER) does the
+%   same as the previous call, but automatically uses the given student
+%   number to avoid asking the user for this as an input.
+%
 %   FORMAT:
 %
 %        [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
@@ -68,11 +73,20 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 % -- wrote the code originally 
 % 2023_01_26:
 % -- improved header comments to match MATLAB style 
+% 2023_02_02:
+% -- externalized hash function, functionalized dependencies check
 
 % TO DO
 % -- Add input argument checking
 
-flag_do_debug = 0; % Flag to show the results for debugging
+% USE THIS TO CLEAR EVERYTHING
+if 1==1
+    clear all
+    clear global *
+    delete code_Dependencies.mat
+end
+
+flag_do_debug = 1; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
 
@@ -97,7 +111,7 @@ end
 
 if flag_check_inputs
     % Are there the right number of inputs?  
-    narginchk(0,2);    
+    narginchk(0,3);    
 end
 
 % First time entries always have 0 or 1 arguments
@@ -109,7 +123,7 @@ end
 
 % Initialize student_number
 student_number = [];
-if 1 == nargin   
+if 1 == nargin  || (3 == nargin)
     temp = varargin{end};
     % Did the user give an positive integer?
     if isnumeric(temp) && (round(temp)==temp) && (temp>0) 
@@ -132,20 +146,32 @@ end
 % Say what the library is called, and where to find the codes
 library_name{1}    = 'CodeX_Functions';
 library_folders{1} = {};
-library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_01_29.zip?raw=true';
+library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_02_03.zip?raw=true';
 
 % Initialize file array
 code_Names{1} = 'fcn_CodeX_01_getKey';
 code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
 code_Names{3} = 'fcn_CodeX_03_headsOrTails';
 code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
+code_Names{5} = 'fcn_CodeX_05_whatsThePassword';
+code_Names{6} = 'fcn_CodeX_06_aLongPass';
+code_Names{7} = 'fcn_CodeX_07_thatsOdd';
+code_Names{8} = 'fcn_CodeX_08_RedLightGreenLight';
 
+
+persistent solved_problems
+% initialize all problems to unsolved (zero)
+if isempty(solved_problems)
+    solved_problems = zeros(length(code_Names),1);
+end
 
 
 
 
 %% Do we need to set up the work space?
 if 1==flag_first_time
+    fprintf(1,'Installing folders, getting codes ready ...\n');
+
     %% Dependencies and Setup of the Code
     % This code depends on several other libraries of codes that contain
     % commonly used functions. We check to see if these libraries are installed
@@ -162,9 +188,9 @@ if 1==flag_first_time
     
     % Set dependencies for this project? Only need this in debugging mode
     if flag_do_debug
-        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)
+        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded) %#ok<NODEF> 
             fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
-            flag_functionsAdded = 1;
+            flag_functionsAdded = 1; %#ok<NASGU> 
         end
     end
     
@@ -180,7 +206,7 @@ if 1==flag_first_time
     
     
     
-    disp('Done setting up first problem. Nice job.');
+    disp('Done setting up folders.');
     
 end
 
@@ -197,15 +223,19 @@ if isempty(student_number)
 end
 
 % Find the dependencies for each file
-for ith_codeName = 1:length(code_Names)
-    [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, code_Names{ith_codeName},[]);
-    code_Dependencies{ith_codeName} = function_dependencies; %#ok<AGROW>
-end
+if ~exist('code_Dependencies','var')
 
+    if exist('code_Dependencies.mat','file')
+        load('code_Dependencies.mat','code_Dependencies'); 
+    else
+        code_Dependencies = fcn_INTERNAL_loadCodeDependencies(student_number,code_Names);
+        save('code_Dependencies.mat','code_Dependencies');
+    end
+end
 
 if 1==flag_first_time
 
-    [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number,'fcn_CodeX_01_getKey',code_Names,code_Dependencies);
+    [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number,'fcn_CodeX_01_getKey',code_Names,code_Dependencies,solved_problems);
     disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
 
     
@@ -222,13 +252,17 @@ else % Each function self-grades!
     next_functions = [];
     next_keys = [];
     if right_or_wrong
-        % It is right
-        [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies);       
+        % It is right - remember that it is right
+        problem_number = fcn_INTERNAL_findProblemNumber(code_Names, function_name);
+        solved_problems(problem_number) = 1;
+
+        % Print next options
+        [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies,solved_problems);       
     else
         % It is wrong
         disp('Unfortunately, the answer was wrong. Try again!');
     end
-    
+   
    
 end
 
@@ -274,22 +308,50 @@ end % Ends main function
 % See: https://patorjk.com/software/taag/#p=display&f=Big&t=Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
-%% fcn_INTERNAL_printUnlockedCodes
-function [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies)
+%% fcn_INTERNAL_loadCodeDependencies
+function code_Dependencies = fcn_INTERNAL_loadCodeDependencies(student_number,code_Names)
+fprintf(1,'Checking code dependencies ...\n');
 
-fprintf(1,'\n\nWell done!\n');
+% Initialize the variable
+code_Dependencies{length(code_Names)} = [];
+
+% Loop through each code - calling it to retrieve the dependencies (SLOW)
+for ith_codeName = 1:length(code_Names)
+    function_name = code_Names{ith_codeName};
+    fprintf(1,'\t Checking: %s\n',function_name);
+    if exist(function_name, 'file')
+        [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name,[]);
+        code_Dependencies{ith_codeName} = function_dependencies;
+    else
+        fprintf(1,'\t\t WARNING: Unable to find file: %s for dependencies... skipping\n',function_name);
+        code_Dependencies{ith_codeName} = {};
+    end
+end
+fprintf(1,'Done checking code dependencies.\n');
+end % Ends fcn_INTERNAL_loadCodeDependencies
+
+%% fcn_INTERNAL_printUnlockedCodes
+function [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number, function_name,code_Names,code_Dependencies, solved_problems)
+
+fprintf(1,'\nIf you are seeing this message, then the grader was called with correct inputs!\n');
 
 N_chars = 40;
 
 % Find the dependencies for each file, and check if they match the
 % current function
-next_functions = [];
-next_keys = [];
+next_functions = {};
+next_keys = {};
+
+% Print all the problems
 flag_dependency_found = 0;
 for ith_codeName = 1:length(code_Names)
     current_code = code_Names{ith_codeName};
     current_dependency = code_Dependencies{ith_codeName};
-    current_dependencies_cells = fcn_DebugTools_parseStringIntoCells(current_dependency);
+    if ~isempty(current_dependency)
+        current_dependencies_cells = fcn_DebugTools_parseStringIntoCells(current_dependency);
+    else
+        current_dependencies_cells = {};
+    end
     if any(strcmpi(function_name,current_dependencies_cells))
         % Print the header?
         if 0 == flag_dependency_found 
@@ -312,10 +374,17 @@ for ith_codeName = 1:length(code_Names)
         % Print results to fixed width
         header_1_str = sprintf('%s',current_code);
         fixed_header_1_str = fcn_DebugTools_debugPrintStringToNCharacters(header_1_str,N_chars);
-        fprintf(1,'\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
-        next_functions{end} = header_1_str;
-        next_keys{end} = current_name_hash;
-        URHERE
+        %  fprintf(1,'\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
+        % Colorized printing
+        if solved_problems(ith_codeName)
+            fcn_DebugTools_cprintf('Comments','\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
+        else
+            fcn_DebugTools_cprintf('UnterminatedStrings','\t\t%s \t ''%s''\n',fixed_header_1_str,current_name_hash);
+        end
+        
+        next_functions{end+1} = header_1_str; %#ok<AGROW> 
+        next_keys{end+1} = current_name_hash; %#ok<AGROW> 
+        
     end
 end
 if flag_dependency_found
@@ -330,7 +399,7 @@ end % ends fcn_INTERNAL_printUnlockedCodes
 function [correct_answer, right_or_wrong, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name, student_answer)
 
 if ~isempty(student_answer)
-    fprintf(1,'Grading student_answer: %s\n',student_answer); % Forces the argument?
+    fprintf(1,'Grading student_answer for problem: %s\n',function_name); % Forces the argument?
 end
 
 % Initialize the lock_number
@@ -339,10 +408,10 @@ nargin_lock_number = 42;
 % Check the problem
 % 1) Build the front end with the function hash
 student_number_string = sprintf('%.0d',student_number);
-function_name_hash = fcn_CodeX_calculateNameHash(student_number_string,function_name);
+function_name_hash = fcn_CodeX_calculateNameHash(student_number_string,upper(function_name));
 grading_function_call = cat(2,'results = ',function_name,'(''',sprintf('%s',function_name_hash),''',');
 
-% 2) Add the student_numnber as second argument
+% 2) Add the student_number as second argument
 grading_function_call = cat(2,grading_function_call,'student_number,');
 
 % 2) Add the student answer as third argument
@@ -368,6 +437,8 @@ grading_function_call = cat(2,grading_function_call,'''', date_lock_value,''');'
 try
     eval(grading_function_call);
 catch
+    fprintf(1,'\n\n Hitting an error when running the following command:\n');
+    fprintf(1,'%s\n',grading_function_call);
     disp('Debug here');
 end
 correct_answer = results{1}; %#ok<USENS>
@@ -397,10 +468,8 @@ if isempty(which_result)
     error('Unable to find self file - quitting.');
 end
 file_listing = dir(which_result);
-date_lock_value = sprintf('%.0f',file_listing(1).datenum);
+date_lock_value = file_listing(1).date;
 end % Ends fcn_INTERNAL_calculateDateLockValue
-
-
 
 function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url, varargin)
 %% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES - MATLAB package installer from URL

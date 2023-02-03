@@ -106,21 +106,37 @@ nargin_lock_number = 42;
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
-dependencies = ['fcn_CodeX_01_getKey, fcn_CodeX_02_whatsYourNumber, fcn_CodeX_03_headsOrTails, fcn_CodeX_04_doubleOrNothing'];
+dependencies = ['fcn_CodeX_01_getKey'];
 dependencies_cells = fcn_DebugTools_parseStringIntoCells(dependencies);
+
+if nargin==nargin_lock_number
+    Grader_input_code = varargin{nargin_lock_number};    
+elseif nargin>2 % Force an error
+    error('Unexpected number of input arguments: %.0d',nargin);
+end
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    narginchk(0,nargin_lock_number);    
+    narginchk(2,nargin_lock_number);    
 end
 
-if nargin==nargin_lock_number
-    student_entry_key = varargin{1};
-    student_number = varargin{2}; 
-    Grader_input_code = varargin{nargin_lock_number};    
-elseif nargin>2 % Force an error
-    narginchk(0,0);
-end
+% Get student entry key and student number
+student_entry_key = varargin{1};
+student_number = varargin{2};
+
+% NEED TO CHECK THESE!
+
+
+
+% Find the filename, and strip out debug mode characters if necessary
+% st = dbstack; 
+% this_fname = st(1).name;
+% if contains(this_fname,'_KEEP')
+%     this_fname = this_fname(1:end-5);
+% end
+% this_fname = upper(this_fname);
+this_fname = 'fcn_CodeX_01_getKey';
+
 
 %% Main code starts here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,14 +150,6 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Step 0 - make sure student_entry_key is correct
-% Find the filename, and strip out debug mode characters if necessary
-st = dbstack; 
-this_fname = st(1).name;
-if contains(this_fname,'_KEEP')
-    this_fname = this_fname(1:end-5);
-end
-this_fname = upper(this_fname);
-
 student_number_string = sprintf('%.0d',student_number);
 
 % 
@@ -237,7 +245,7 @@ end
 
 %% Step 3 - scramble the results
 string_to_convert = upper(CSV_answer_string);
-scrambling_hash = fcn_INTERNAL_getMACaddress;
+scrambling_hash = fliplr(fcn_INTERNAL_getMACaddress);
 scrambled_answer = fcn_INTERNAL_scrambleString(string_to_convert,scrambling_hash);
 
 
@@ -269,7 +277,7 @@ if nargin==nargin_lock_number
         scrambled_answer = temp;
              
     else % Force an error
-        narginchk(0,0);
+        error('Grader input code does not match!\n The value calculated in the problem was: %s\n The value entered externally was: %s',date_lock_value,Grader_input_code);
     end
 end
 
@@ -330,7 +338,7 @@ if isempty(which_result)
     error('Unable to find self file - quitting.');
 end
 file_listing = dir(which_result);
-date_lock_value = sprintf('%.0f',file_listing(1).datenum);
+date_lock_value = file_listing(1).date;
 end % Ends fcn_INTERNAL_calculateDateLockValue
 
 %% fcn_INTERNAL_getMACaddress

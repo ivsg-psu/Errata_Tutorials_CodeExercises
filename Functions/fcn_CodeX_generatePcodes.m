@@ -81,6 +81,7 @@ core_directory = pwd;
 
 % Define where we will put the pcode results
 pcode_directory = fullfile(core_directory,'Functions','Pcodes');
+utilities_directory = fullfile(core_directory,'Utilities','CodeX_Functions');
 
 % Does the Pcodes directory exist?
 if ~exist(pcode_directory, 'dir')
@@ -138,6 +139,18 @@ for ith_file = 1:length(file_list)
 
 end
 
+%% Step 3 - copy from pcode diretory to utilities directory
+% Does the Utilities directory exist?
+if exist(utilities_directory, 'dir')
+    % Copy the files
+    pcode_source_fname = fullfile(pcode_directory,'*.*');
+    [copy_success,copy_message, copy_messageID] = copyfile(pcode_source_fname,utilities_directory);
+    if ~copy_success
+        error('Unable to copy the pcode file to the Pcodes folder. Reason: %s with message ID: %s\n',copy_message,copy_messageID);
+    end
+else
+    warning('Unable to find the utilities directory for pcodes. Be sure to copy manually.')
+end
 
 %% Plot the results (for debugging)?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

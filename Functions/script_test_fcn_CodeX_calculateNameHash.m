@@ -12,10 +12,20 @@ close all;
 clc;
 
 
-
 %% Basic case - numeric (adds a space)
 student_number = '1234567890';
 string_to_hash = upper('abc123');
+fprintf(1,'\nInput that was sent for hashing: %s\n',string_to_hash);
+hash_result = fcn_CodeX_calculateNameHash_KEEP(student_number,string_to_hash);
+fprintf(1,'Hash that was produced: %s\n',hash_result);
+inverse_hash_result = fcn_CodeX_calculateNameHash_KEEP(student_number,hash_result);
+fprintf(1,'Inverse hash that was produced: %s\n',inverse_hash_result);
+assert(strcmp(string_to_hash,inverse_hash_result));
+
+%% Hard case - all characters
+student_number = '1234567890';
+string_to_hash = char(40:96);
+fprintf(1,'\nInput that was sent for hashing: %s\n',string_to_hash);
 hash_result = fcn_CodeX_calculateNameHash_KEEP(student_number,string_to_hash);
 fprintf(1,'Hash that was produced: %s\n',hash_result);
 inverse_hash_result = fcn_CodeX_calculateNameHash_KEEP(student_number,hash_result);

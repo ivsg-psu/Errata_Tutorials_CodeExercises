@@ -1,24 +1,50 @@
-% FCN_CODEX_01_GETKEY - generate student and computer-specific key
+% FCN_CODEX_04_DOUBLEORNOTHING - find a number in a list
 %    
-%    Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%    write code that queries this function, FCN_CODEX_01_GETKEY, with no
-%    arguments or inputs. The solution is literally one line of code that
-%    requests a code key (a strange set of characters) from the function.
-%    For example, to query a function called "fcn_be_happy" that produces a
-%    result "a", you would type in their script or at the MATLAB prompt:
+%    Welcome to FCN_CODEX_04_DOUBLEORNOTHING . In this assignment, you are
+%    asked to find, from a vector of 50 random numbers, the one number hidden in
+%    the set that is EXACTLY twice as big as one of the other 49 numbers. The
+%    correct answer is the row of the "double" number. For example, say we
+%    call the function:
 % 
-%                       a = fcn_be_happy;
+%    random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
 % 
-%    This assignment asks students to write their own line of code for this
-%    function. And yes, it is stupidly easy.
+%    and it produces the following: (only showing the first five entries)
 % 
-%    To check if the answer is correct, call fcn_GradeCode. For example, if
-%    you stored the result as "a" like in the example above, you would call:
+%    random_vector =
+%  
+%      0.5681
+%      0.2876
+%      0.4362
+%      0.8021
+%      0.1438 
+%     
 % 
-%    right_or_wrong = fcn_GradeCodeX(a);
+%    One can observe that the 2nd row is twice the value of the 5th row.
+%    Thus, the answers to this function would be 2, as the 2nd row is hiding
+%    a number that is twice the value of another number.
 % 
-%    If you are right, the grader prints information and gives you the next
-%    problem. If you are wrong, it gives a red text that says you are wrong
-%    and perhaps a hint to help you. May this message be enough to get you
-%    started on your code journey - the first step is always the hardest!
+%    answer_04 = 2;
+% 
+%    This assignment is easiest completed by writing your own function. And
+%    yes, there is a solution that solves this with only one line of code in
+%    the function.
+% 
+%    As in all the assignments, to check if the answer is correct, call
+%    fcn_GradeCode and pass in the function name, student number, and answer.
+%  
+%    For example, to solve this, one could type in their script or at the
+%    MATLAB prompt:
+%  
+%             entry_key = ' 234ADH&45'; % <--- this must be changed
+%             student_number = 123; % <--- this must be changed                      
+%             random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
+%             answer_04 = fcn_CodeX_04_YOURFUNCTIONHERE(random_vector);
+% 
+%    And then to grade the answer, one can call the grader function:
+% 
+%             fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',student_number, answer_04);
+% 
+%    If the answer is right, the grader prints information and gives the
+%    entry code for the next problem. And if wrong, it indicates it is
+%    wrong.
 %

@@ -1,24 +1,33 @@
-% FCN_CODEX_01_GETKEY - generate student and computer-specific key
+% FCN_CODEX_02_WHATSYOURNUMBER - find a number in a list
 %    
-%    Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%    write code that queries this function, FCN_CODEX_01_GETKEY, with no
-%    arguments or inputs. The solution is literally one line of code that
-%    requests a code key (a strange set of characters) from the function.
-%    For example, to query a function called "fcn_be_happy" that produces a
-%    result "a", you would type in their script or at the MATLAB prompt:
+%    Welcome to FCN_CODEX_02_WHATSYOURNUMBER . In this assignment, you are
+%    asked to find a number - your student number - in a list produced by
+%    this function and return the row where this is found. For example, 
+%  
+%    While one can do this manually, harder versions of the code that
+%    folllow (soon) will require that this be done by writing code. To get
+%    started, generate a random list by calling this function with your
+%    student number.
 % 
-%                       a = fcn_be_happy;
+%    result_02_list = fcn_CodeX_02_whatsYourNumber(entry_key,student_number);
 % 
-%    This assignment asks students to write their own line of code for this
-%    function. And yes, it is stupidly easy.
+%    In this list is hidden, in one of the rows, the student_number value.
+%    The correct answer is to return the row number that matches the
+%    student_number from the list.
 % 
-%    To check if the answer is correct, call fcn_GradeCode. For example, if
-%    you stored the result as "a" like in the example above, you would call:
+%    To check if the answer is correct, call fcn_GradeCode. 
+%    For example, to solve this, one could type in their script or at the
+%    MATLAB prompt:
+%  
+%             entry_key = ' 234ADH&45'; % <--- this must be changed
+%             student_number = 123; % <--- this must be changed                      
+%             result_02_list = fcn_CodeX_02_whatsYourNumber(entry_key,student_number);
 % 
-%    right_or_wrong = fcn_GradeCodeX(a);
+%             (write code or inspect the list here to find which row has the
+%             answer)
 % 
-%    If you are right, the grader prints information and gives you the next
-%    problem. If you are wrong, it gives a red text that says you are wrong
-%    and perhaps a hint to help you. May this message be enough to get you
-%    started on your code journey - the first step is always the hardest!
+%             fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer);
+% 
+%    If the answer is right, the grader prints information and gives you the next
+%    problem.
 %

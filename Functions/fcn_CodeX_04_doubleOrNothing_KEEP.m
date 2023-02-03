@@ -1,64 +1,71 @@
-function scrambled_answer = fcn_CodeX_04_doubleOrNothing(varargin)
-%FCN_CODEX_01_GETKEY - generate student and computer-specific key
+function output_result = fcn_CodeX_04_doubleOrNothing(varargin) %#ok<FNDEF> 
+%FCN_CODEX_04_DOUBLEORNOTHING - find a number in a list
 %   
-%   Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%   write code that queries this function, FCN_CODEX_01_GETKEY, with no
-%   arguments or inputs. The solution is literally one line of code that
-%   requests a code key (a strange set of characters) from the function.
-%   For example, to query a function called "fcn_be_happy" that produces a
-%   result "a", you would type in their script or at the MATLAB prompt:
+%   Welcome to FCN_CODEX_04_DOUBLEORNOTHING . In this assignment, you are
+%   asked to find, from a vector of 50 random numbers, the one number hidden in
+%   the set that is EXACTLY twice as big as one of the other 49 numbers. The
+%   correct answer is the row of the "double" number. For example, say we
+%   call the function:
 %
-%                      a = fcn_be_happy;
+%   random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
 %
-%   This assignment asks students to write their own line of code for this
-%   function. And yes, it is stupidly easy.
+%   and it produces the following: (only showing the first five entries)
 %
-%   To check if the answer is correct, call fcn_GradeCode. For example, if
-%   you stored the result as "a" like in the example above, you would call:
+%   random_vector =
+% 
+%     0.5681
+%     0.2876
+%     0.4362
+%     0.8021
+%     0.1438 
+%    
 %
-%   right_or_wrong = fcn_GradeCodeX(a);
+%   One can observe that the 2nd row is twice the value of the 5th row.
+%   Thus, the answers to this function would be 2, as the 2nd row is hiding
+%   a number that is twice the value of another number.
 %
-%   If you are right, the grader prints information and gives you the next
-%   problem. If you are wrong, it gives a red text that says you are wrong
-%   and perhaps a hint to help you. May this message be enough to get you
-%   started on your code journey - the first step is always the hardest!
+%   answer_04 = 2;
+%
+%   This assignment is easiest completed by writing your own function. And
+%   yes, there is a solution that solves this with only one line of code in
+%   the function.
+%
+%   As in all the assignments, to check if the answer is correct, call
+%   fcn_GradeCode and pass in the function name, student number, and answer.
+% 
+%   For example, to solve this, one could type in their script or at the
+%   MATLAB prompt:
+% 
+%            entry_key = ' 234ADH&45'; % <--- this must be changed
+%            student_number = 123; % <--- this must be changed                      
+%            random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
+%            answer_04 = fcn_CodeX_04_YOURFUNCTIONHERE(random_vector);
+%
+%   And then to grade the answer, one can call the grader function:
+%
+%            fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',student_number, answer_04);
+%
+%   If the answer is right, the grader prints information and gives the
+%   entry code for the next problem. And if wrong, it indicates it is
+%   wrong.
 
-%   What does this code do? Finds computer information, and uses it to form a
-%   key sequence. This key sequence is used in later problems to encrypt
-%   results and to ensure results for each student are done on different
-%   computers with different logins. The key has identifier fields that are
-%   unique to the student, computer, and software:
-%
-%   1: MAC address
-%
-%   2: Function name being called
-%
-%   3: MATLAB license number
-%
-%   4: MATLAB version
-%
-%   5: The computer's hostname on the network
-%
-%   6: The computer's name in the OS0
-%
-%   7: The operating system type (PC, MAC, or UNIX) and MATLAB type (student or full version?) 
-%
-%   8: The user's network login name as reported by the network
-%
-%   These are then encrypted using a fixed, rotating hash unique to the
-%   computer.
+%   What does this code do? 
 %
 %   FORMAT:
 %
-%        scrambled_key = fcn_CodeX_01_getKey(varargin)
+%        random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number)
 %
 %   INPUTS:
 %
-%        (none)
+%        entry_key: the entry key for the function, given by the
+%        fcn_GradeCodeX operations
+%
+%        student_number: the student number. It must match the prior
+%        numbers used in the fcn_GradeCodeX operations
 %
 %   OUTPUTS:
 %
-%        scrambled_key: a key containing the above fields
+%        random_vector: a vector of 50 random numbers
 %
 %   DEPENDENCIES:
 %
@@ -68,10 +75,10 @@ function scrambled_answer = fcn_CodeX_04_doubleOrNothing(varargin)
 %
 %       See the script: script_demo_CodeX.m
 %
-%   This function was written on 2023_01_23 by S. Brennan Questions or
+%   This function was written on 2023_02_01 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_01_23: -- wrote the code originally
+% Revision history: 2023_02_01: -- wrote the code originally
 
 % TO DO
 % -- Add input argument checking
@@ -103,21 +110,34 @@ nargin_lock_number = 42;
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
-dependencies = ['fcn_CodeX_01_getKey, fcn_CodeX_02_whatsYourNumber, fcn_CodeX_03_headsOrTails, fcn_CodeX_04_doubleOrNothing'];
+dependencies = 'fcn_CodeX_03_headsOrTails, fcn_CodeX_04_doubleOrNothing';
 dependencies_cells = fcn_DebugTools_parseStringIntoCells(dependencies);
+
 
 if flag_check_inputs
     % Are there the right number of inputs?
-    narginchk(0,nargin_lock_number);    
+    narginchk(2,nargin_lock_number);    
 end
 
+student_entry_key = varargin{1};
+student_number = varargin{2};
+
 if nargin==nargin_lock_number
-    student_entry_key = varargin{1};
-    student_number = varargin{2}; 
     Grader_input_code = varargin{nargin_lock_number};    
 elseif nargin>2 % Force an error
     narginchk(0,0);
 end
+
+
+% Find the filename, and strip out debug mode characters if necessary
+% st = dbstack; 
+% this_fname = st(1).name;
+% if contains(this_fname,'_KEEP')
+%     this_fname = this_fname(1:end-5);
+% end
+% this_fname = upper(this_fname);
+this_fname = 'fcn_CodeX_04_doubleOrNothing';
+
 
 %% Main code starts here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,28 +150,12 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Step 0 - make sure student_entry_key is correct
-% Find the filename, and strip out debug mode characters if necessary
-st = dbstack; 
-this_fname = st(1).name;
-if contains(this_fname,'_KEEP')
-    this_fname = this_fname(1:end-5);
-end
-this_fname = upper(this_fname);
 
+%% Step 0 - make sure student_entry_key is correct
 student_number_string = sprintf('%.0d',student_number);
 
-% 
-% correct_entry_key = fcn_CodeX_calculateNameHash(student_number_string,this_fname);
-% if ~isequal(correct_entry_key,student_entry_key)
-%     error('The entry key for this function is incorrect. Note that the entry key depends on student number and the computer. Run fcn_GradeCodeX to get entry keys.');
-% end
-
-
-% Make sure student's entry code matches
-% Calculate the inverse name_hash to see if the user specified the right
-% function
-
+% Next, make sure student's entry code matches. To do this, we calculate
+% the inverse name_hash to see if the user specified the right function
 inverse_entry = fcn_CodeX_calculateNameHash(student_number_string,student_entry_key);
 if ~(strcmpi(inverse_entry,this_fname) || any(strcmpi(inverse_entry,dependencies_cells)))
     if strcmp(inverse_entry(1:3),'FCN')
@@ -161,109 +165,60 @@ if ~(strcmpi(inverse_entry,this_fname) || any(strcmpi(inverse_entry,dependencies
     end
 end
 
-%% Step 1 - get computer data
-%   1: MAC address
-%
-%   2: Function name being called
-%
-%   3: MATLAB license number
-%
-%   4: MATLAB version
-%
-%   5: The computer's hostname on the network
-%
-%   6: The computer's name in the OS0
-%
-%   7: The operating system type (PC, MAC, or UNIX) and MATLAB type (student or full version?) 
-%
-%   8: The user's network login name as reported by the network
+%% Step 1 - generate the list
+% Set the random number generator for the specific student
+rng(student_number);
 
+% Generate a list of random numbers
+N = 50;
+random_list = rand(N,1);
 
-% Get the MAC address
-key_string{1} = fcn_INTERNAL_getMACaddress;
+% Choose a source and destination by randomly selecting 2 indices
+random_indices = randperm(N,2);
+row_being_doubled = random_indices(1);
+row_that_is_the_double = random_indices(2);
 
-% Get the function name
-st = dbstack; 
-% fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
-key_string{2} = st(1).name;
-
-% Get the MATLAB license number
-key_string{3} = license;
-
-% Get MATLAB version
-key_string{4} = version;
-
-% % Convert the hex into dec
-% temp = regexp(key_string{2},':','split');
-% temp2 = hex2dec(temp)+255;
-% macDecString = sprintf('%.0d',temp2);
-% macDecNum = str2double(macDecString); %#ok<NASGU>
-
-% Get the computer host name
-[ret, name] = system('hostname');   
-if ret ~= 0
-   if ispc
-      name = getenv('COMPUTERNAME');
-   else      
-      name = getenv('HOSTNAME');      
-   end
-end
-key_string{5} = strtrim(lower(name));
-
-% Get computer name
-key_string{6} = computer;
-
-
-% Get OS and MATLAB Type
-type = 1*ispc + 2*ismac + 4*isunix + 8*isstudent;
-key_string{7} = sprintf('%.0d',type);
-
-% Get login username
-key_string{8} = getenv('UserName');
-
-
-%% Step 2 - % Now we need to assemble the results into a string
-% Create the string
-CSV_answer_string = [];
-for ith_key = 1:length(key_string)
-    CSV_answer_string = cat(2,CSV_answer_string,sprintf('%s',key_string{ith_key}));
-    if ith_key<length(key_string)
-        CSV_answer_string = cat(2,CSV_answer_string,', ');
-    end
+% Grab the random number from the source - make sure it can be doubled
+source = random_list(row_being_doubled);
+if source >= 0.5
+    source = source/2;
 end
 
-%% Step 3 - scramble the results
-string_to_convert = upper(CSV_answer_string);
-scrambling_hash = fcn_INTERNAL_getMACaddress;
-scrambled_answer = fcn_INTERNAL_scrambleString(string_to_convert,scrambling_hash);
+% Fill in the list with the source and destination values
+random_list(row_being_doubled,1)        = source;
+random_list(row_that_is_the_double)     = source*2;
+
+% Fill in the output with the list
+output_result = random_list;
 
 
-%% Step 4 - grade student answer
-
+%% Step 2 - grade student answer
+% Do we enter grading mode?
 if nargin==nargin_lock_number
 
         
-    % Calculate the lock value so that Grader can check
+    % Calculate the lock value so that Grader can check entry value
     date_lock_value = fcn_INTERNAL_calculateDateLockValue(this_fname);
 
     % Grader entered the correct value?
     if strcmp(Grader_input_code,date_lock_value)
         % Grader is correct - return requested information
-        % 1) Return the correct answer        
-        temp{1} = scrambled_answer; 
+        % 1) Return the correct answer   
+        correct_answer = row_that_is_the_double;
+        temp_output{1} = correct_answer; 
         
         % 2) Grade the students answer
         student_answer = varargin{3};
-        if(isequal(scrambled_answer,student_answer))
-            temp{2} = true;
+        if(isequal(correct_answer,student_answer))
+            temp_output{2} = true;
         else
-            temp{2} = false;
+            temp_output{2} = false;
         end
         
         % 3) Identify the function dependencies - NOTE: a function must
         % always be self-dependent!
-        temp{3} = dependencies; % 
-        scrambled_answer = temp;
+        temp_output{3} = dependencies; % 
+        output_result = temp_output;
              
     else % Force an error
         narginchk(0,0);
@@ -291,8 +246,8 @@ if flag_do_plots
     
     fprintf(1,'Input before scramble: %s\n',string_to_convert);
     fprintf(1,'Scrambler: %s\n',scrambler_string);
-    fprintf(1,'Scrambled input: %s\n',scrambled_answer);
-    second_scrambled_string = fcn_INTERNAL_scrambleString(scrambled_answer,scrambler_string);
+    fprintf(1,'Scrambled input: %s\n',output_result);
+    second_scrambled_string = fcn_INTERNAL_scrambleString(output_result,scrambler_string);
     fprintf(1,'Result after second scramble: %s\n',second_scrambled_string);
     
 
@@ -327,8 +282,9 @@ if isempty(which_result)
     error('Unable to find self file - quitting.');
 end
 file_listing = dir(which_result);
-date_lock_value = sprintf('%.0f',file_listing(1).datenum);
+date_lock_value = file_listing(1).date;
 end % Ends fcn_INTERNAL_calculateDateLockValue
+
 
 %% fcn_INTERNAL_getMACaddress
 function mac_string = fcn_INTERNAL_getMACaddress
@@ -421,4 +377,5 @@ scrambled_numbers_unshifted = scrambled_numbers_shifted + starting_ASCII;
 scrambled_string = char(scrambled_numbers_unshifted);
 
 end % Ends the function
+
 

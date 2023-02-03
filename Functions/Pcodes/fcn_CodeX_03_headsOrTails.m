@@ -1,24 +1,52 @@
-% FCN_CODEX_01_GETKEY - generate student and computer-specific key
+% FCN_CODEX_03_HEADSORTAILS - find a number in a list
 %    
-%    Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%    write code that queries this function, FCN_CODEX_01_GETKEY, with no
-%    arguments or inputs. The solution is literally one line of code that
-%    requests a code key (a strange set of characters) from the function.
-%    For example, to query a function called "fcn_be_happy" that produces a
-%    result "a", you would type in their script or at the MATLAB prompt:
+%    Welcome to FCN_CODEX_03_HEADSORTAILS . In this assignment, you are
+%    asked to determine, from a set of random numbers that are from 0 to 1,
+%    if the number is heads (greater or equal to 0.5), or tails (less than
+%    0.5). The random numbers are given as a long vector (50 elements). The
+%    answer should also be a vector of same length, composed only of 0
+%    (tails) or 1 (heads) corresponding to the associated random number in
+%    the same row. For example, let's say we fill the random vector:
 % 
-%                       a = fcn_be_happy;
+%    random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number);
 % 
-%    This assignment asks students to write their own line of code for this
-%    function. And yes, it is stupidly easy.
+%    and it produces the following: (only showing the first few entries)
 % 
-%    To check if the answer is correct, call fcn_GradeCode. For example, if
-%    you stored the result as "a" like in the example above, you would call:
+%    random_vector =
+%  
+%      0.5681
+%      0.8691
+%      0.4362
+%      0.8021
+%      0.1438 
+%     (etc)
 % 
-%    right_or_wrong = fcn_GradeCodeX(a);
+%    Then the answers to this function would be:
 % 
-%    If you are right, the grader prints information and gives you the next
-%    problem. If you are wrong, it gives a red text that says you are wrong
-%    and perhaps a hint to help you. May this message be enough to get you
-%    started on your code journey - the first step is always the hardest!
+%    answer_03 =
+%  
+%      1
+%      1
+%      0
+%      1
+%      0 
+%      (etc)
+% 
+%    This assignment is easiest completed by writing code, and specifically
+%    your own function. In fact there is a way to solve for heads or tails
+%    with only one line of code in the function.
+% 
+%    As in all the assignments, to check if the answer is correct, call
+%    fcn_GradeCode. For example, to solve this, one could type in their
+%    script or at the MATLAB prompt:
+%  
+%             entry_key = ' 234ADH&45'; % <--- this must be changed
+%             student_number = 123; % <--- this must be changed                      
+%             random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number);
+%             answer_03 = fcn_CodeX_03_YOURFUNCTIONHERE(random_vector);
+% 
+%             fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',student_number, answer_03);
+% 
+%    If the answer is right, the grader prints information and gives you the next
+%    problem.
 %
