@@ -79,12 +79,12 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 % TO DO
 % -- Add input argument checking
 
-% USE THIS TO CLEAR EVERYTHING
-if 1==1
-    clear all
-    clear global *
-    delete code_Dependencies.mat
-end
+% % USE THIS TO CLEAR EVERYTHING
+% 
+%     clear all
+%     clear global *
+%     delete code_Dependencies.mat
+
 
 flag_do_debug = 1; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
@@ -619,6 +619,7 @@ end
 
 
 if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
+    fprintf(1,'Attempting install of the sub-utility: %s\n',dependency_name);
     % Save the root directory, so we can get back to it after some of the
     % operations below. We use the Print Working Directory command (pwd) to
     % do this. Note: this command is from Unix/Linux world, but is so
@@ -628,6 +629,7 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
     % Does the directory "Utilities" exist?
     utilities_folder_name = fullfile(root_directory_name,'Utilities');
     if ~exist(utilities_folder_name,'dir')
+        fprintf(1,'Main Utility subfolder does not exist - attempting creation of this folder.\n');
         % If we are in here, the directory does not exist. So create it
         % using mkdir
         [success_flag,error_message,message_ID] = mkdir(root_directory_name,'Utilities');
@@ -637,13 +639,18 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
             error('Unable to make the Utilities directory. Reason: %s with message ID: %s\n',error_message,message_ID);
         elseif ~isempty(error_message)
             warning('The Utilities directory was created, but with a warning: %s\n and message ID: %s\n(continuing)\n',error_message, message_ID);
+        else
+            fprintf(1,'Main Utility subfolder was successfully created.\n');
         end
-
+    else
+        fprintf(1,'Main Utility subfolder already exists - skipping creation of this folder.\n');
     end
 
     % Does the directory for the dependency folder exist?
     dependency_folder_name = fullfile(root_directory_name,'Utilities',dependency_name);
+    fprintf(1,'Attempting creation of the sub-utility folder for: %s\n',dependency_name);
     if ~exist(dependency_folder_name,'dir')
+
         % If we are in here, the directory does not exist. So create it
         % using mkdir
         [success_flag,error_message,message_ID] = mkdir(utilities_folder_name,dependency_name);
@@ -653,17 +660,24 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
             error('Unable to make the dependency directory: %s. Reason: %s with message ID: %s\n',dependency_name, error_message,message_ID);
         elseif ~isempty(error_message)
             warning('The %s directory was created, but with a warning: %s\n and message ID: %s\n(continuing)\n',dependency_name, error_message, message_ID);
+        else
+            fprintf(1,'Sub-utility folder was successfully created.\n');
         end
-
+    else
+        fprintf(1,'Sub-utility subfolder already exists - skipping creation of this folder.\n');
     end
 
     % Do the subfolders exist?
     flag_allFoldersThere = 1;
     if isempty(dependency_subfolders)
         flag_allFoldersThere = 0;
+        fprintf(1,'It appears the sub-utility has no folder sub-dependencies. None are checked: %s\n',dependency_name);
     else
+        fprintf(1,'It appears the sub-utility has sub-folders. Checking if subfolders are already there for: %s\n',dependency_name);
+
         for ith_folder = 1:length(dependency_subfolders)
             subfolder_name = dependency_subfolders{ith_folder};
+            fprintf(1,'\t Checking: %s\n',subfolder_name);
             
             % Create the entire path
             subfunction_folder = fullfile(root_directory_name, 'Utilities', dependency_name,subfolder_name);
@@ -677,21 +691,25 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
     end
 
     % Do we need to unzip the files?
+    fprintf(1,'Checking if download process needed for for: %s\n',dependency_name);
     if flag_allFoldersThere==0
+        fprintf(1,'Some dowload is needed for: %s\n',dependency_name);
         % Files do not exist yet - try unzipping them.
         save_file_name = tempname(root_directory_name);
         zip_file_name = websave(save_file_name,dependency_url);
-        % CANT GET THIS TO WORK --> unzip(zip_file_url, debugTools_folder_name);
-
+  
         % Is the file there?
         if ~exist(zip_file_name,'file')
             error('The zip file: %s for dependency: %s did not download correctly. This is usually because permissions are restricted on the current directory. Check the code install (see README.md) and try again.\n',zip_file_name, dependency_name);
+        else
+            fprintf(1,'Download files found and copied locally for: %s\n',dependency_name);
         end
 
         % Try unzipping
         unzip(zip_file_name, dependency_folder_name);
 
         % Did this work?
+        fprintf(1,'Checking that unzip worked for: %s\n',dependency_name);
         flag_allFoldersThere = 1;
         if ~isempty(dependency_subfolders)
             for ith_folder = 1:length(dependency_subfolders)
@@ -713,8 +731,10 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
         else
             % Clean up the zip file
             delete(zip_file_name);
+            fprintf(1,'Installation complete: %s\n',dependency_name);
         end
-
+    else
+        fprintf(1,'No downloads seem to be needed for: %s\n',dependency_name);
     end
 
 
@@ -727,6 +747,8 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
     % In other words: DebugTools is a special case because folders not
     % added yet, and we use DebugTools for adding the other directories
     if strcmp(dependency_name(1:10),'DebugTools')
+        fprintf(1,'Adding path for Debug tools via file commands. Version installed is: %s\n',dependency_name);
+
         debugTools_function_folder = fullfile(root_directory_name, 'Utilities', dependency_name,'Functions');
 
         % Move into the folder, run the function, and move back
@@ -735,10 +757,12 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
         cd(root_directory_name);
     else
         try
+            fprintf(1,'Adding path for package to MATLAB environment: %s\n',dependency_folder_name);
             fcn_DebugTools_addSubdirectoriesToPath(dependency_folder_name,dependency_subfolders);
         catch
             error('Package installer requires DebugTools package to be installed first. Please install that before installing this package');
         end
+        fprintf(1,'Path successfully added for: %s\n',dependency_folder_name);
     end
 
 
@@ -753,7 +777,7 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
     % of the if statement, we fill in that variable. That way, the next
     % time the code is run - assuming the if statement ran to the end -
     % this section of code will NOT be run twice.
-
+    fprintf(1,'Setting global flag so that install does not repeat for: %s\n\n',dependency_name);
     eval(sprintf('%s = 1;',flag_varname));
 end
 

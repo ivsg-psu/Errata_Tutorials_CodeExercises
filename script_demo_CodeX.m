@@ -95,7 +95,6 @@ fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing', answer_04, student_number);
 
 %% Problem 5 - what's the password?
 entry_key_05 = '>:Ve1T-9efB/bLT=fJMR)K3OHNRH6'; % <--- this must be changed for each student and computer
-student_number = 1234; % <--- this must be changed
 guesses = (0:9)';
 output_result = fcn_CodeX_05_whatsThePassword(entry_key_05,student_number,guesses);
 
@@ -111,7 +110,6 @@ fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword', answer_05, student_number);
 
 %% Problem 6 - a long pass
 entry_key_06 = '>:Ve1T-9efB,b:PS\>I;_H'; % <--- this must be changed for each student and computer
-student_number = 1234; % <--- this must be changed
 guesses = (0:99999999)';
 output_result = fcn_CodeX_06_aLongPass(entry_key_06,student_number,guesses);
 
@@ -125,9 +123,8 @@ answer_06 = find(output_result == 1)-1;
 fcn_GradeCodeX('fcn_CodeX_06_aLongPass', answer_06, student_number);
 
 %% Problem 7 - thats odd
-entry_key_06 = '>:Ve1T-9efB,b:PS\>I;_H'; % <--- this must be changed for each student and computer
-student_number = 1234; % <--- this must be changed
-some_odd_numbers = fcn_CodeX_07_thatsOdd(entry_key_06,student_number);
+entry_key_07 = '>:Ve1T-9efB,b:PS\>I;_H'; % <--- this must be changed for each student and computer
+some_odd_numbers = fcn_CodeX_07_thatsOdd(entry_key_07,student_number);
 
 % Solve the problem
 answer_07 = mod(some_odd_numbers,2)==1;
@@ -139,7 +136,89 @@ answer_07 = mod(some_odd_numbers,2)==1;
 fcn_GradeCodeX('fcn_CodeX_07_thatsOdd', answer_07, student_number);
 
 %% Problem 8 - red light green light
+entry_key_08 = '>:Ve1T-9efBBbI98^P>RX<`9>WQS5S^'; % <--- this must be changed for each student and computer
 
+% Plot the results to check
+light_signals = zeros(2000,1);
+player_positions = zeros(2000,1);
+move_command = 0;
+for ith_call = 1:length(light_signals)
+    [light_signal_status, player_position, ~] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    light_signals(ith_call,1) = light_signal_status;
+    player_positions(ith_call,1) = player_position;
+end
+figure(2222);
+clf;
+hold on;
+grid on;
+plot(light_signals);
+plot(player_positions);
+legend('Light signals','Player position');
+
+% Give a stupid input, and check that it zeros students
+light_signals = zeros(2000,1);
+player_positions = zeros(2000,1);
+move_command = 1;
+for ith_call = 1:length(light_signals)
+    [light_signal_status, player_position, ~] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    light_signals(ith_call,1) = light_signal_status;
+    player_positions(ith_call,1) = player_position;
+end
+figure(3333);
+clf;
+hold on;
+grid on;
+plot(light_signals);
+plot(player_positions);
+legend('Light signals','Player position');
+
+
+% Solve the problem
+move_command = 0;
+[light_signal_status, player_position, answer_08] = ...
+   fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+
+% Wait at the starting line for the light to turn green
+while light_signal_status==0
+    [light_signal_status, player_position, answer_08] = ...
+   fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+end
+
+positions = nan(20000,1);
+light_signals = positions;
+
+current_position = 1;
+while isempty(answer_08)
+    % Keep moving forward in a green light
+    move_command = 1;
+    while light_signal_status==1 && isempty(answer_08)
+        [light_signal_status, positions(current_position,1), answer_08] = ...
+            fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+        light_signals(current_position,1) = light_signal_status;
+        current_position = current_position+1;
+    end
+    % Wait for the red light to stop
+    move_command = 0;
+    while light_signal_status==0 && isempty(answer_08)
+        [light_signal_status, positions(current_position,1), answer_08] = ...
+            fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+        light_signals(current_position,1) = light_signal_status;
+        current_position = current_position+1;
+    end
+end
+
+figure(838383);
+clf;
+hold on;
+grid on;
+plot(light_signals);
+plot(positions);
+legend('Light signals','Player position');
+
+answer_08 = ';VV=`:]IQ8fSRUO';
+
+% Grade it
+fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 
 %% Revision History:
 %  2022_01_23:

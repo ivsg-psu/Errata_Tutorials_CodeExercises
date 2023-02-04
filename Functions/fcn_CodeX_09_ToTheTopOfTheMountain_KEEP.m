@@ -1,59 +1,31 @@
-function [light_signal_status, player_position, answer_08] = ...
-    fcn_CodeX_08_RedLightGreenLight(varargin) %#ok<FNDEF> 
-%FCN_CODEX_08_REDLIGHTGREENLIGHT - find odd numbers
+function climb_signal = ...
+    fcn_CodeX_09_ToTheTopOfTheMountain(varargin) %#ok<FNDEF> 
+%FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN - find odd numbers
 %   
-%   Welcome to FCN_CODEX_08_REDLIGHTGREENLIGHT . This assignment pays
-%   homage to the very famous children's game called "Red Light, Green
-%   Light". As upcoming assignments will show, this game is also very
-%   relevant to capitalism!
+%   Welcome to FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN . This assignment is a
+%   modification to the prior red-light/green-light code. The goal here is
+%   to identify the point at which an output is no longer increasing. The
+%   code will start by returning a signal. 
 %
-%   For those who have never played the game, the instructions can be
-%   found at many websites, for example:
-%
-%       https://www.playworks.org/game-library/red-light-green-light/
-%
-%   And are copied here:
-%
-%  Start with everyone along the starting line, When you say 'Green Light'
-%  everyone will move towards the finish line, When you say 'Red Light'
-%  everyone must immediately stop. If players are still moving when you
-%  call 'Red Light', they must go back to the starting line.
+%   climb_signal =
+%   fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number);
 % 
-%   Specifically: this function "plays" red-light-green-light with you by
-%   acting as a signal. If the function is called without a "move":
+%   This signal will increase, and then decrease at some point. The goal is
+%   to identify the number that is the highest, after it starts to
+%   decrease. Because it may randomly start to increase again, it is
+%   important to identify the number quickly - otherwise the answer will
+%   change!
 %
-%   light_signal =
-%   fcn_CodeX_08_RedLightGreenLight(entry_key,student_number);
-% 
-%   It will return a 0 if the light is "red", and 1 if the light is
-%   "green". If the previous reading is "green", you are allowed to move
-%   by inserting a non-zero move command:
+%   [climb_signal_status, player_position, answer_08] =
+%   fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number,highest_peak);
 %
-%   move_command = 1;
-%   light_signal_status =
-%   fcn_CodeX_08_RedLightGreenLight(entry_key,student_number,move_command);
-%
-%   The function will then advance the player forward by 1 space and prints
-%   the player's position. As well, it returns the next light signal.
-% 
-%   But if the light is "red" during a move command, then the player has to
-%   go back to the start line and the player's position is set back to
-%   zero. 
-%
-%   The finish line is set at 1000 steps. Once a player crosses the finish
-%   line, the function will output the answer_08 string that can be used in
-%   the grading routine to complete the assignment. This can also be
-%   queried directly from the function as additional output arguments:
-%
-%   [light_signal_status, player_position, answer_08] =
-%   fcn_CodeX_08_RedLightGreenLight(entry_key,student_number,move_command);
-%
-%   The answer_08 code will be empty until the "finish line" is crossed.
+%   The answer_09 code will be empty until the "highest_peak" is correctly
+%   entered
 %
 %   As in all the assignments, to check if the answer is correct, call
 %   fcn_GradeCode and pass in the function name, student number, and answer.
 %
-%   fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight',student_number, answer_08);
+%   fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain',student_number, answer_09);
 %
 %   If the answer is right, the grader prints information and gives the
 %   entry code for the next problem. And if wrong, it indicates it is
@@ -63,8 +35,8 @@ function [light_signal_status, player_position, answer_08] = ...
 %
 %   FORMAT:
 %
-%        [light_signal_status, player_position, answer_08] = ...
-%        fcn_CodeX_08_RedLightGreenLight((entry_key,student_number,move_command)
+%        [climb_signal_status, player_position, answer_08] = = ...
+%        fcn_CodeX_09_ToTheTopOfTheMountain((entry_key,student_number,highest_peak)
 %
 %   INPUTS:
 %
@@ -74,19 +46,16 @@ function [light_signal_status, player_position, answer_08] = ...
 %        student_number: the student number. It must match the prior
 %        numbers used in the fcn_GradeCodeX operations
 %
-%        move_command: an optional command to move. Set to anything other
-%        than zero to request a "move".
+%        highest_peak: the highest value that should be the correct answer.
+%        It is ignored if it is wrong, but the correct answer is returned
+%        if it is right
 %
 %   OUTPUTS:
 %
-%        light_signal_status: a 1 (green) or 0 (red) indication of the
+%        climb_signal_status: a 1 (green) or 0 (red) indication of the
 %        current light
 %
-%        player_position: the count value of where the player is currently
-%        standing
-%
-%        answer_08: a code that is set of the player crosses the finish
-%        line
+%        answer_09: a code that is set if the correct peak is entered
 %
 %
 %   DEPENDENCIES:
@@ -132,8 +101,8 @@ nargin_lock_number = 42;
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
-dependencies = 'fcn_CodeX_07_thatsOdd,fcn_CodeX_08_RedLightGreenLight';
-dependencies_cells = [{'fcn_CodeX_07_thatsOdd'},{'fcn_CodeX_08_RedLightGreenLight'}];
+dependencies = 'fcn_CodeX_08_RedLightGreenLigh,fcn_CodeX_09_ToTheTopOfTheMountain';
+dependencies_cells = [{'fcn_CodeX_08_RedLightGreenLigh'},{'fcn_CodeX_09_ToTheTopOfTheMountain'}];
 
 if flag_check_inputs
     % Are there the right number of inputs?
@@ -145,12 +114,12 @@ student_number = varargin{2};
 
 if nargin==3
     if varargin{3}
-        flag_try_move = 1;
+        flag_try_answer = 1;
     else
-        flag_try_move = 0;
+        flag_try_answer = 0;
     end
 else
-    flag_try_move = 0;
+    flag_try_answer = 0;
 end
 
 if nargin==nargin_lock_number
@@ -166,7 +135,7 @@ end
 %     this_fname = this_fname(1:end-5);
 % end
 
-this_fname = 'fcn_CodeX_08_RedLightGreenLight';
+this_fname = 'fcn_CodeX_09_ToTheTopOfTheMountain';
 
 
 %% Main code starts here
@@ -182,32 +151,31 @@ this_fname = 'fcn_CodeX_08_RedLightGreenLight';
 
 
 %% Step 0 - make sure student_entry_key is correct
-persistent flag_entry_was_checked
-if isempty(flag_entry_was_checked)
+persistent flag_entry_was_checked_09
+if isempty(flag_entry_was_checked_09)
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies_cells);
-    flag_entry_was_checked = 1;
+    flag_entry_was_checked_09 = 1;
 end
 
-%% Step 1 - generate the light sequence and fill the light value
-% Define the light sequencing variables
-persistent light_signal_durations % This is how many "moves" the light is on or off in each particular sequence
-persistent current_light_sequence % This is the red or green light sequence - even numbers are red, odd numbers are green
-persistent current_sequence_count % This is the current value in the sequence (e.g. how many steps into the current sequence we are)
-persistent player_position_internal % This is the location of the player
-persistent last_light_signal % The last light signal
+%% Step 1 - generate the hill climb sequence and fill the initial values
+% Define the hill climbing variables
+persistent climb_signal_durations % This is how many "moves" the light is on or off in each particular sequence
+persistent cmost_recent_highest_peak % This is the most recent highest peak encountered
+persistent current_sequence_count % This is the current value in the climb sequence (e.g. how many steps into the current sequence we are)
+urhere
 
 % fill in the initial values
-if isempty(light_signal_durations)
+if isempty(climb_signal_durations)
     % Set the random number generator for the specific student
     rng(student_number);
 
     % Generate a list of random numbers
     N_digits = 2;
-    N_numbers = 10000; % This is the number of red/green sequences
-    light_signal_durations = ceil(10^N_digits * rand(N_numbers,1));
+    N_numbers = 10000; % This is the number of up/down sequences
+    climb_signal_durations = ceil(10^N_digits * rand(N_numbers,1));
 end
-if isempty(current_light_sequence)
-    current_light_sequence = 1;
+if isempty(cmost_recent_highest_peak)
+    cmost_recent_highest_peak = 1;
 end
 if isempty(current_sequence_count)
     current_sequence_count = 1;
@@ -215,13 +183,13 @@ end
 if isempty(player_position_internal)
     player_position_internal = 0;
 end
-if isempty(last_light_signal)
-    last_light_signal = 1;
+if isempty(last_climb_signal)
+    last_climb_signal = 1;
 end
 
 %% Step 2 - check for a move
-if (0~=flag_try_move) 
-    if last_light_signal==1 % Was the previous light green?
+if (0~=flag_try_answer) 
+    if last_climb_signal==1 % Was the previous light green?
         player_position_internal = player_position_internal+1;
         fprintf(1,'Player is in a green light and steps forward to position: %.0d\n', player_position_internal);
     else 
@@ -234,30 +202,30 @@ player_position = player_position_internal;
 
 %% Step 3 - advance the light forward
 % Is it a green light (odd) or red light (even) sequence?
-if mod(current_light_sequence,2)==1
+if mod(cmost_recent_highest_peak,2)==1
     % Green light
-    light_signal_status = 1;
+    climb_signal_status = 1;
 else
     % Red light
-    light_signal_status = 0;
+    climb_signal_status = 0;
 end
 
 % Save the result
-last_light_signal = light_signal_status;
+last_climb_signal = climb_signal_status;
 
 % Advance the moves of the current light
 current_sequence_count = current_sequence_count+1;
 
 % Check if the light needs to change
-if current_sequence_count>light_signal_durations(current_light_sequence)
-    current_light_sequence = current_light_sequence+1; % Start next sequence
+if current_sequence_count>climb_signal_durations(cmost_recent_highest_peak)
+    cmost_recent_highest_peak = cmost_recent_highest_peak+1; % Start next sequence
     current_sequence_count = 1; % Reset current sequence count back to 1
 end
 
 % Check if we are at the end of all the possible sequences. If so, just go
 % back to the first sequence
-if current_light_sequence>length(light_signal_durations)
-    current_light_sequence = 1;
+if cmost_recent_highest_peak>length(climb_signal_durations)
+    cmost_recent_highest_peak = 1;
 end
 
 
@@ -296,7 +264,7 @@ if nargin==nargin_lock_number
         % 3) Identify the function dependencies - NOTE: a function must
         % always be self-dependent!
         temp_output{3} = dependencies; % 
-        light_signal_status = temp_output;
+        climb_signal_status = temp_output;
              
     else % Force an error
         error('Grader input code does not match!\n The value calculated in the problem was: %s\n The value entered externally was: %s',date_lock_value,Grader_input_code);

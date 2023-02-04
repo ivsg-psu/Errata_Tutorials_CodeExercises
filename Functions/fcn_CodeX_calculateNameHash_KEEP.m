@@ -112,15 +112,39 @@ scrambler_numbers = uint8(upper(scrambler_string));
 
 % Make sure these are well formed 
 if any(numbers_to_convert<starting_ASCII)
+    indices = numbers_to_convert<starting_ASCII;
+    fprintf(1,'Bad numbers detected in hashing.\n')
+    bad_numbers = numbers_to_convert(indices);
+    for ith_bad_number = 1:length(bad_numbers)
+        fprintf(1,'Bad number %.0d has ASCII value: %.0d, with character value: %s\n',ith_bad_number,bad_numbers(ith_bad_number),char(bad_numbers(ith_bad_number)));
+    end
     error('Conversion string has characters that are not convertible because they are too low in ASCII table');
 end
 if any(scrambler_numbers<starting_ASCII)
+    indices = scrambler_numbers<starting_ASCII;
+    fprintf(1,'Bad scramblers detected in hashing.\n')
+    bad_numbers = scrambler_numbers(indices);
+    for ith_bad_number = 1:length(bad_numbers)
+        fprintf(1,'Bad scrambler %.0d has ASCII value: %.0d, with character value: %s\n',ith_bad_number,bad_numbers(ith_bad_number),char(bad_numbers(ith_bad_number)));
+    end
     error('Scrambler string has characters that are not convertible because they are too low in ASCII table');
 end
 if any(numbers_to_convert>ending_ASCII)
+    indices = numbers_to_convert>ending_ASCII;
+    fprintf(1,'Bad numbers detected in hashing.\n')
+    bad_numbers = numbers_to_convert(indices);
+    for ith_bad_number = 1:length(bad_numbers)
+        fprintf(1,'Bad number %.0d has ASCII value: %.0d, with character value: %s\n',ith_bad_number,bad_numbers(ith_bad_number),char(bad_numbers(ith_bad_number)));
+    end
     error('Conversion string has characters that are not convertible because they are too high in ASCII table');
 end
 if any(scrambler_numbers>ending_ASCII)
+    indices = scrambler_numbers>ending_ASCII;
+    fprintf(1,'Bad scramblers detected in hashing.\n')
+    bad_numbers = scrambler_numbers(indices);
+    for ith_bad_number = 1:length(bad_numbers)
+        fprintf(1,'Bad scrambler %.0d has ASCII value: %.0d, with character value: %s\n',ith_bad_number,bad_numbers(ith_bad_number),char(bad_numbers(ith_bad_number)));
+    end
     error('Scrambler string has characters that are not convertible because they are too high in ASCII table');
 end
 
