@@ -220,6 +220,60 @@ answer_08 = ';VV=`:]IQ8fSRUO';
 % Grade it
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 
+%% Problem 9 - to the top of the mountain
+entry_key_09 = '>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW'; % <--- this must be changed for each student and computer
+
+% Plot the results to check
+elevations = nan(2000,1);
+for ith_call = 1:length(elevations)
+    [current_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number);
+    elevations(ith_call,1) = current_elevation;
+end
+figure(44444);
+clf;
+hold on;
+grid on;
+plot(elevations);
+legend('Elevation');
+
+% %% Give a stupid input, and check that it delays 
+% highest_peak_guess = 0;
+% [current_elevation, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+
+
+% Solve the problem
+elevations = nan(2000,1);
+highest_peak_guess = [];
+[new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+
+% Wait for the elevation to drop
+old_elevation = -inf;
+current_count = 1;
+while new_elevation>old_elevation
+    old_elevation = new_elevation;
+    elevations(current_count,1) = new_elevation;
+    current_count = current_count+1;
+    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+end
+elevations(current_count,1) = new_elevation;
+
+% Check answer
+[~, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,old_elevation);
+
+% Plot results to confirm
+figure(98746);
+clf;
+hold on;
+grid on;
+plot(elevations);
+
+% %% Deep debugging
+% answer_09 = 'O<TV6Tg9';
+% results = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP('>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW',student_number,answer_09, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],'04-Feb-2023 05:24:34');
+
+% Grade it
+answer_09 = ';VV=`:]IQ8fSRUO';
+fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 %% Revision History:
 %  2022_01_23:
 %  -- created a demo script of core debug utilities, getting problems 0 and

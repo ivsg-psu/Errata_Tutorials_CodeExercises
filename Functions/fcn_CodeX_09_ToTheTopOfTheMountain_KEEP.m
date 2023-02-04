@@ -1,4 +1,4 @@
-function climb_signal = ...
+function [climb_height, answer_09] = ...
     fcn_CodeX_09_ToTheTopOfTheMountain(varargin) %#ok<FNDEF> 
 %FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN - find odd numbers
 %   
@@ -7,16 +7,17 @@ function climb_signal = ...
 %   to identify the point at which an output is no longer increasing. The
 %   code will start by returning a signal. 
 %
-%   climb_signal =
+%   climb_height =
 %   fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number);
 % 
-%   This signal will increase, and then decrease at some point. The goal is
-%   to identify the number that is the highest, after it starts to
-%   decrease. Because it may randomly start to increase again, it is
+%   This signal will increase, and then decrease at some point, and then
+%   increase, and then decrease, etc. The goal is to identify the number
+%   that is the most immediate highest, after it starts to decrease.
+%   Because the "climb" may randomly start to increase again, it is
 %   important to identify the number quickly - otherwise the answer will
 %   change!
 %
-%   [climb_signal_status, player_position, answer_08] =
+%   [climb_height, answer_09] =
 %   fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number,highest_peak);
 %
 %   The answer_09 code will be empty until the "highest_peak" is correctly
@@ -35,8 +36,8 @@ function climb_signal = ...
 %
 %   FORMAT:
 %
-%        [climb_signal_status, player_position, answer_08] = = ...
-%        fcn_CodeX_09_ToTheTopOfTheMountain((entry_key,student_number,highest_peak)
+%        [climb_height, answer_09] = ...
+%        fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number,highest_peak)
 %
 %   INPUTS:
 %
@@ -52,10 +53,11 @@ function climb_signal = ...
 %
 %   OUTPUTS:
 %
-%        climb_signal_status: a 1 (green) or 0 (red) indication of the
-%        current light
+%        climb_height: the current "altitude" of the climb
 %
-%        answer_09: a code that is set if the correct peak is entered
+%        answer_09: a code that is set if the correct previous highest_peak
+%        is entered. It will be empty if highest_peak is missing, blank, or
+%        wrong.
 %
 %
 %   DEPENDENCIES:
@@ -101,8 +103,8 @@ nargin_lock_number = 42;
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
-dependencies = 'fcn_CodeX_08_RedLightGreenLigh,fcn_CodeX_09_ToTheTopOfTheMountain';
-dependencies_cells = [{'fcn_CodeX_08_RedLightGreenLigh'},{'fcn_CodeX_09_ToTheTopOfTheMountain'}];
+dependencies = 'fcn_CodeX_08_RedLightGreenLight,fcn_CodeX_09_ToTheTopOfTheMountain';
+dependencies_cells = [{'fcn_CodeX_08_RedLightGreenLight'},{'fcn_CodeX_09_ToTheTopOfTheMountain'}];
 
 if flag_check_inputs
     % Are there the right number of inputs?
@@ -112,9 +114,11 @@ end
 student_entry_key = varargin{1};
 student_number = varargin{2};
 
+highest_peak_guess = [];
 if nargin==3
-    if varargin{3}
+    if ~isempty(varargin{3})
         flag_try_answer = 1;
+        highest_peak_guess = varargin{3};
     else
         flag_try_answer = 0;
     end
@@ -159,84 +163,82 @@ end
 
 %% Step 1 - generate the hill climb sequence and fill the initial values
 % Define the hill climbing variables
-persistent climb_signal_durations % This is how many "moves" the light is on or off in each particular sequence
-persistent cmost_recent_highest_peak % This is the most recent highest peak encountered
+persistent climb_elevation % This is how high we are at present
+persistent climb_height_durations % This is how many "moves" the light is on or off in each particular sequence
+persistent most_recent_highest_peak % This is the most recent highest peak encountered
 persistent current_sequence_count % This is the current value in the climb sequence (e.g. how many steps into the current sequence we are)
-urhere
+persistent current_climb_sequence % This is the integer for the current climb sequence. For example, if we go up first then this is sequence 1. Then the down part would be 2, the next up part would be 3, etc.
+
 
 % fill in the initial values
-if isempty(climb_signal_durations)
+if isempty(climb_elevation)
+    climb_elevation = 0;
+end
+if isempty(climb_height_durations)
     % Set the random number generator for the specific student
     rng(student_number);
 
     % Generate a list of random numbers
     N_digits = 2;
     N_numbers = 10000; % This is the number of up/down sequences
-    climb_signal_durations = ceil(10^N_digits * rand(N_numbers,1));
+    climb_height_durations = ceil(10^N_digits * rand(N_numbers,1));
 end
-if isempty(cmost_recent_highest_peak)
-    cmost_recent_highest_peak = 1;
+if isempty(most_recent_highest_peak)
+    most_recent_highest_peak = nan;
 end
 if isempty(current_sequence_count)
     current_sequence_count = 1;
 end
-if isempty(player_position_internal)
-    player_position_internal = 0;
-end
-if isempty(last_climb_signal)
-    last_climb_signal = 1;
+if isempty(current_climb_sequence)
+    current_climb_sequence = 1;
 end
 
-%% Step 2 - check for a move
+%% Step 2 - check for a player guess
+happy_word = upper('welldone');
+answer_09 = [];
 if (0~=flag_try_answer) 
-    if last_climb_signal==1 % Was the previous light green?
-        player_position_internal = player_position_internal+1;
-        fprintf(1,'Player is in a green light and steps forward to position: %.0d\n', player_position_internal);
-    else 
-        % Go back to the beginning!
-        player_position_internal = 0;
-        fprintf(1,'VIOLATION! \nPlayer is in a red light and steps forward. Player is sent back to start position! Now at: %.0d\n', player_position_internal);
+    if isequal(most_recent_highest_peak,highest_peak_guess) % Was the previous peak equal to the player's guess?
+        correct_answer = fcn_CodeX_calculateNameHash(sprintf('%.0d',student_number),happy_word);
+        answer_09 = correct_answer;
+        fprintf(1,'Player has found the highest peak! The answer string to this challenge is: ''%s''\n', answer_09);
+    else
+        fprintf(1,'Incorrect highest peak. Imposing a 5-second climb delay.\n');
+        pause(5);
     end
 end
-player_position = player_position_internal;
 
-%% Step 3 - advance the light forward
-% Is it a green light (odd) or red light (even) sequence?
-if mod(cmost_recent_highest_peak,2)==1
-    % Green light
-    climb_signal_status = 1;
+%% Step 3 - advance the climb
+climb_amount = rand;
+
+% Is it going up or down?
+if mod(current_climb_sequence,2)==1
+    % Going_up
+    climb_height_direction = 1;
 else
-    % Red light
-    climb_signal_status = 0;
+    % Going down
+    climb_height_direction = -1;
 end
 
 % Save the result
-last_climb_signal = climb_signal_status;
+climb_elevation = climb_elevation + climb_height_direction*climb_amount;
+climb_height = climb_elevation;
 
-% Advance the moves of the current light
+% Advance the move index of the current climb
 current_sequence_count = current_sequence_count+1;
 
-% Check if the light needs to change
-if current_sequence_count>climb_signal_durations(cmost_recent_highest_peak)
-    cmost_recent_highest_peak = cmost_recent_highest_peak+1; % Start next sequence
+% Check if the climb direction needs to change
+if current_sequence_count>climb_height_durations(current_climb_sequence)
+    current_climb_sequence = current_climb_sequence+1; % Start next sequence
     current_sequence_count = 1; % Reset current sequence count back to 1
+    most_recent_highest_peak = climb_elevation;
 end
 
 % Check if we are at the end of all the possible sequences. If so, just go
 % back to the first sequence
-if cmost_recent_highest_peak>length(climb_signal_durations)
-    cmost_recent_highest_peak = 1;
+if current_climb_sequence>length(climb_height_durations)
+    current_climb_sequence = 1;
 end
 
-
-%% Step 4 - Is it solved?
-if player_position>1000
-    correct_answer = fcn_CodeX_calculateNameHash(sprintf('%.0d',student_number),'CONGRATULATIONS');
-    answer_08 = correct_answer;
-    fprintf(1,'Player has crossed the finish line! Now at: %.0d. The answer string to this challenge is: ''%s''\n', player_position_internal,answer_08);
-else
-    answer_08 = [];
-end
 
 %% Step 5 - grade student answer
 % Do we enter grading mode?
@@ -250,7 +252,7 @@ if nargin==nargin_lock_number
     if strcmp(Grader_input_code,date_lock_value)
         % Grader is correct - return requested information
         % 1) Return the correct answer   
-        correct_answer = fcn_CodeX_calculateNameHash(sprintf('%.0d',student_number),'CONGRATULATIONS');
+        correct_answer = fcn_CodeX_calculateNameHash(sprintf('%.0d',student_number),happy_word);
         temp_output{1} = correct_answer; 
         
         % 2) Grade the students answer
@@ -264,7 +266,7 @@ if nargin==nargin_lock_number
         % 3) Identify the function dependencies - NOTE: a function must
         % always be self-dependent!
         temp_output{3} = dependencies; % 
-        climb_signal_status = temp_output;
+        climb_height = temp_output;
              
     else % Force an error
         error('Grader input code does not match!\n The value calculated in the problem was: %s\n The value entered externally was: %s',date_lock_value,Grader_input_code);

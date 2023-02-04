@@ -157,6 +157,8 @@ code_Names{5} = 'fcn_CodeX_05_whatsThePassword';
 code_Names{6} = 'fcn_CodeX_06_aLongPass';
 code_Names{7} = 'fcn_CodeX_07_thatsOdd';
 code_Names{8} = 'fcn_CodeX_08_RedLightGreenLight';
+code_Names{9} = 'fcn_CodeX_09_ToTheTopOfTheMountain';
+
 
 
 persistent solved_problems
@@ -441,9 +443,13 @@ catch
     fprintf(1,'%s\n',grading_function_call);
     disp('Debug here');
 end
-correct_answer = results{1}; %#ok<USENS>
-right_or_wrong = results{2};
-function_dependencies = results{3};
+try
+    correct_answer = results{1}; %#ok<USENS>
+    right_or_wrong = results{2};
+    function_dependencies = results{3};
+catch
+    error('The results appear to have been entered incorrectly in a function. Please debug!');
+end
 end % ends fcn_INTERNAL_gradeProblemNumber
 
 
