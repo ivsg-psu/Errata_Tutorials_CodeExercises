@@ -75,6 +75,8 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 % -- improved header comments to match MATLAB style 
 % 2023_02_02:
 % -- externalized hash function, functionalized dependencies check
+% 2023_02_04:
+% -- added improved error checking
 
 % TO DO
 % -- Add input argument checking
@@ -86,7 +88,7 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 % delete code_Dependencies.mat
 
 
-flag_do_debug = 1; % Flag to show the results for debugging
+flag_do_debug = 0; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
 
@@ -332,7 +334,7 @@ for ith_codeName = 1:length(code_Names)
         try
             fcn_CodeX_generatePcodes;
             fprintf(1,'\t Checking (again): %s ',function_name);
-        catch
+        catch 
             fprintf(1,'\t\t WARNING: Tried p-code regeneration but it failed. Unable to access dependencies for file: %s\n',function_name);
         end
         if exist(function_name, 'file')
@@ -465,7 +467,8 @@ try
     correct_answer = results{1}; %#ok<USENS>
     right_or_wrong = results{2};
     function_dependencies = results{3};
-catch
+catch ME
+    fprintf(1,'Error was: %s\n',ME.identifier);
     error('The results appear to have been entered incorrectly in a function. Please debug!');
 end
 end % ends fcn_INTERNAL_gradeProblemNumber

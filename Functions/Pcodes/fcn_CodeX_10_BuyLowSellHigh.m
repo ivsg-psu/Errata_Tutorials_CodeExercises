@@ -8,7 +8,7 @@
 % 
 %    This function has the following form:
 % 
-%    [current_market_index, current_investment_value, answer_10] = ...
+%    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10] = ...
 %    fcn_CodeX_10_BuyLowSellHigh(entry_key,student_number,investment_in_or_out);
 %  
 %    investment_in_or_out: this is the amount to add to the investment or
@@ -28,17 +28,4 @@
 %  
 %    current_investment_value: this is how much is invested in the market
 %    currently. When the function starts, this is just $1.
-% 
-%    answer_10: this is the code that shows the problem is solved. It is
-%    generated once the player has $1000 invested. The answer_10 code will
-%    be empty until the "highest_peak" is correctly entered
-% 
-%    As in all the assignments, to check if the answer is correct, call
-%    fcn_GradeCode and pass in the function name, student number, and answer.
-% 
-%    fcn_GradeCodeX('fcn_CodeX_10_BuyLowSellHigh',student_number, answer_10);
-% 
-%    If the answer is right, the grader prints information and gives the
-%    entry code for the next problem. And if wrong, it indicates it is
-%    wrong.
 %

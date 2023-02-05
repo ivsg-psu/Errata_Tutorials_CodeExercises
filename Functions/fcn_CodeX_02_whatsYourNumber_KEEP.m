@@ -152,7 +152,7 @@ end
 %% Step 1 - generate the list
 rng(student_number);
 N = 5;
-like_numbers = fcn_CodeX_generateNumbersLike_KEEP(student_number,N);
+like_numbers = fcn_CodeX_generateNumbersLike(student_number,N);
 
 all_numbers = [like_numbers;student_number];
 randomized_order = randperm(N+1);
