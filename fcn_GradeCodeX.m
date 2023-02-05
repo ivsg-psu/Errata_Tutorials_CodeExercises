@@ -81,9 +81,9 @@ function [right_or_wrong, next_functions, next_keys] = fcn_GradeCodeX(varargin)
 
 % % USE THIS TO CLEAR EVERYTHING
 % 
-%     clear all
-%     clear global *
-%     delete code_Dependencies.mat
+% clear all
+% clear global *
+% delete code_Dependencies.mat
 
 
 flag_do_debug = 1; % Flag to show the results for debugging
@@ -158,6 +158,7 @@ code_Names{6} = 'fcn_CodeX_06_aLongPass';
 code_Names{7} = 'fcn_CodeX_07_thatsOdd';
 code_Names{8} = 'fcn_CodeX_08_RedLightGreenLight';
 code_Names{9} = 'fcn_CodeX_09_ToTheTopOfTheMountain';
+code_Names{10} = 'fcn_CodeX_10_BuyLowSellHigh';
 
 
 
@@ -320,13 +321,30 @@ code_Dependencies{length(code_Names)} = [];
 % Loop through each code - calling it to retrieve the dependencies (SLOW)
 for ith_codeName = 1:length(code_Names)
     function_name = code_Names{ith_codeName};
-    fprintf(1,'\t Checking: %s\n',function_name);
+    fprintf(1,'\t Checking: %s ',function_name);
     if exist(function_name, 'file')
         [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name,[]);
         code_Dependencies{ith_codeName} = function_dependencies;
+        fprintf(1,'\t <-- Success\n');
     else
-        fprintf(1,'\t\t WARNING: Unable to find file: %s for dependencies... skipping\n',function_name);
-        code_Dependencies{ith_codeName} = {};
+        fprintf(1,'\t <-- Fail\n');        
+        fprintf(1,'\t\t WARNING: Unable to find file: %s for dependencies... Attempting p-code regeneration.\n',function_name);
+        try
+            fcn_CodeX_generatePcodes;
+            fprintf(1,'\t Checking (again): %s ',function_name);
+        catch
+            fprintf(1,'\t\t WARNING: Tried p-code regeneration but it failed. Unable to access dependencies for file: %s\n',function_name);
+        end
+        if exist(function_name, 'file')
+            [~, ~, function_dependencies] = fcn_INTERNAL_gradeProblemNumber(student_number, function_name,[]);
+            code_Dependencies{ith_codeName} = function_dependencies;
+            fprintf(1,'\t <-- Success\n');
+
+        else
+            fprintf(1,'\t <-- Fail\n');
+            fprintf(1,'\t\t WARNING: Tried p-code regeneration was successful, but still unable to access dependencies for file: %s\n',function_name);            
+            code_Dependencies{ith_codeName} = {};
+        end
     end
 end
 fprintf(1,'Done checking code dependencies.\n');
@@ -699,7 +717,7 @@ if ~exist(flag_varname,'var') || isempty(eval(flag_varname))
     % Do we need to unzip the files?
     fprintf(1,'Checking if download process needed for for: %s\n',dependency_name);
     if flag_allFoldersThere==0
-        fprintf(1,'Some dowload is needed for: %s\n',dependency_name);
+        fprintf(1,'A package download is needed for: %s\n',dependency_name);
         % Files do not exist yet - try unzipping them.
         save_file_name = tempname(root_directory_name);
         zip_file_name = websave(save_file_name,dependency_url);

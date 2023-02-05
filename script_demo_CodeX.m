@@ -31,6 +31,20 @@ clc
 % problem 1!
 % fcn_GradeCodeX; 
 
+% The following entry keys change with each computer, and each student
+entry_key_01 = '(:^e1T.9afB+b<;HY<R';
+entry_key_02 = '(:^e1T.9afB(bLV=fJRU[I\I];=H';
+entry_key_03 = '(:^e1T.9afB)bS;=6JdHZ:[Pc';
+entry_key_04 = '(:^e1T.9afB.b?QI0U.U\U]HXPV=';
+entry_key_05 = '(:^e1T.9afB/bLV=fJ_R+K3OcNWH6';
+entry_key_06 = '(:^e1T.9afB,b:RS\>[;]H';
+entry_key_07 = '(:^e1T.9afB-bOV=fJd>*';
+entry_key_08 = '(:^e1T.9afBBbI;8^P,RZ<`95WTS5SN';
+entry_key_09 = '(:^e1T.9afBCbOQHZ<_U^T4HX<UUgUN=`W';
+entry_key_10 = '(:^e1T.9afC*b9Ke^V\I+W^TY>P';
+
+% '(:^e1T.9afC*b9Ke^V\I+W^TY>P'
+
 
 %% Problem 0 - setting up, but with student number
 % Just call the function with no arguments to set up the next problem,
@@ -42,7 +56,6 @@ fcn_GradeCodeX(student_number);
 % Write code to call a function - fcn_CodeX_01_getKey. Note: you may have
 % saved this file into a different name, which is fine.
 
-entry_key_01 = '>:Ve1T-9efB+b<9HY<`'; % <--- this must be changed for each student and computer
 result_01 = fcn_CodeX_01_getKey(entry_key_01,student_number);
 
 % cd Functions
@@ -61,7 +74,6 @@ fcn_GradeCodeX('fcn_CodeX_01_getKey', result_01, student_number);
 
 
 %% Problem 2 - arguments in
-entry_key_02 = '>:Ve1T-9efB(bLT=fJ`UYI\IV;8H'; % <--- this must be changed for each student and computer
 list = fcn_CodeX_02_whatsYourNumber(entry_key_02,student_number);
 
 % Solve the problem
@@ -71,7 +83,6 @@ answer_02 = find(list==student_number,1);
 fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber', answer_02, student_number);
 
 %% Problem 3 - heads or tails
-entry_key_03 = '>:Ve1T-9efB)bS9=6JVHX:[PH'; % <--- this must be changed for each student and computer
 output_result = fcn_CodeX_03_headsOrTails(entry_key_03,student_number);
 
 % Solve the problem
@@ -81,7 +92,6 @@ answer_03 = output_result>=0.5;
 fcn_GradeCodeX('fcn_CodeX_03_headsOrTails', answer_03, student_number);
 
 %% Problem 4 - double or nothing
-entry_key_04 = '>:Ve1T-9efB.b?SI0U<U^U]HSPS='; % <--- this must be changed for each student and computer
 output_result = fcn_CodeX_04_doubleOrNothing(entry_key_04,student_number);
 
 % Solve the problem
@@ -94,7 +104,6 @@ answer_04 = find(output_result == intersect(output_result,2*output_result));
 fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing', answer_04, student_number);
 
 %% Problem 5 - what's the password?
-entry_key_05 = '>:Ve1T-9efB/bLT=fJMR)K3OHNRH6'; % <--- this must be changed for each student and computer
 guesses = (0:9)';
 output_result = fcn_CodeX_05_whatsThePassword(entry_key_05,student_number,guesses);
 
@@ -109,7 +118,6 @@ fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword', answer_05, student_number);
 
 
 %% Problem 6 - a long pass
-entry_key_06 = '>:Ve1T-9efB,b:PS\>I;_H'; % <--- this must be changed for each student and computer
 guesses = (0:99999999)';
 output_result = fcn_CodeX_06_aLongPass(entry_key_06,student_number,guesses);
 
@@ -123,7 +131,6 @@ answer_06 = find(output_result == 1)-1;
 fcn_GradeCodeX('fcn_CodeX_06_aLongPass', answer_06, student_number);
 
 %% Problem 7 - thats odd
-entry_key_07 = '>:Ve1T-9efB,b:PS\>I;_H'; % <--- this must be changed for each student and computer
 some_odd_numbers = fcn_CodeX_07_thatsOdd(entry_key_07,student_number);
 
 % Solve the problem
@@ -136,16 +143,19 @@ answer_07 = mod(some_odd_numbers,2)==1;
 fcn_GradeCodeX('fcn_CodeX_07_thatsOdd', answer_07, student_number);
 
 %% Problem 8 - red light green light
-entry_key_08 = '>:Ve1T-9efBBbI98^P>RX<`9>WQS5S^'; % <--- this must be changed for each student and computer
 
 % Plot the results to check
 light_signals = zeros(2000,1);
 player_positions = zeros(2000,1);
 move_command = 0;
 for ith_call = 1:length(light_signals)
-    [light_signal_status, player_position, ~] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
     light_signals(ith_call,1) = light_signal_status;
     player_positions(ith_call,1) = player_position;
+    
+    if ~isempty(answer_08)
+        break
+    end
 end
 figure(2222);
 clf;
@@ -160,9 +170,12 @@ light_signals = zeros(2000,1);
 player_positions = zeros(2000,1);
 move_command = 1;
 for ith_call = 1:length(light_signals)
-    [light_signal_status, player_position, ~] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
     light_signals(ith_call,1) = light_signal_status;
     player_positions(ith_call,1) = player_position;
+    if ~isempty(answer_08)
+        break
+    end
 end
 figure(3333);
 clf;
@@ -215,13 +228,12 @@ plot(light_signals);
 plot(positions);
 legend('Light signals','Player position');
 
-answer_08 = ';VV=`:]IQ8fSRUO';
+answer_08 = '-V^=`:^IU8fSRUM';
 
 % Grade it
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 
 %% Problem 9 - to the top of the mountain
-entry_key_09 = '>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW'; % <--- this must be changed for each student and computer
 
 % Plot the results to check
 elevations = nan(2000,1);
@@ -244,11 +256,22 @@ legend('Elevation');
 % Solve the problem
 elevations = nan(2000,1);
 highest_peak_guess = [];
+
+% Wait for elevation to rise
 [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+old_elevation = inf;
+current_count = 1;
+while new_elevation<old_elevation
+    old_elevation = new_elevation;
+    elevations(current_count,1) = new_elevation;
+    current_count = current_count+1;
+    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+end
+elevations(current_count,1) = new_elevation;
+
 
 % Wait for the elevation to drop
 old_elevation = -inf;
-current_count = 1;
 while new_elevation>old_elevation
     old_elevation = new_elevation;
     elevations(current_count,1) = new_elevation;
@@ -259,6 +282,7 @@ elevations(current_count,1) = new_elevation;
 
 % Check answer
 [~, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,old_elevation);
+fprintf(1,'The final answer is: %s\n',answer_09);
 
 % Plot results to confirm
 figure(98746);
@@ -272,8 +296,128 @@ plot(elevations);
 % results = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP('>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW',student_number,answer_09, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],'04-Feb-2023 05:24:34');
 
 % Grade it
-answer_09 = ';VV=`:]IQ8fSRUO';
+answer_09 = 'Y<\V6Td9';
 fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
+
+%% Problem 10 - buy low, sell high
+
+% Plot the market index to check
+market_indices = nan(2000,1);
+for ith_call = 1:length(market_indices)
+    [current_market_index, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number);
+    market_indices(ith_call,1) = current_market_index;
+end
+figure(44444);
+clf;
+hold on;
+grid on;
+plot(market_indices);
+legend('Market Indices');
+
+%% Give a stupid input, to take out more than what is in there
+investment_in_or_out = -2000;
+[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+
+%% Give a stupid input, to put in more than what is in there
+investment_in_or_out = 2000;
+[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+
+%%
+% Solve the problem
+% Reset internal variables
+fcn_CodeX_10_BuyLowSellHigh_KEEP;
+
+max_counts = 20000;
+market_indices = nan(max_counts,1);
+investment_values = nan(max_counts,1);
+current_count = 1;
+
+% Query the market
+investment_in_or_out = 0;
+[~, current_investment_value, ~, ~]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+
+% Pull everything out to start
+investment_in_or_out = -1*current_investment_value;
+[current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+
+flag_goal_reached = 0;
+good_answer = []; % Empty
+while (flag_goal_reached==0) && (current_count<max_counts)
+    
+    % Wait for the current_market_index to stop dropping
+    old_market_index = inf;
+    investment_in_or_out = 0;
+    while current_market_index<old_market_index
+        old_market_index = current_market_index;
+        market_indices(current_count,1) = current_market_index;
+    investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
+        current_count = current_count+1;
+        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+    end        
+    if ~isempty(answer_10)
+        flag_goal_reached = 1;
+        good_answer = answer_10; % Save the result
+    end
+    
+    % When at the lowest, invest everything
+    investment_in_or_out = current_money_available_to_invest;
+    old_market_index = current_market_index;
+    market_indices(current_count,1) = current_market_index;
+    investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
+    current_count = current_count+1;
+    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);    
+    if ~isempty(answer_10)
+        flag_goal_reached = 1;
+        good_answer = answer_10; % Save the result
+    end
+    
+    % Wait for the current_market_index to stop rising
+    investment_in_or_out = 0;
+    while current_market_index>old_market_index
+        old_market_index = current_market_index;
+        market_indices(current_count,1) = current_market_index;
+    investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
+        current_count = current_count+1;
+        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+    end    
+    if ~isempty(answer_10)
+        flag_goal_reached = 1;
+        good_answer = answer_10; % Save the result
+    end
+    
+    % When at the highest, divest everything
+    investment_in_or_out = -current_investment_value;
+    old_market_index = current_market_index;
+    market_indices(current_count,1) = current_market_index;
+    investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
+    current_count = current_count+1;
+    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);    
+    if ~isempty(answer_10)
+        flag_goal_reached = 1;
+        good_answer = answer_10; % Save the result
+    end
+    
+    figure(454545);
+    clf;
+    hold on;
+    grid on;
+    plot(market_indices);
+    plot(investment_values);
+    legend('Market Indices','Current investment');
+    pause(0.1);
+
+end
+answer_10 = good_answer;
+% Check answer
+fprintf(1,'The final answer is: %s\n',answer_10);
+
+
+% %% Deep debugging
+% answer_09 = 'O<TV6Tg9';
+% results = fcn_CodeX_10_BuyLowSellHigh_KEEP('>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW',student_number,answer_09, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],'04-Feb-2023 05:24:34');
+
+% Grade it
+fcn_GradeCodeX('fcn_CodeX_10_BuyLowSellHigh', answer_10, student_number);
 %% Revision History:
 %  2022_01_23:
 %  -- created a demo script of core debug utilities, getting problems 0 and

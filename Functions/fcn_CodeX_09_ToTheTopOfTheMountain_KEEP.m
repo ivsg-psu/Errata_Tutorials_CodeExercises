@@ -157,7 +157,7 @@ this_fname = 'fcn_CodeX_09_ToTheTopOfTheMountain';
 %% Step 0 - make sure student_entry_key is correct
 persistent flag_entry_was_checked_09
 if isempty(flag_entry_was_checked_09)
-    fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies_cells);
+    fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
     flag_entry_was_checked_09 = 1;
 end
 
@@ -312,7 +312,7 @@ end % Ends main function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 %% fcn_INTERNAL_checkEntryKey
-function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies_cells)
+function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies, dependencies_cells)
 
 student_number_string = sprintf('%.0d',student_number);
 

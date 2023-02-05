@@ -133,7 +133,7 @@ this_fname = 'fcn_CodeX_05_whatsThePassword';
 
 
 %% Step 0 - make sure student_entry_key is correct
-fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies_cells);
+fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key, dependencies, dependencies_cells);
 
 %% Step 1 - generate the answer
 % Set the random number generator for the specific student
@@ -230,7 +230,7 @@ end % Ends main function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 %% fcn_INTERNAL_checkEntryKey
-function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies_cells)
+function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies, dependencies_cells)
 
 student_number_string = sprintf('%.0d',student_number);
 

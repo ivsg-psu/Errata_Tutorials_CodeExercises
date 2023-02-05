@@ -144,8 +144,8 @@ student_entry_key = varargin{1};
 student_number = varargin{2};
 
 if nargin==3
-    if varargin{3}
-        flag_try_move = 1;
+    if ~isempty(varargin{3})
+        flag_try_move = varargin{3};
     else
         flag_try_move = 0;
     end
@@ -184,7 +184,7 @@ this_fname = 'fcn_CodeX_08_RedLightGreenLight';
 %% Step 0 - make sure student_entry_key is correct
 persistent flag_entry_was_checked
 if isempty(flag_entry_was_checked)
-    fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies_cells);
+    fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
     flag_entry_was_checked = 1;
 end
 
@@ -342,7 +342,7 @@ end % Ends main function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%§
 
 %% fcn_INTERNAL_checkEntryKey
-function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies_cells)
+function fcn_INTERNAL_checkEntryKey(file_name, student_number,student_entry_key,dependencies, dependencies_cells)
 
 student_number_string = sprintf('%.0d',student_number);
 
