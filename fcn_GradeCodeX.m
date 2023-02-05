@@ -148,7 +148,7 @@ end
 % Say what the library is called, and where to find the codes
 library_name{1}    = 'CodeX_Functions';
 library_folders{1} = {};
-library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_02_03.zip?raw=true';
+library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_02_05.zip?raw=true';
 
 % Initialize file array
 code_Names{1} = 'fcn_CodeX_01_getKey';
