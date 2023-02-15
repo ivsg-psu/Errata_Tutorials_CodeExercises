@@ -11,9 +11,14 @@ function scrambled_answer = fcn_CodeX_01_getKey(varargin)
 %   MATLAB prompt:
 % 
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
-%            student_number = 1234; % <--- this must be changed                      
 %            answer = fcn_CodeX_01_getKey(entry_key,student_number);
 %            fcn_GradeCodeX('fcn_CodeX_01_getKey',answer);
+%
+%   Or, to skip entry of the student number, the student number can be
+%   entered via code before calling the grading function:
+%
+%            student_number = 1234; % <--- this must be changed                      
+%            fcn_GradeCodeX('fcn_CodeX_01_getKey',answer, student_number);
 %
 %   This assignment asks students to write their own script for these
 %   lines of code. And yes, it is as easy as copy/paste into a script, and
@@ -74,7 +79,11 @@ function scrambled_answer = fcn_CodeX_01_getKey(varargin)
 %   This function was written on 2023_01_23 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_01_23: -- wrote the code originally
+% Revision history: 
+% 2023_01_23: 
+% -- wrote the code originally
+% 2023_02_15: 
+% -- improved the comments to show how to enter student number
 
 % TO DO
 % -- Add input argument checking

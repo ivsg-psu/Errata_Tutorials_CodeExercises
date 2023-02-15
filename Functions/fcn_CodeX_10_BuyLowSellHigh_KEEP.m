@@ -34,14 +34,14 @@ function [current_market_index, current_investment_value, current_money_availabl
 %   current_money_available_to_invest: this is how much is NOT invested
 %   presently. When the function starts, this is $0
 %
-%   answer_10: this is the code that shows the problem is solved. It is
-%   generated once the player has $1000 invested. The answer_10 code will
+%   answer: this is the code that shows the problem is solved. It is
+%   generated once the player has $1000 invested. The answer variable will
 %   be empty until the "highest_peak" is correctly entered
 %
 %   As in all the assignments, to check if the answer is correct, call
 %   fcn_GradeCode and pass in the function name, student number, and answer.
 %
-%   fcn_GradeCodeX('fcn_CodeX_10_BuyLowSellHigh',student_number, answer_10);
+%   fcn_GradeCodeX('fcn_CodeX_10_BuyLowSellHigh', answer, student_number);
 %
 %   If the answer is right, the grader prints information and gives the
 %   entry code for the next problem. And if wrong, it indicates it is
@@ -54,7 +54,7 @@ function [current_market_index, current_investment_value, current_money_availabl
 %
 %   FORMAT:
 %
-%       [current_market_index, current_investment_value, current_money_available_to_invest, answer_10] = ...
+%       [current_market_index, current_investment_value, current_money_available_to_invest, answer] = ...
 %       fcn_CodeX_10_BuyLowSellHigh(entry_key,student_number,investment_in_or_out);
 %
 %   INPUTS:
@@ -89,13 +89,11 @@ function [current_market_index, current_investment_value, current_money_availabl
 %   This function was written on 2023_02_03 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_02_03: -- wrote the code originally
-
-% TO DO
-% -- Add input argument checking
-
-
-% Revision history: 2023_02_03: -- wrote the code originally
+% Revision history:
+% 2023_02_03:
+% -- wrote the code originally
+% 2023_02_15: 
+% -- Corrected the argument order in the grading function call
 
 % TO DO
 % -- Add input argument checking

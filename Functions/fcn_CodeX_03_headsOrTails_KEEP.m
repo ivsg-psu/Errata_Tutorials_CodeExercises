@@ -22,9 +22,9 @@ function output_result = fcn_CodeX_03_headsOrTails(varargin) %#ok<FNDEF>
 %     0.1438 
 %    (etc)
 %
-%   Then the answers to this function would be:
+%   Then the answer to this function would be:
 %
-%   answer_03 =
+%   answer =
 % 
 %     1
 %     1
@@ -44,9 +44,9 @@ function output_result = fcn_CodeX_03_headsOrTails(varargin) %#ok<FNDEF>
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
 %            student_number = 123; % <--- this must be changed                      
 %            random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number);
-%            answer_03 = fcn_CodeX_03_YOURFUNCTIONHERE(random_vector);
+%            answer = fcn_CodeX_03_YOURFUNCTIONHERE(random_vector);
 %
-%            fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',student_number, answer_03);
+%            fcn_GradeCodeX('fcn_CodeX_03_headsOrTails', answer, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 
@@ -80,7 +80,11 @@ function output_result = fcn_CodeX_03_headsOrTails(varargin) %#ok<FNDEF>
 %   This function was written on 2023_02_01 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_02_01: -- wrote the code originally
+% Revision history:
+% 2023_02_01: 
+% -- wrote the code originally
+% 2023_02_15: 
+% -- improved the comments to show how to enter student number
 
 % TO DO
 % -- Add input argument checking

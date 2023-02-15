@@ -17,16 +17,16 @@ function [climb_height, answer_09] = ...
 %   important to identify the number quickly - otherwise the answer will
 %   change!
 %
-%   [climb_height, answer_09] =
+%   [climb_height, answer] =
 %   fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number,highest_peak);
 %
-%   The answer_09 code will be empty until the "highest_peak" is correctly
-%   entered
+%   The answer variable will be returned as empty until the "highest_peak"
+%   is correctly entered
 %
 %   As in all the assignments, to check if the answer is correct, call
 %   fcn_GradeCode and pass in the function name, student number, and answer.
 %
-%   fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain',student_number, answer_09);
+%   fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer, student_number);
 %
 %   If the answer is right, the grader prints information and gives the
 %   entry code for the next problem. And if wrong, it indicates it is
@@ -71,7 +71,11 @@ function [climb_height, answer_09] = ...
 %   This function was written on 2023_02_03 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_02_03: -- wrote the code originally
+% Revision history:
+% 2023_02_03:
+% -- wrote the code originally
+% 2023_02_15: 
+% -- Corrected the argument order in the grading function call
 
 % TO DO
 % -- Add input argument checking

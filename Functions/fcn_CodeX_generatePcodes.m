@@ -31,6 +31,8 @@ function fcn_CodeX_generatePcodes(varargin)
 % Revision history:
 % 2023_01_24:
 % -- wrote the code originally 
+% 2023_02_15:
+% -- do directory check to allow this function to be called directly
 
 % TO DO
 % -- Add input argument checking
@@ -80,28 +82,48 @@ end
 core_directory = pwd;
 
 % Define where we will put the pcode results
+functions_directory = fullfile(core_directory,'Functions');
 pcode_directory = fullfile(core_directory,'Functions','Pcodes');
 utilities_directory = fullfile(core_directory,'Utilities','CodeX_Functions');
 
 % Does the Pcodes directory exist?
 if ~exist(pcode_directory, 'dir')
+    flag_make_directory = 1;
+    
     % Define the parent directory, and make sure it exists
     parent_directory = fullfile(core_directory,'Functions');
     if ~exist(parent_directory,'dir')
-        error('Expecting a sub-directory "Functions" under root. Quitting!');
+        % Are we already in the functions subdirectory?
+        temp_current_directory = pwd;
+        temp_Pcode_directory = fullfile(temp_current_directory,'Pcodes'); 
+        
+        % If the current directory name ends in "Functions" and has a
+        % subfolder "Pcodes", then it's the right place
+        if strcmp(temp_current_directory(end-8:end),'Functions') && exist(temp_Pcode_directory, 'dir')
+            core_directory = temp_current_directory(1:end-10);
+
+            % Define where we will put the pcode results
+            functions_directory = fullfile(core_directory,'Functions');
+            pcode_directory = fullfile(core_directory,'Functions','Pcodes');
+            utilities_directory = fullfile(core_directory,'Utilities','CodeX_Functions');
+            flag_make_directory = 0; % Folders already exist - skip
+        else
+            error('Expecting a sub-directory "Functions" under root. Quitting!');
+        end
     end
 
-    % Create the folder
-    [successful_pcode_directory_creation,message_pcode_directory_creation,message_ID_pcode_directory_creation] = mkdir(parent_directory,'Pcodes');
-
-    % Check that creation was successful, throw error if not!
-    if ~successful_pcode_directory_creation
-        error('Unable to make the Pcodes directory in the Functions folder. Reason: %s with message ID: %s\n',message_pcode_directory_creation,message_ID_pcode_directory_creation);
+    % Create the pcodes folder?
+    if flag_make_directory
+        [successful_pcode_directory_creation,message_pcode_directory_creation,message_ID_pcode_directory_creation] = mkdir(parent_directory,'Pcodes');
+        % Check that creation was successful, throw error if not!
+        if ~successful_pcode_directory_creation
+            error('Unable to make the Pcodes directory in the Functions folder. Reason: %s with message ID: %s\n',message_pcode_directory_creation,message_ID_pcode_directory_creation);
+        end
     end
 end
 
 %% Step 1 - get a listing of all the files
-file_list = dir(cat(2,'Functions',filesep,'*_KEEP.m'));
+file_list = dir(cat(2,functions_directory,filesep,'*_KEEP.m'));
 
 if isempty(file_list)
     error('No files found that end with "_KEEP.m".');

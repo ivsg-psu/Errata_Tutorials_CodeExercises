@@ -22,9 +22,10 @@ function output_result = fcn_CodeX_04_doubleOrNothing(varargin) %#ok<FNDEF>
 %
 %   One can observe that the 2nd row is twice the value of the 5th row.
 %   Thus, the answers to this function would be 2, as the 2nd row is hiding
-%   a number that is twice the value of another number.
+%   a number that is twice the value of another number. The answer is row
+%   2.
 %
-%   answer_04 = 2;
+%   answer = 2;
 %
 %   This assignment is easiest completed by writing your own function. And
 %   yes, there is a solution that solves this with only one line of code in
@@ -39,11 +40,11 @@ function output_result = fcn_CodeX_04_doubleOrNothing(varargin) %#ok<FNDEF>
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
 %            student_number = 123; % <--- this must be changed                      
 %            random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
-%            answer_04 = fcn_CodeX_04_YOURFUNCTIONHERE(random_vector);
+%            answer = fcn_CodeX_04_YOURFUNCTIONHERE(random_vector);
 %
 %   And then to grade the answer, one can call the grader function:
 %
-%            fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',student_number, answer_04);
+%            fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing', answer, student_number);
 %
 %   If the answer is right, the grader prints information and gives the
 %   entry code for the next problem. And if wrong, it indicates it is
@@ -78,7 +79,11 @@ function output_result = fcn_CodeX_04_doubleOrNothing(varargin) %#ok<FNDEF>
 %   This function was written on 2023_02_01 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_02_01: -- wrote the code originally
+% Revision history:
+% 2023_02_01: 
+% -- wrote the code originally
+% 2023_02_15: 
+% -- improved the comments to show how to enter student number
 
 % TO DO
 % -- Add input argument checking

@@ -20,7 +20,7 @@
 % 
 %    And then to grade the answer, one can call the grader function:
 % 
-%             fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword',student_number, guess);
+%             fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword', answer, student_number);
 % 
 %    If the answer is right, the grader prints information and gives the
 %    entry code for the next problem. And if wrong, it indicates it is

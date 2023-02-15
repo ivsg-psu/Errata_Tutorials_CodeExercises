@@ -10,9 +10,14 @@
 %    MATLAB prompt:
 %  
 %             entry_key = ' 234ADH&45'; % <--- this must be changed
-%             student_number = 1234; % <--- this must be changed                      
 %             answer = fcn_CodeX_01_getKey(entry_key,student_number);
 %             fcn_GradeCodeX('fcn_CodeX_01_getKey',answer);
+% 
+%    Or, to skip entry of the student number, the student number can be
+%    entered via code before calling the grading function:
+% 
+%             student_number = 1234; % <--- this must be changed                      
+%             fcn_GradeCodeX('fcn_CodeX_01_getKey',answer, student_number);
 % 
 %    This assignment asks students to write their own script for these
 %    lines of code. And yes, it is as easy as copy/paste into a script, and

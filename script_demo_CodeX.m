@@ -31,7 +31,8 @@ clc
 % problem 1!
 % fcn_GradeCodeX; 
 
-% The following entry keys change with each computer, and each student
+% The following entry keys change with each computer, and each student.
+% These are the keys for Dr. B's desktop PC, with student number 1234
 entry_key_01 = '(:^e1T.9afB+b<;HY<R';
 entry_key_02 = '(:^e1T.9afB(bLV=fJRU[I\I];=H';
 entry_key_03 = '(:^e1T.9afB)bS;=6JdHZ:[Pc';

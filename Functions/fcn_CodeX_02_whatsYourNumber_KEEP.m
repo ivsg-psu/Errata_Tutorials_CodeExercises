@@ -29,6 +29,13 @@ function output_result = fcn_CodeX_02_whatsYourNumber(varargin) %#ok<FNDEF>
 %
 %            fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer);
 %
+%
+%   Or, to skip entry of the student number, the student number can be
+%   entered via code before calling the grading function:
+%
+%            student_number = 1234; % <--- this must be changed                      
+%            fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer, student_number);
+%
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 
 
@@ -63,7 +70,11 @@ function output_result = fcn_CodeX_02_whatsYourNumber(varargin) %#ok<FNDEF>
 %   This function was written on 2023_01_23 by S. Brennan Questions or
 %   comments? sbrennan@psu.edu
 
-% Revision history: 2023_01_23: -- wrote the code originally
+% Revision history: 
+% 2023_01_23: 
+% -- wrote the code originally
+% 2023_02_15: 
+% -- improved the comments to show how to enter student number
 
 % TO DO
 % -- Add input argument checking

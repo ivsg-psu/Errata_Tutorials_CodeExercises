@@ -28,6 +28,13 @@
 % 
 %             fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer);
 % 
+% 
+%    Or, to skip entry of the student number, the student number can be
+%    entered via code before calling the grading function:
+% 
+%             student_number = 1234; % <--- this must be changed                      
+%             fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer, student_number);
+% 
 %    If the answer is right, the grader prints information and gives you the next
 %    problem.
 %
