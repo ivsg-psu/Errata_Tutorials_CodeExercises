@@ -239,7 +239,7 @@ fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 % Plot the results to check
 elevations = nan(2000,1);
 for ith_call = 1:length(elevations)
-    [current_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number);
+    [current_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number);
     elevations(ith_call,1) = current_elevation;
 end
 figure(44444);
@@ -259,14 +259,14 @@ elevations = nan(2000,1);
 highest_peak_guess = [];
 
 % Wait for elevation to rise
-[new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+[new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number,highest_peak_guess);
 old_elevation = inf;
 current_count = 1;
 while new_elevation<old_elevation
     old_elevation = new_elevation;
     elevations(current_count,1) = new_elevation;
     current_count = current_count+1;
-    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number,highest_peak_guess);
 end
 elevations(current_count,1) = new_elevation;
 
@@ -277,12 +277,12 @@ while new_elevation>old_elevation
     old_elevation = new_elevation;
     elevations(current_count,1) = new_elevation;
     current_count = current_count+1;
-    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,highest_peak_guess);
+    [new_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number,highest_peak_guess);
 end
 elevations(current_count,1) = new_elevation;
 
 % Check answer
-[~, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP(entry_key_09,student_number,old_elevation);
+[~, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number,old_elevation);
 fprintf(1,'The final answer is: %s\n',answer_09);
 
 % Plot results to confirm
@@ -305,7 +305,7 @@ fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 % Plot the market index to check
 market_indices = nan(2000,1);
 for ith_call = 1:length(market_indices)
-    [current_market_index, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number);
+    [current_market_index, ~, ~] = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number);
     market_indices(ith_call,1) = current_market_index;
 end
 figure(44444);
@@ -317,16 +317,16 @@ legend('Market Indices');
 
 %% Give a stupid input, to take out more than what is in there
 investment_in_or_out = -2000;
-[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
 
 %% Give a stupid input, to put in more than what is in there
 investment_in_or_out = 2000;
-[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+[~, ~, ~] = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
 
 %%
 % Solve the problem
 % Reset internal variables
-fcn_CodeX_10_BuyLowSellHigh_KEEP;
+fcn_CodeX_10_BuyLowSellHigh;
 
 max_counts = 20000;
 market_indices = nan(max_counts,1);
@@ -335,11 +335,11 @@ current_count = 1;
 
 % Query the market
 investment_in_or_out = 0;
-[~, current_investment_value, ~, ~]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+[~, current_investment_value, ~, ~]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
 
 % Pull everything out to start
 investment_in_or_out = -1*current_investment_value;
-[current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+[current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
 
 flag_goal_reached = 0;
 good_answer = []; % Empty
@@ -353,7 +353,7 @@ while (flag_goal_reached==0) && (current_count<max_counts)
         market_indices(current_count,1) = current_market_index;
     investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
         current_count = current_count+1;
-        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
     end        
     if ~isempty(answer_10)
         flag_goal_reached = 1;
@@ -366,7 +366,7 @@ while (flag_goal_reached==0) && (current_count<max_counts)
     market_indices(current_count,1) = current_market_index;
     investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
     current_count = current_count+1;
-    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);    
+    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);    
     if ~isempty(answer_10)
         flag_goal_reached = 1;
         good_answer = answer_10; % Save the result
@@ -379,7 +379,7 @@ while (flag_goal_reached==0) && (current_count<max_counts)
         market_indices(current_count,1) = current_market_index;
     investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
         current_count = current_count+1;
-        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);
+        [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
     end    
     if ~isempty(answer_10)
         flag_goal_reached = 1;
@@ -392,7 +392,7 @@ while (flag_goal_reached==0) && (current_count<max_counts)
     market_indices(current_count,1) = current_market_index;
     investment_values(current_count,1) = current_investment_value+current_money_available_to_invest;
     current_count = current_count+1;
-    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh_KEEP(entry_key_10,student_number,investment_in_or_out);    
+    [current_market_index, current_investment_value, current_money_available_to_invest, answer_10]  = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);    
     if ~isempty(answer_10)
         flag_goal_reached = 1;
         good_answer = answer_10; % Save the result
