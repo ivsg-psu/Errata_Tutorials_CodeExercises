@@ -150,7 +150,8 @@ light_signals = zeros(2000,1);
 player_positions = zeros(2000,1);
 move_command = 0;
 for ith_call = 1:length(light_signals)
-    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    % [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
+    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight('garbage',student_number,move_command);
     light_signals(ith_call,1) = light_signal_status;
     player_positions(ith_call,1) = player_position;
     

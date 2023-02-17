@@ -1,4 +1,4 @@
-% FCN_CODEX_08_REDLIGHTGREENLIGHT - find odd numbers
+% FCN_CODEX_08_REDLIGHTGREENLIGHT - play the red-light-green-light game!
 %    
 %    Welcome to FCN_CODEX_08_REDLIGHTGREENLIGHT . This assignment pays
 %    homage to the very famous children's game called "Red Light, Green

@@ -1,6 +1,7 @@
 function [climb_height, answer_09] = ...
     fcn_CodeX_09_ToTheTopOfTheMountain(varargin) %#ok<FNDEF> 
-%FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN - find odd numbers
+%FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN - find the most recent peak of a
+%sequence
 %   
 %   Welcome to FCN_CODEX_09_TOTHETOPOFTHEMOUNTAIN . This assignment is a
 %   modification to the prior red-light/green-light code. The goal here is

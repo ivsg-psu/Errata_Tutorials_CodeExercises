@@ -1,6 +1,6 @@
 function [light_signal_status, player_position, answer_08] = ...
     fcn_CodeX_08_RedLightGreenLight(varargin) %#ok<FNDEF> 
-%FCN_CODEX_08_REDLIGHTGREENLIGHT - find odd numbers
+%FCN_CODEX_08_REDLIGHTGREENLIGHT - play the red-light-green-light game!
 %   
 %   Welcome to FCN_CODEX_08_REDLIGHTGREENLIGHT . This assignment pays
 %   homage to the very famous children's game called "Red Light, Green
@@ -105,6 +105,8 @@ function [light_signal_status, player_position, answer_08] = ...
 % -- wrote the code originally
 % 2023_02_15: 
 % -- Corrected the argument order in the grading function call
+% 2023_02_17
+% -- Fixed error with flag_entry_was_checked being shared between functions
 
 % TO DO
 % -- Add input argument checking
@@ -186,10 +188,10 @@ this_fname = 'fcn_CodeX_08_RedLightGreenLight';
 
 
 %% Step 0 - make sure student_entry_key is correct
-persistent flag_entry_was_checked
-if isempty(flag_entry_was_checked)
+persistent flag_entry_was_checked_08
+if isempty(flag_entry_was_checked_08)
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
-    flag_entry_was_checked = 1;
+    flag_entry_was_checked_08 = 1;
 end
 
 %% Step 1 - generate the light sequence and fill the light value
