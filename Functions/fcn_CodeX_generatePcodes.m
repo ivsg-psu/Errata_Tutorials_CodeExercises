@@ -80,11 +80,12 @@ end
 %% Step 0 - get everything ready to start
 % Save the location of the core directory
 core_directory = pwd;
+CodeX_library_name = 'CodeX_2023_02_19';
 
 % Define where we will put the pcode results
 functions_directory = fullfile(core_directory,'Functions');
 pcode_directory = fullfile(core_directory,'Functions','Pcodes');
-utilities_directory = fullfile(core_directory,'Utilities','CodeX_Functions');
+utilities_directory = fullfile(core_directory,'Utilities',CodeX_library_name);
 
 % Does the Pcodes directory exist?
 if ~exist(pcode_directory, 'dir')
@@ -105,7 +106,7 @@ if ~exist(pcode_directory, 'dir')
             % Define where we will put the pcode results
             functions_directory = fullfile(core_directory,'Functions');
             pcode_directory = fullfile(core_directory,'Functions','Pcodes');
-            utilities_directory = fullfile(core_directory,'Utilities','CodeX_Functions');
+            utilities_directory = fullfile(core_directory,'Utilities',CodeX_library_name);
             flag_make_directory = 0; % Folders already exist - skip
         else
             error('Expecting a sub-directory "Functions" under root. Quitting!');

@@ -40,7 +40,7 @@ entry_key_04 = '(:^e1T.9afB.b?QI0U.U\U]HXPV=';
 entry_key_05 = '(:^e1T.9afB/bLV=fJ_R+K3OcNWH6';
 entry_key_06 = '(:^e1T.9afB,b:RS\>[;]H';
 entry_key_07 = '(:^e1T.9afB-bOV=fJd>*';
-entry_key_08 = 'garbage'; %'(:^e1T.9afBBbI;8^P,RZ<`95WTS5SN';
+entry_key_08 = '(:^e1T.9afBBbI;8^P,RZ<`95WTS5SN';
 entry_key_09 = '(:^e1T.9afBCbOQHZ<_U^T4HX<UUgUN=`W';
 entry_key_10 = '(:^e1T.9afC*b9Ke^V\I+W^TY>P';
 
@@ -150,8 +150,8 @@ light_signals = zeros(2000,1);
 player_positions = zeros(2000,1);
 move_command = 0;
 for ith_call = 1:length(light_signals)
-    % [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
-    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight('garbage',student_number,move_command);
+    fprintf(1,'Iteration: %.0d\n',ith_call);
+    [light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key_08,student_number,move_command);
     light_signals(ith_call,1) = light_signal_status;
     player_positions(ith_call,1) = player_position;
     
@@ -237,9 +237,14 @@ fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 
 %% Problem 9 - to the top of the mountain
 
+% Do a guess to initialize the key
+highest_peak_guess = 2;
+fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number,highest_peak_guess);
+
 % Plot the results to check
 elevations = nan(2000,1);
 for ith_call = 1:length(elevations)
+    fprintf(1,'Iteration: %.0d\n',ith_call);
     [current_elevation, ~] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key_09,student_number);
     elevations(ith_call,1) = current_elevation;
 end
@@ -303,9 +308,14 @@ fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 
 %% Problem 10 - buy low, sell high
 
+% Do a investment to initialize the key
+investment_in_or_out = 0;
+fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number,investment_in_or_out);
+
 % Plot the market index to check
 market_indices = nan(2000,1);
 for ith_call = 1:length(market_indices)
+    fprintf(1,'Iteration: %.0d\n',ith_call);
     [current_market_index, ~, ~] = fcn_CodeX_10_BuyLowSellHigh(entry_key_10,student_number);
     market_indices(ith_call,1) = current_market_index;
 end

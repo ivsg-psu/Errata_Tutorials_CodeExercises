@@ -118,6 +118,7 @@ flag_do_debug = 0; % Flag to show the results for debugging
 flag_do_plots = 0; % % Flag to plot the final results
 flag_check_inputs = 1; % Flag to perform input checking
 
+
 if flag_do_debug
     st = dbstack; %#ok<*UNRCH>
     fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
@@ -152,9 +153,11 @@ end
 student_entry_key = varargin{1};
 student_number = varargin{2};
 
+flag_check_key = 0; % Flag to check the key input
 if nargin==3
     if ~isempty(varargin{3})
         flag_try_move = varargin{3};
+        flag_check_key = 1; % Flag to check the key input
     else
         flag_try_move = 0;
     end
@@ -195,7 +198,7 @@ this_fname = 'fcn_CodeX_08_RedLightGreenLight';
 persistent flag_entry_was_checked_08
 if isempty(flag_entry_was_checked_08) 
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
-    if (flag_try_move~=0)
+    if (flag_check_key~=0)
         flag_entry_was_checked_08 = 1;
     end
 end
