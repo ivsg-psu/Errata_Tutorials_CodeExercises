@@ -103,6 +103,8 @@ function [current_market_index, current_investment_value, current_money_availabl
 % -- wrote the code originally
 % 2023_02_15: 
 % -- Corrected the argument order in the grading function call
+% 2023_02_19
+% -- Fixed error where flag_entry_was_checked is set even in setup calls
 
 % TO DO
 % -- Add input argument checking
@@ -235,10 +237,13 @@ end
 
 
 %% Step 1 - make sure student_entry_key is correct
+% Only need to do this once, and remember only if an investment is attempted
 persistent flag_entry_was_checked_10
 if isempty(flag_entry_was_checked_10)
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies,dependencies_cells);
-    flag_entry_was_checked_10 = 1;
+    if (flag_make_investment==1)
+        flag_entry_was_checked_10 = 1;
+    end
 end
 
 %% Step 2 - check for an investment

@@ -107,6 +107,9 @@ function [light_signal_status, player_position, answer_08] = ...
 % -- Corrected the argument order in the grading function call
 % 2023_02_17
 % -- Fixed error with flag_entry_was_checked being shared between functions
+% 2023_02_19
+% -- Fixed error where flag_entry_was_checked is set even in setup calls
+
 
 % TO DO
 % -- Add input argument checking
@@ -188,10 +191,13 @@ this_fname = 'fcn_CodeX_08_RedLightGreenLight';
 
 
 %% Step 0 - make sure student_entry_key is correct
+% Only need to do this once, and remember only if a move is attempted
 persistent flag_entry_was_checked_08
-if isempty(flag_entry_was_checked_08)
+if isempty(flag_entry_was_checked_08) 
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
-    flag_entry_was_checked_08 = 1;
+    if (flag_try_move~=0)
+        flag_entry_was_checked_08 = 1;
+    end
 end
 
 %% Step 1 - generate the light sequence and fill the light value

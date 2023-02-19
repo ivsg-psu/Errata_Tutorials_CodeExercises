@@ -77,6 +77,8 @@ function [climb_height, answer_09] = ...
 % -- wrote the code originally
 % 2023_02_15: 
 % -- Corrected the argument order in the grading function call
+% 2023_02_19
+% -- Fixed error where flag_entry_was_checked is set even in setup calls
 
 % TO DO
 % -- Add input argument checking
@@ -160,10 +162,13 @@ this_fname = 'fcn_CodeX_09_ToTheTopOfTheMountain';
 
 
 %% Step 0 - make sure student_entry_key is correct
+% Only need to do this once, and remember only if an answer is attempted
 persistent flag_entry_was_checked_09
 if isempty(flag_entry_was_checked_09)
     fcn_INTERNAL_checkEntryKey(this_fname, student_number,student_entry_key,dependencies, dependencies_cells);
-    flag_entry_was_checked_09 = 1;
+    if (flag_try_answer == 1)
+        flag_entry_was_checked_09 = 1;
+    end
 end
 
 %% Step 1 - generate the hill climb sequence and fill the initial values
