@@ -18,7 +18,7 @@ Search for this, and you will find!
 <img src=".jpg" alt="img" width="960" height="540">
 
   <p align="center">
-    The purpose of this code is to test your basics in coding MATLAB.
+    This code is developed to test the basics of your coding skills in MATLAB. 
     <br />
     <a href="https://github.com/ivsg-psu/FeatureExtraction_Association_PointToPointAssociation"><strong>Explore the docs »</strong></a>
     <br />
