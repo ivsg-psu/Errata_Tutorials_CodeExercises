@@ -91,8 +91,11 @@ To start the coding exercise, follow the steps below.
 ### Directories
 The following are the top level directories within the repository: 
 
+**NEEDS TO BE UPDATED**
 
 ### Dependencies
+
+**NEEDS TO BE UPDATED**
 
 <!-- FUNCTION DEFINITIONS -->
 ### Functions
