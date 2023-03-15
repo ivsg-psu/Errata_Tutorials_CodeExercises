@@ -67,7 +67,7 @@ Search for this, and you will find!
 
 <!--[![Product Name Screen Shot][product-screenshot]](https://example.com)-->
 
-There are ten functions in this repo. Each function represents a coding exercises. The level of difficulty increases with the coding exercises. The first one is as simple as just entering a number, and in the last one, user needs to earn money by investing a dollar in a stock market simulation. Users can only see two assignments (functions) and the corresponding “entry key” simultaneously. An entry key is a unique passcode a user needs to enter to solve a particular problem. Every time a user restarts the program, the code generates new entry keys to all the functions. The user must start solving from the first assignment. A user can unlock the next assignment only if the answer of the current assignment is correct. The usage of this repo is detailed in the “Usage” section below. 
+There are ten functions in this repo. Each function represents a coding exercise. The level of difficulty increases with the coding exercises. The first one is as simple as just entering a number, and in the last one, the user needs to earn money by investing a dollar in a stock market simulation. Users can only see two assignments (functions) and the corresponding "entry key" simultaneously. An entry key is a unique passcode; the user must enter it to solve a particular problem. Whenever a user restarts the program, the code generates new entry keys to all the functions. The user must start solving from the first assignment. A user can unlock the next assignment only if the answer to the current assignment is correct. The usage of this repo is detailed in the "Usage" section below.
 
 <!-- GETTING STARTED -->
 ## Getting Started
