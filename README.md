@@ -281,7 +281,10 @@ In this assignment, the function returns three output arguments and it takes in 
 **Output Arguments**: The function returns light signal status, player position and answer_08 (Code String).
 
 ```sh
-%This outputs only light signal status
+%This returns only light signal status
+
+entry_key = '(788$#@##vvbGJ ~';
+student_number = 25;
 
 light_signal = fcn_CodeX_08_RedLightGreenLight(entry_key,student_number);
 ```
@@ -318,9 +321,30 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 ```
+9. fcn_CodeX_09_ToTheTopOfTheMountain: This assignment is a modification of the previous assignment. The function returns a signal continuously. The behavior of the signal is detailed below. The user goal is to find the point (highest peak) at which output is no longer increasing. 
 
+```sh
+entry_key = 'Ytte#$*)!!~`HGJAN ';
+student_number = 25;
 
+% This function returns signal
 
+climb_height = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number);
+```
+
+This signal will increase, and then decrease at some point, and then increase, and then decrease, etc. The goal is to identify the number that is the most immediate highest (highest_peak), after it starts to decrease. Because the "climb_height" may randomly start to increase again, it is important to identify the number quickly - otherwise the answer will change! To find the answer the user needs to input the highest_input as the third input argument as shown below.
+
+```sh
+entry_key = 'Ytte#$*)!!~`HGJAN ';
+student_number = 25;
+
+[climb_height, answer_09] = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number,highest_peak);
+```
+The answer variable (answer_09) will be returned as empty until the "highest_peak" is correctly entered. The answer variable returns a code string if the "highest_peak" is correctly entered. The user needs to verify the answer using fcn_GradeCodeX.
+
+```sh
+fcn_GradeCode('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
+```
 
 
 
