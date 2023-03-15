@@ -332,7 +332,7 @@ student_number = 25;
 climb_height = fcn_CodeX_09_ToTheTopOfTheMountain(entry_key,student_number);
 ```
 
-This signal will increase, and then decrease at some point, and then increase, and then decrease, etc. The goal is to identify the number that is the most immediate highest (highest_peak), after it starts to decrease. Because the "climb_height" may randomly start to increase again, it is important to identify the number quickly - otherwise the answer will change! To find the answer the user needs to input the highest_input as the third input argument as shown below.
+This signal will increase, and then decrease at some point, and then increase, and then decrease, etc. The goal is to identify the number that is the most immediate highest number (highest_peak) after it starts to decrease. Because the "climb_height" may randomly start to increase again, it is important to identify the number quickly - otherwise the answer will change! To find the answer the user needs to input the highest_input as the third input argument as shown below.
 
 ```sh
 entry_key = 'Ytte#$*)!!~`HGJAN ';
@@ -345,12 +345,36 @@ The answer variable (answer_09) will be returned as empty until the "highest_pea
 ```sh
 fcn_GradeCode('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 ```
+10. fcn_CodeX_10_BuyLowSellHigh: In this assignment, the user participates in a virtual stock market to turn a $1 investment into $1000. The core algorithm the stock market is nearly identical to the child's game of red-light/green-light! This function has four output arguments and three input arguments
+ 
+ ```sh
+ entry_key = 'bANTc%H^E&S)9%E';
+ student_number = 25;
+ 
+ [current_market_index, current_investment_value, current_money_available_to_invest, answer_10] = ...
+    fcn_CodeX_10_BuyLowSellHigh(entry_key,student_number,investment_in_or_out);
+ ```
+*current_market_index*: This signal will randomly increase, and then decrease at some point, and then increase, and then decrease, etc. This signal simulates the stock market. The user needs to observe the signal and invest when the market (current_market_index) is the most immediate lowest. The user needs to withdraw money when the market (current_market_index) is the most immediate highest. How to invest and withdraw money? The process is explained below.
 
+*current_investment_value*: This is how much is invested in the market currently. When the function starts, this is just $1.
 
+*current_money_available_to_invest*: This is how much is NOT invested presently (available to invest), e.g. "out" of the market. When the function starts, this is $0.
 
+*investment_in_or_out*: This variable is used to invest or withdraw money from the account. The user cannot take out more money than is in the investment (initially $1) - (current_investment_value = 1), and cannot invest more money than is out of the investment currently (initially $0) - (current_money_available_to_invest = 0). 
 
+* "investment_in_or_out = +ve number" means that the money is being invested into the market. In simple terms, this means buying the stocks.
 
+**Note**: This "+ve number" cannot be greater than the money current_money_availble_to_invest.
 
+* "investment_in_or_out = -ve number" means that the money is being removed from the market.In simple terms, this means selling the stocks.
+
+**Note**: This "-ve number" cannot be greater than the money ( - current_investment_value).
+
+As in all the assignments, the user needs to verify answer using fcn_GradeCodeX. 
+
+```sh
+fcn_GradeCode('fcn_CodeX_10_BuyLowSellHigh', answer_10, student_number);
+```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
