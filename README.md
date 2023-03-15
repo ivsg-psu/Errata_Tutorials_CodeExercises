@@ -119,7 +119,7 @@ If the answer is correct, the command window displays a new assignment, and if t
 2. fcn_CodeX_02_whatsYourNumber: In this assignment, the user needs to find the user's student number from a list of numbers and should return the index (row) of the student number. Unlike the previous function, this function generates a list of numbers. The answer to this assignment is the row number of the user's student number. For example, if the user's student number is 25. The "fcn_CodeX_02_whatsYourNumber" generates a list of numbers, and 25 would be one of the numbers. The user should find the row where 25 is located.
 
 ```sh
-entry_key = '!)ehf%6kjf fif'
+entry_key = '!)ehf%6kjf fif';
 student_number = 25;
 
 result_02_list = fcn_CodeX_02_whatsYourNumber(entry_key,student_number);
@@ -135,7 +135,7 @@ fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer_02, student_number);
 3. fcn_CodeX_03_headsOrTails: In this assignment, the user needs to return a vector of zeroes and ones from a random row vector (50 elements) composed of values between 0 to 1. If the value is less than 0.5, the user should return 0 (tails); if the value is greater than 0.5, the user should return 1 (heads). This function generates a random vector of 50 elements. For example,
 
 ```sh
-entry_key = '^&*877bHKK***2jbhd u&((**)0)'
+entry_key = '^&*877bHKK***2jbhd u&((**)0)';
 student_number = 25;
 
 random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number);
@@ -168,7 +168,7 @@ fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',answer_03, student_number);
 4. fcn_CodeX_04_doubleOrNothing: In this assignment, the function returns a random vector of 50 numbers. The user needs to find the number that is **exactly** twice as big as one of the other 49 numbers and should return the row of the **double** number. For example,
 
 ```sh
-entry_key = 'ABCD$%^&TTT hdghgh`~`~'
+entry_key = 'ABCD$%^&TTT hdghgh`~`~';
 student_number = 25;
 
 random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
@@ -238,7 +238,7 @@ The user needs to should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_06_aLongPass',answer_06, student_number);
 ```
-7. fcn_CodeX_07_thatsOdd: In this assignment, this function generates a vector of 10,000 integers as a N x 1 matrix. The user should return a vector of zeroes and ones as a 10,000 x 1 matrix. If an integer is odd, the user should return one, and if an integer is even, the user should return zero.
+7. fcn_CodeX_07_thatsOdd: In this assignment, the function generates a vector of 10,000 integers as a N x 1 matrix. The user should return a vector of zeroes and ones as a 10,000 x 1 matrix. If an integer is odd, the user should return one; and if an integer is even, the user should return zero.
 
 ```sh
 entry_key = 'jdcjcbbdhe&^#E(@77773!!)'
@@ -272,7 +272,62 @@ The user needs to should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_07_thatsOdd',answer_07, student_number);
 ```
-8. 
+8. fcn_CodeX_08_RedLightGreenLight: This assignment pays homage to the very famous children's game called "Red Light, Green Light". As upcoming assignments will show, this game is also very relevant to capitalism! For more instructions about the game, [click here](https://www.playworks.org/game-library/red-light-green-light/).
+
+In this assignment, the function returns three output arguments and it takes in three input arguments. 
+
+**Input Arguments**: The important input argument is "move_command". The player's position is dependent on the move command. The usage of move_command is discussed in the following paragraphs.
+
+**Output Arguments**: The function returns light signal status, player position and answer_08 (Code String).
+
+```sh
+%This outputs only light signal status
+
+light_signal = fcn_CodeX_08_RedLightGreenLight(entry_key,student_number);
+```
+
+*light signal status*: It shows the status of the light signal. If light turns red, it outputs a zero '0' and if the light turns green, it outputs a one '1'. If the previous reading is "green", the user is allowed to move
+by inserting a non-zero move command.
+
+```sh
+ move_command = 1;
+
+[light_signal_status, player_position, answer_08] = fcn_CodeX_08_RedLightGreenLight(entry_key,student_number,move_command);
+```
+*player position*: The function will advance the palyer forward by 1 (as per the example above) and prints the player's position. 
+
+But if the light is "red" during a move command, then the player has to go back to the start line and the player's position is set back to zero. The finish line is set at 1000 steps.
+
+*answer_08*: This returns a string value once the player crosses 1000 steps. This string value can be used to verify the answer of this assignment.
+
+```sh
+%Algorithm
+
+if light signal status is red
+           ---> Don't move
+           ---> move command should be zero
+if light signal status is green
+           ---> move
+           ---> move command should be some +ve value
+if finish line is crossed (1000 steps)
+          ---> Code string is returned in the third argument
+---> Use the code (answer_08) to verify the answer       
+```
+The user needs to should verify the answer using fcn_GradeCodeX. 
+
+```sh
+fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
+```
+
+
+
+
+
+
+
+
+
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 <!-- Use this space to show useful examples of how a project can be used.
