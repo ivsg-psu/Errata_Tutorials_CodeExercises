@@ -89,7 +89,8 @@ To start the coding exercise, follow the steps below.
 ## Repo Structure
 
 ### Directories
-The following are the top level directories within the repository:
+The following are the top level directories within the repository: 
+
 
 ### Dependencies
 
@@ -193,7 +194,7 @@ The user needs to should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',answer_04, student_number);
 ```
-5. fcn_CodeX_05_whatsThePassword: In this assignment, the function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The range of password is 0-9.
+5. fcn_CodeX_05_whatsThePassword: In this assignment, the function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The range of password is 0-9. Unlike the previous functions, this function can take three input arguments. The user's guess is the third input argument.
 
 ```sh
 entry_key = ' ^&^*^#^djhAHYBj $643gv';  
@@ -211,9 +212,67 @@ The user needs to should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword',answer_05, student_number);
 ```
-6. 
+6. fcn_CodeX_06_aLongPass: In this assignment, like the previous assignment, the user needs to find the integer password, but the password length is eight digits. The function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The best way to solve this assignment is by using  **Vectorization**. Like the previous function, the user's guess is the third input argument.
 
+**Note**: Instead of inputting a single integer, input a vector as your third argument.
 
+```sh
+entry_key = 'RGRGtub768^%$@*~ `'
+student_number = 25;
+
+%Vectorization
+guesses = [1; 2; 3; 7];
+true_false = fcn_CodeX_06_aLongPass(entry_key,student_number,guesses);,  
+
+% The results, for this example, would give:
+
+true_false = [0; 0; 1; 0];
+  
+% So the answer, in this example is 3:
+
+answer_06 = 3;
+
+```
+The user needs to should verify the answer using fcn_GradeCodeX. 
+
+```sh
+fcn_GradeCodeX('fcn_CodeX_06_aLongPass',answer_06, student_number);
+```
+7. fcn_CodeX_07_thatsOdd: In this assignment, this function generates a vector of 10,000 integers as a N x 1 matrix. The user should return a vector of zeroes and ones as a 10,000 x 1 matrix. If an integer is odd, the user should return one, and if an integer is even, the user should return zero.
+
+```sh
+entry_key = 'jdcjcbbdhe&^#E(@77773!!)'
+student_number = 25;
+
+some_odd_numbers = fcn_CodeX_07_thatsOdd(entry_key,student_number);,
+
+some_odd_numbers =
+   
+       11
+       2
+       8
+       3
+       5 
+      (etc)
+
+%User answer should be
+
+answer_07 = 
+  
+       1
+       0
+       0
+       1
+       1 
+      (etc)
+  
+```
+The user needs to should verify the answer using fcn_GradeCodeX. 
+
+```sh
+fcn_GradeCodeX('fcn_CodeX_07_thatsOdd',answer_07, student_number);
+```
+8. 
 <!-- USAGE EXAMPLES -->
 ## Usage
 <!-- Use this space to show useful examples of how a project can be used.
