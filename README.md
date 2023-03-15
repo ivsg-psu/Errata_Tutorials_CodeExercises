@@ -161,7 +161,7 @@ answer_03 =
        0 
        (etc)
 ```
-The user needs to should verify the answer using fcn_GradeCodeX. 
+The user needs to verify the answer using fcn_GradeCodeX. 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',answer_03, student_number);
 ```
@@ -207,7 +207,7 @@ true_false = fcn_CodeX_05_whatsThePassword(entry_key,student_number,guess);
 
 answer_05 = guess;
 ```
-The user needs to should verify the answer using fcn_GradeCodeX. 
+The user needs to verify the answer using fcn_GradeCodeX. 
 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword',answer_05, student_number);
@@ -233,7 +233,7 @@ true_false = [0; 0; 1; 0];
 answer_06 = 3;
 
 ```
-The user needs to should verify the answer using fcn_GradeCodeX. 
+The user needs to verify the answer using fcn_GradeCodeX. 
 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_06_aLongPass',answer_06, student_number);
@@ -267,7 +267,7 @@ answer_07 =
       (etc)
   
 ```
-The user needs to should verify the answer using fcn_GradeCodeX. 
+The user needs to verify the answer using fcn_GradeCodeX. 
 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_07_thatsOdd',answer_07, student_number);
@@ -313,7 +313,7 @@ if finish line is crossed (1000 steps)
           ---> Code string is returned in the third argument
 ---> Use the code (answer_08) to verify the answer       
 ```
-The user needs to should verify the answer using fcn_GradeCodeX. 
+The user needs to verify the answer using fcn_GradeCodeX. 
 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
