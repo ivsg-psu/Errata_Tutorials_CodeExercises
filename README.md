@@ -125,13 +125,94 @@ result_02_list = fcn_CodeX_02_whatsYourNumber(entry_key,student_number);
 
 answer_02 = ; %write a code to find row number where student number is located
 ```
-Similarly, user should verify the answer using fcn_GradeCodeX. In this assignment
+Similarly, user should verify the answer using fcn_GradeCodeX. 
 
 ```sh
 fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer_02, student_number);
 ```
 
-3. fcn_CodeX_03_headsOrTails: 
+3. fcn_CodeX_03_headsOrTails: In this assignment, the user needs to return a vector of zeroes and ones from a random row vector (50 elements) composed of values between 0 to 1. If the value is less than 0.5, the user should return 0 (tails); if the value is greater than 0.5, the user should return 1 (heads). This function generates a random vector of 50 elements. For example,
+
+```sh
+entry_key = '^&*877bHKK***2jbhd u&((**)0)'
+student_number = 25;
+
+random_vector = fcn_CodeX_03_headsOrTails(entry_key,student_number);
+
+
+random_vector =
+   
+       0.5681
+       0.8691
+       0.4362
+       0.8021
+       0.1438 
+      (etc)
+
+%user should return
+
+answer_03 =
+   
+       1
+       1
+       0
+       1
+       0 
+       (etc)
+```
+The user needs to should verify the answer using fcn_GradeCodeX. 
+```sh
+fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',answer_03, student_number);
+```
+4. fcn_CodeX_04_doubleOrNothing: In this assignment, the function returns a random vector of 50 numbers. The user needs to find the number that is **exactly** twice as big as one of the other 49 numbers and should return the row of the **double** number. For example,
+
+```sh
+entry_key = 'ABCD$%^&TTT hdghgh`~`~'
+student_number = 25;
+
+random_vector = fcn_CodeX_04_doubleOrNothing(entry_key,student_number);
+
+random_vector =
+   
+       0.5681
+       0.2876
+       0.4362
+       0.8021
+       0.1438
+       (etc)
+
+%user should return
+
+answer_04 = 2; 
+
+%Since 2nd row is twice the value of the 5th row
+```
+**Note**: The easiest way to solve this assignment is to write your own function 
+
+The user needs to should verify the answer using fcn_GradeCodeX. 
+```sh
+fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',answer_04, student_number);
+```
+5. fcn_CodeX_05_whatsThePassword: In this assignment, the function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The range of password is 0-9.
+
+```sh
+entry_key = ' ^&^*^#^djhAHYBj $643gv';  
+student_number = 25; 
+
+guess = 2; %Varies from 0 to 9
+true_false = fcn_CodeX_05_whatsThePassword(entry_key,student_number,guess);
+
+%for correct password
+
+answer_05 = guess;
+```
+The user needs to should verify the answer using fcn_GradeCodeX. 
+
+```sh
+fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword',answer_05, student_number);
+```
+6. 
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
