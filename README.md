@@ -82,7 +82,7 @@ To start the coding exercise, follow the steps below.
 
 3. Enter a number in the command window. It checks all 10 code dependencies and displays the first two functions. 
 
-4. Start solving the coding exercises. Only two exercises and the corresponding entry keys are displayed in the command window. The user must solve the current assignment to enter the next assignment. For instance, the user must solve the first exercise to solve the second exercise.
+4. Start solving the coding exercises. Only two exercises and the corresponding entry keys are displayed in the command window. The user must solve the current assignment to complete the next assignment. For instance, the user must solve the first exercise to solve the second exercise.
 
 
 <!-- STRUCTURE OF THE REPO -->
