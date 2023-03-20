@@ -32,17 +32,32 @@ clc
 % fcn_GradeCodeX; 
 
 % The following entry keys change with each computer, and each student.
-% These are the keys for Dr. B's desktop PC, with student number 1234
-entry_key_01 = '(:^e1T.9afB+b<;HY<R';
-entry_key_02 = '(:^e1T.9afB(bLV=fJRU[I\I];=H';
-entry_key_03 = '(:^e1T.9afB)bS;=6JdHZ:[Pc';
-entry_key_04 = '(:^e1T.9afB.b?QI0U.U\U]HXPV=';
-entry_key_05 = '(:^e1T.9afB/bLV=fJ_R+K3OcNWH6';
-entry_key_06 = '(:^e1T.9afB,b:RS\>[;]H';
-entry_key_07 = '(:^e1T.9afB-bOV=fJd>*';
-entry_key_08 = '(:^e1T.9afBBbI;8^P,RZ<`95WTS5SN';
-entry_key_09 = '(:^e1T.9afBCbOQHZ<_U^T4HX<UUgUN=`W';
-entry_key_10 = '(:^e1T.9afC*b9Ke^V\I+W^TY>P';
+
+% % These are the keys for Dr. B's desktop PC, with student number 1234
+% entry_key_01 = '(:^e1T.9afB+b<;HY<R';
+% entry_key_02 = '(:^e1T.9afB(bLV=fJRU[I\I];=H';
+% entry_key_03 = '(:^e1T.9afB)bS;=6JdHZ:[Pc';
+% entry_key_04 = '(:^e1T.9afB.b?QI0U.U\U]HXPV=';
+% entry_key_05 = '(:^e1T.9afB/bLV=fJ_R+K3OcNWH6';
+% entry_key_06 = '(:^e1T.9afB,b:RS\>[;]H';
+% entry_key_07 = '(:^e1T.9afB-bOV=fJd>*';
+% entry_key_08 = '(:^e1T.9afBBbI;8^P,RZ<`95WTS5SN';
+% entry_key_09 = '(:^e1T.9afBCbOQHZ<_U^T4HX<UUgUN=`W';
+% entry_key_10 = '(:^e1T.9afC*b9Ke^V\I+W^TY>P';
+
+% These are the keys for Dr. B's laptop PC, with student number 1234
+entry_key_01 = '>:Ve1T-9efB+b<9HY<`';
+entry_key_02 = '>:Ve1T-9efB(bLT=fJ`UYI\IV;8H';
+entry_key_03 = '>:Ve1T-9efB)bS9=6JVHX:[PH';
+entry_key_04 = '>:Ve1T-9efB.b?SI0U<U^U]HSPS=';
+entry_key_05 = '>:Ve1T-9efB/bLT=fJMR)K3OHNRH6';
+entry_key_06 = '>:Ve1T-9efB,b:PS\>I;_H';
+entry_key_07 = '>:Ve1T-9efB-bOT=fJV>(';
+entry_key_08 = '>:Ve1T-9efBBbI98^P>RX<`9>WQS5S^';
+entry_key_09 = '>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW';
+entry_key_10 = '>:Ve1T-9efC*b9Ie^VNI)W^TR>U';
+
+
 
 % '(:^e1T.9afC*b9Ke^V\I+W^TY>P'
 
@@ -230,7 +245,7 @@ plot(light_signals);
 plot(positions);
 legend('Light signals','Player position');
 
-answer_08 = '-V^=`:^IU8fSRUM';
+answer_08 = ';VV=`:]IQ8fSRUO';
 
 % Grade it
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
@@ -303,7 +318,7 @@ plot(elevations);
 % results = fcn_CodeX_09_ToTheTopOfTheMountain_KEEP('>:Ve1T-9efBCbOSHZ<MU\T4HS<PUgU^=eW',student_number,answer_09, [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],'04-Feb-2023 05:24:34');
 
 % Grade it
-answer_09 = 'Y<\V6Td9';
+answer_09 = 'O<TV6Tg9'; % FOR PC --> 'Y<\V6Td9';
 fcn_GradeCodeX('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 
 %% Problem 10 - buy low, sell high
