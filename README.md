@@ -91,11 +91,22 @@ To start the coding exercise, follow the steps below.
 ### Directories
 The following are the top level directories within the repository: 
 
-**THIS SECTION NEEDS TO BE UPDATED**
+* Functions Folder: All ten coding assignments are present in this directory.       
+
+* Utilities folder: Dependencies that are utilized but not implemented in this repository are placed in the Utilities directory. These can be single files but are most often folders containing other cloned repositories.
+
 
 ### Dependencies
 
-**THIS SECTION NEEDS TO BE UPDATED**
+This code will automatically get dependent files from the internet, which requires an internet connection during the first instance that it is run. 
+
+Note: An internet connection is not needed after the first run.
+
+* [Errata_Tutorials_DebugTools](https://github.com/ivsg-psu/Errata_Tutorials_DebugTools) - The DebugTools repo is used for the initial automated folder setup, and for input checking and general debugging calls within subfunctions. The repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_DebugTools
+
+* [Codex_2023_02_19](https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/tree/main/Releases) - This dependency is found within this repo in "Releases" directory. This repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises
+
+
 
 <!-- FUNCTION DEFINITIONS -->
 ### Functions
@@ -369,9 +380,9 @@ fcn_GradeCode('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 
 **Note**: This "+ve number" cannot be greater than the money current_money_availble_to_invest.
 
-* "investment_in_or_out = -ve number" means that the money is being removed from the market.In simple terms, this means selling the stocks.
+* "investment_in_or_out = positive number" means that the money is being removed from the market.In simple terms, this means selling the stocks.
 
-**Note**: This "-ve number" cannot be greater than the money ( - current_investment_value).
+**Note**: This "negative number" cannot be greater than the money ( - current_investment_value).
 
 As in all the assignments, the user needs to verify answer using fcn_GradeCodeX. 
 
