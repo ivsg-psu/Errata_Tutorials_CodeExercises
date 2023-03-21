@@ -1,4 +1,4 @@
-
+# Errata_Tutorials_CodeExercises
 
 <!--
 The following template is based on:
@@ -48,8 +48,21 @@ Search for this, and you will find!
 	    <ul>
 	    <li><a href="#directories">Top-Level Directories</li>
 	    <li><a href="#dependencies">Dependencies</li>
-	    <li><a href="#functions">Functions</li>
 	    </ul>
+    </li>
+    <li><a href="#functions">Functions</a>
+    <ul>
+    <li><a href="#fcn_codex_01_getkey">fcn_CodeX_01_getKey</li>
+    <li><a href="#fcn_codex_02_whatsyournumber">fcn_CodeX_02_whatsYourNumber</li>
+    <li><a href="#fcn_codex_03_headsortails">fcn_CodeX_03_headsOrTails</li>
+    <li><a href="#fcn_codex_04_doubleornothing">fcn_CodeX_04_doubleOrNothing</li>
+    <li><a href="#fcn_codex_05_whatsthepassword">fcn_CodeX_05_whatsThePassword</li>
+    <li><a href="#fcn_codex_06_alongpass">fcn_CodeX_06_aLongPass</li>
+    <li><a href="#fcn_codex_07_thatsodd">fcn_CodeX_07_thatsOdd</li>
+    <li><a href="#fcn_codex_08_redlightgreenlight">fcn_CodeX_08_RedLightGreenLight</li>
+    <li><a href="#fcn_codex_09_tothetopofthemountain">fcn_CodeX_09_ToTheTopOfTheMountain</li>
+    <li><a href="#fcn_codex_10_buylowsellhigh">fcn_CodeX_10_BuyLowSellHigh</li>
+    </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
 	    <ul>
@@ -69,6 +82,8 @@ Search for this, and you will find!
 
 There are ten functions in this repo. Each function represents a coding exercise. The level of difficulty increases with the coding exercises. The first one is as simple as just entering a number, and in the last one, the user needs to earn money by investing a dollar in a stock market simulation. Users can only see two assignments (functions) and the corresponding "entry key" simultaneously. An entry key is a unique passcode; the user must enter it to solve a particular problem. Whenever a user restarts the program, the code generates new entry keys to all the functions. The user must start solving from the first assignment. A user can unlock the next assignment only if the answer to the current assignment is correct. The usage of this repo is detailed in the "Usage" section below.
 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -84,7 +99,7 @@ To start the coding exercise, follow the steps below.
 
 4. Start solving the coding exercises. Only two exercises and the corresponding entry keys are displayed in the command window. The user must solve the current assignment to complete the next assignment. For instance, the user must solve the first exercise to solve the second exercise.
 
-
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 <!-- STRUCTURE OF THE REPO -->
 ## Repo Structure
 
@@ -95,6 +110,7 @@ The following are the top level directories within the repository:
 
 * Utilities folder: Dependencies that are utilized but not implemented in this repository are placed in the Utilities directory. These can be single files but are most often folders containing other cloned repositories.
 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 ### Dependencies
 
@@ -106,6 +122,7 @@ Note: An internet connection is not needed after the first run.
 
 * [Codex_2023_02_19](https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/tree/main/Releases) - This dependency is found within this repo in "Releases" directory. This repo can be found at: https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises
 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 
 <!-- FUNCTION DEFINITIONS -->
@@ -113,7 +130,9 @@ Note: An internet connection is not needed after the first run.
 
 **Coding Assignments**
 
-1. fcn_CodeX_01_getKey: In this assignment, the user needs to input an entry key and a student number. The answer for this assignment is just a single line of code. This function helps the user to understand how to use an entry key to solve the assignment. For instance, if an entry key of this function is 'jdf83u8jd` 8' and student number of the user is 25
+#### fcn_CodeX_01_getKey
+
+In this assignment, the user needs to input an entry key and a student number. The answer for this assignment is just a single line of code. This function helps the user to understand how to use an entry key to solve the assignment. For instance, if an entry key of this function is 'jdf83u8jd` 8' and student number of the user is 25
 
 ```sh
 entry_key = 'jdf83u8jd` 8';
@@ -130,7 +149,11 @@ fcn_GradeCodeX('fcn_CodeX_01_getKey',answer, student_number);
 ```
 If the answer is correct, the command window displays a new assignment, and if the answer is wrong, the command window displays that “the answer was wrong, try again”. 
 
-2. fcn_CodeX_02_whatsYourNumber: In this assignment, the user needs to find the user's student number from a list of numbers and should return the index (row) of the student number. Unlike the previous function, this function generates a list of numbers. The answer to this assignment is the row number of the user's student number. For example, if the user's student number is 25. The "fcn_CodeX_02_whatsYourNumber" generates a list of numbers, and 25 would be one of the numbers. The user should find the row where 25 is located.
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_02_whatsYourNumber
+
+In this assignment, the user needs to find the user's student number from a list of numbers and should return the index (row) of the student number. Unlike the previous function, this function generates a list of numbers. The answer to this assignment is the row number of the user's student number. For example, if the user's student number is 25. The "fcn_CodeX_02_whatsYourNumber" generates a list of numbers, and 25 would be one of the numbers. The user should find the row where 25 is located.
 
 ```sh
 entry_key = '!)ehf%6kjf fif';
@@ -145,8 +168,11 @@ Similarly, user should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_02_whatsYourNumber',answer_02, student_number);
 ```
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
-3. fcn_CodeX_03_headsOrTails: In this assignment, the user needs to return a vector of zeroes and ones from a random row vector (50 elements) composed of values between 0 to 1. If the value is less than 0.5, the user should return 0 (tails); if the value is greater than 0.5, the user should return 1 (heads). This function generates a random vector of 50 elements. For example,
+#### fcn_CodeX_03_headsOrTails
+
+In this assignment, the user needs to return a vector of zeroes and ones from a random row vector (50 elements) composed of values between 0 to 1. If the value is less than 0.5, the user should return 0 (tails); if the value is greater than 0.5, the user should return 1 (heads). This function generates a random vector of 50 elements. For example,
 
 ```sh
 entry_key = '^&*877bHKK***2jbhd u&((**)0)';
@@ -179,7 +205,11 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_03_headsOrTails',answer_03, student_number);
 ```
-4. fcn_CodeX_04_doubleOrNothing: In this assignment, the function returns a random vector of 50 numbers. The user needs to find the number that is **exactly** twice as big as one of the other 49 numbers and should return the row of the **double** number. For example,
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_04_doubleOrNothing
+
+In this assignment, the function returns a random vector of 50 numbers. The user needs to find the number that is **exactly** twice as big as one of the other 49 numbers and should return the row of the **double** number. For example,
 
 ```sh
 entry_key = 'ABCD$%^&TTT hdghgh`~`~';
@@ -208,7 +238,11 @@ The user needs to should verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_04_doubleOrNothing',answer_04, student_number);
 ```
-5. fcn_CodeX_05_whatsThePassword: In this assignment, the function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The range of password is 0-9. Unlike the previous functions, this function can take three input arguments. The user's guess is the third input argument.
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_05_whatsThePassword
+
+In this assignment, the function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The range of password is 0-9. Unlike the previous functions, this function can take three input arguments. The user's guess is the third input argument.
 
 ```sh
 entry_key = ' ^&^*^#^djhAHYBj $643gv';  
@@ -226,7 +260,11 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_05_whatsThePassword',answer_05, student_number);
 ```
-6. fcn_CodeX_06_aLongPass: In this assignment, like the previous assignment, the user needs to find the integer password, but the password length is eight digits. The function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The best way to solve this assignment is by using  **Vectorization**. Like the previous function, the user's guess is the third input argument.
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_06_aLongPass
+
+fcn_CodeX_06_aLongPass: In this assignment, like the previous assignment, the user needs to find the integer password, but the password length is eight digits. The function returns **true** if the user guesses the correct integer password and returns **false** otherwise. The best way to solve this assignment is by using  **Vectorization**. Like the previous function, the user's guess is the third input argument.
 
 **Note**: Instead of inputting a single integer, input a vector as your third argument.
 
@@ -252,7 +290,11 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_06_aLongPass',answer_06, student_number);
 ```
-7. fcn_CodeX_07_thatsOdd: In this assignment, the function generates a vector of 10,000 integers as a N x 1 matrix. The user should return a vector of zeroes and ones as a 10,000 x 1 matrix. If an integer is odd, the user should return one; and if an integer is even, the user should return zero.
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_07_thatsOdd
+
+In this assignment, the function generates a vector of 10,000 integers as a N x 1 matrix. The user should return a vector of zeroes and ones as a 10,000 x 1 matrix. If an integer is odd, the user should return one; and if an integer is even, the user should return zero.
 
 ```sh
 entry_key = 'jdcjcbbdhe&^#E(@77773!!)'
@@ -286,7 +328,11 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_07_thatsOdd',answer_07, student_number);
 ```
-8. fcn_CodeX_08_RedLightGreenLight: This assignment pays homage to the very famous children's game called "Red Light, Green Light". As upcoming assignments will show, this game is also very relevant to capitalism! For more instructions about the game, [click here](https://www.playworks.org/game-library/red-light-green-light/).
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_08_RedLightGreenLight
+
+This assignment pays homage to the very famous children's game called "Red Light, Green Light". As upcoming assignments will show, this game is also very relevant to capitalism! For more instructions about the game, [click here](https://www.playworks.org/game-library/red-light-green-light/).
 
 In this assignment, the function returns three output arguments and it takes in three input arguments. 
 
@@ -325,7 +371,7 @@ if light signal status is red
            ---> move command should be zero
 if light signal status is green
            ---> move
-           ---> move command should be some +ve value
+           ---> move command should be some positive value
 if finish line is crossed (1000 steps)
           ---> Code string is returned in the third argument
 ---> Use the code (answer_08) to verify the answer       
@@ -335,7 +381,11 @@ The user needs to verify the answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCodeX('fcn_CodeX_08_RedLightGreenLight', answer_08, student_number);
 ```
-9. fcn_CodeX_09_ToTheTopOfTheMountain: This assignment is a modification of the previous assignment. The function returns a signal continuously. The behavior of the signal is detailed below. The user goal is to find the point (highest peak) at which output is no longer increasing. 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_09_ToTheTopOfTheMountain
+
+This assignment is a modification of the previous assignment. The function returns a signal continuously. The behavior of the signal is detailed below. The user goal is to find the point (highest peak) at which output is no longer increasing. 
 
 ```sh
 entry_key = 'Ytte#$*)!!~`HGJAN ';
@@ -359,7 +409,11 @@ The answer variable (answer_09) will be returned as empty until the "highest_pea
 ```sh
 fcn_GradeCode('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 ```
-10. fcn_CodeX_10_BuyLowSellHigh: In this assignment, the user participates in a virtual stock market to turn a $1 investment into $1000. The core algorithm the stock market is nearly identical to the child's game of red-light/green-light! This function has four output arguments and three input arguments
+<a href="#errata_tutorials_codeexercises">Back to top</a>
+
+#### fcn_CodeX_10_BuyLowSellHigh
+
+In this assignment, the user participates in a virtual stock market to turn a $1 investment into $1000. The core algorithm the stock market is nearly identical to the child's game of red-light/green-light! This function has four output arguments and three input arguments
  
  ```sh
  entry_key = 'bANTc%H^E&S)9%E';
@@ -376,11 +430,11 @@ fcn_GradeCode('fcn_CodeX_09_ToTheTopOfTheMountain', answer_09, student_number);
 
 *investment_in_or_out*: This variable is used to invest or withdraw money from the account. The user cannot take out more money than is in the investment (initially $1) - (current_investment_value = 1), and cannot invest more money than is out of the investment currently (initially $0) - (current_money_available_to_invest = 0). 
 
-* "investment_in_or_out = +ve number" means that the money is being invested into the market. In simple terms, this means buying the stocks.
+* "investment_in_or_out = positive number" means that the money is being invested into the market. In simple terms, this means buying the stocks.
 
-**Note**: This "+ve number" cannot be greater than the money current_money_availble_to_invest.
+**Note**: This "positive number" cannot be greater than the money current_money_availble_to_invest.
 
-* "investment_in_or_out = positive number" means that the money is being removed from the market.In simple terms, this means selling the stocks.
+* "investment_in_or_out = negative number" means that the money is being removed from the market.In simple terms, this means selling the stocks.
 
 **Note**: This "negative number" cannot be greater than the money ( - current_investment_value).
 
@@ -389,6 +443,8 @@ As in all the assignments, the user needs to verify answer using fcn_GradeCodeX.
 ```sh
 fcn_GradeCode('fcn_CodeX_10_BuyLowSellHigh', answer_10, student_number);
 ```
+
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -419,20 +475,24 @@ also link to more resources. -->
 
 If the answer is correct, the command window displays the following function (new assignment), and if the answer is wrong, the command window displays that “the answer was wrong, try again”. 
 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 <!-- CONTACT -->
 ## Contact
 Sean Brennan - sbrennan@psu.edu
 
+Aneesh Batchu - abb6486@psu.edu
+
 Project Link: [https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises](https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises)
 
-
+<a href="#errata_tutorials_codeexercises">Back to top</a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
