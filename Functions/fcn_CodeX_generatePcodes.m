@@ -1,6 +1,6 @@
 function fcn_CodeX_generatePcodes(varargin)
 %% fcn_CodeX_generatePcodes
-% THe function fcn_CodeX_generatePcodes creates pcode versions of all the
+% fcn_CodeX_generatePcodes creates pcode versions of all the
 % files whose name ends in _KEEP, creating both the p-code version of the
 % file and a help version of the file, by copying the top contents of the
 % file into a function.
@@ -80,7 +80,7 @@ end
 %% Step 0 - get everything ready to start
 % Save the location of the core directory
 core_directory = pwd;
-CodeX_library_name = 'CodeX_2023_02_19';
+CodeX_library_name = 'CodeX_2023_03_28';
 
 % Define where we will put the pcode results
 functions_directory = fullfile(core_directory,'Functions');

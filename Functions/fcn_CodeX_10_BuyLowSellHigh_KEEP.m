@@ -133,6 +133,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 nargin_lock_number = 42;
+% y = myfunction(A)     % 1 argument
+% y = myfunction(A,B,C) % 3 arguments
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
@@ -140,7 +142,7 @@ dependencies = 'fcn_CodeX_09_ToTheTopOfTheMountain,fcn_CodeX_10_BuyLowSellHigh';
 dependencies_cells = [{'fcn_CodeX_09_ToTheTopOfTheMountain'},{'fcn_CodeX_10_BuyLowSellHigh'}];
 
 if flag_check_inputs
-    % Are there the right number of inputs?
+    % Are there the right number of inputs? (# arguments)
     narginchk(0,nargin_lock_number);    
 end
 
@@ -219,7 +221,7 @@ if isempty(market_rise_fall_durations) || (nargin==0)
     % Generate a list of random integers with N digits
     N_digits = 1;
     N_numbers = 10000; % This is the number of rising/falling market sequences
-    market_rise_fall_durations = ceil(10^N_digits * rand(N_numbers,1));
+    market_rise_fall_durations = ceil(10^N_digits * rand(N_numbers,1)); % This produces a 10000-long list of random 1-digit integers such as: 3,1,8,4,3,6,5,5,9, (etc)
 end
 if isempty(current_market_trend) || (nargin==0)
     current_market_trend = 1;
