@@ -10,7 +10,7 @@
 %    For example, say we call the function:
 % 
 %    some_odd_numbers =
-%    fcn_CodeX_07_thatsOdd(entry_key,student_number,guess);,
+%    fcn_CodeX_07_thatsOdd(entry_key,student_number);
 % 
 %    and it produces the following: (only showing the first five entries)
 % 

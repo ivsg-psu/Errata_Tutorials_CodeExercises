@@ -9,7 +9,9 @@
 %    FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as no inputs,
 %    except without asking users to enter their student ID via
 %    a prompt; the value in STUDENT_NUMBER is used instead. This enables
-%    scripts to automatically start the code, for example:
+%    scripts to automatically start the code. For example, the following
+%    code would cause this function to run without the student number being
+%    requested at the command line:
 % 
 %    student_number = 1234; % Students would enter their number here
 %    fcn_GradeCodeX(student_number); % Initialize with this number

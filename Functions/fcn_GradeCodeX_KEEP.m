@@ -10,7 +10,9 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as no inputs,
 %   except without asking users to enter their student ID via
 %   a prompt; the value in STUDENT_NUMBER is used instead. This enables
-%   scripts to automatically start the code, for example:
+%   scripts to automatically start the code. For example, the following
+%   code would cause this function to run without the student number being
+%   requested at the command line:
 %
 %   student_number = 1234; % Students would enter their number here
 %   fcn_GradeCodeX(student_number); % Initialize with this number
@@ -150,9 +152,9 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Say what the library is called, and where to find the codes
-library_name{1}    = 'CodeX_2023_03_28';
+library_name{1}    = 'CodeX_2023_03_29';
 library_folders{1} = {};
-library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_03_28.zip?raw=true';
+library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_03_29.zip?raw=true';
 
 % Initialize file array
 code_Names{1} = 'fcn_CodeX_01_getKey';
