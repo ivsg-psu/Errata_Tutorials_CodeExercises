@@ -4,7 +4,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   
 %   Welcome to FCN_COORDX_02_ROTATION. In this assignment, you are given
 %   some set of random points and an angle (theta value) in degrees. The
-%   user is supposed to rotate the random points using the given theta and
+%   user is supposed to rotate the random points using given theta and
 %   find the index of the maximum X - value after rotating the points.
 %   
 %   The answer to this excercise is the row_index of the rotated point with
@@ -17,10 +17,12 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   
 %   transformation_matrix = eye(3)
 
-%   T(1,1) = cos(theta); T(1,2) = -sin(theta);
-%   T(2,1) = sin(theta); T(2,2)= cos(theta);
+%   transformation_matrix(1,1) = cos(theta); 
+%   transformation_matrix(1,2) = -sin(theta); 
+%   transformation_matrix(2,1) = sin(theta);
+%   transformation_matrix(2,2)= cos(theta);
 %
-%   For rotating the matrix, use --
+%   For rotating the points, use --
 %   (transformation_matrix*homogenous_random_points')'
 %   
 %   " ' "  --  Transpose of a matrix
@@ -56,7 +58,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %
 %   FORMAT:
 %
-%        [random_points, theta] = fcn_CodeX_Set2_02_Rotation(entry_key,student_number);
+%        [random_points, theta] = fcn_CoordX_02_Rotation(entry_key,student_number);
 %
 %   INPUTS:
 %
@@ -218,7 +220,7 @@ if nargin==nargin_lock_number
         % 3) Identify the function dependencies - NOTE: a function must
         % always be self-dependent!
         temp{3} = dependencies; % 
-        %rotation_vector = temp;                                                        %Ask Dr. B
+        %rotation_vector = temp;                                                      
              
     else % Force an error
         narginchk(0,0);
