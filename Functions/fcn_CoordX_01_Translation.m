@@ -22,7 +22,7 @@ function [random_points, translation_vector] = fcn_CoordX_01_Translation(varargi
 %
 %   transformation_matrix = [1 0 tx; 0 1 ty; 0 0 1]
 %
-%   For translating the matrix, 
+%   For translating the points, 
 %   use -- (transformation_matrix*homogenous_random_points')'
 %   
 %   " ' "  --  Transpose of a matrix
@@ -250,7 +250,7 @@ if flag_do_plots
 %     fprintf(1,'Input before scramble: %s\n',string_to_convert);
 %     fprintf(1,'Scrambler: %s\n',scrambler_string);
 %     fprintf(1,'Scrambled input: %s\n',output_result); 
-%     second_scrambled_string = fcn_INTERNAL_scrambleString(output_result,scrambler_string);            %Ask Dr. B
+%     second_scrambled_string = fcn_INTERNAL_scrambleString(output_result,scrambler_string);           
 %     fprintf(1,'Result after second scramble: %s\n',second_scrambled_string);
     
 
