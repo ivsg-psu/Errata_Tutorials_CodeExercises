@@ -16,7 +16,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   How to rotate the points? 
 %   
 %   transformation_matrix = eye(3)
-
+%
 %   transformation_matrix(1,1) = cos(theta); 
 %   transformation_matrix(1,2) = -sin(theta); 
 %   transformation_matrix(2,1) = sin(theta);
