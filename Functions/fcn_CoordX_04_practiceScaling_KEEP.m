@@ -16,7 +16,7 @@ function [random_points, S] = fcn_CoordX_04_practiceScaling(varargin)
 %   How to scale the points? 
 %   
 %   transformation_matrix = eye(3)
-
+%
 %   transformation_matrix(1,1) = S;
 %   transformation_matrix(2,2) = S;
 %
