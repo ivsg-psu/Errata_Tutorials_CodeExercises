@@ -177,7 +177,7 @@ Npoints = 100;  % No. of Points
 
 random_points = randn(Npoints,2); % N Random Points are generated
 
-% The vector is used to translate the points
+% This theta is used to rotate the points
 theta = randn(1,1)*360*(pi/180); 
 
 %% Step 2 - grade student answer

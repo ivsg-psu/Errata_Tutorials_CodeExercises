@@ -1,10 +1,10 @@
-function [random_points, noisy_points] = fcn_CoordX_05_findScalingParameter(varargin)
-% FCN_COORDX_02_ROTATION - Find the index of the largest X - value
+function [S, theta, tx, ty, order_string] = fcn_CoordX_06_produce2DHomogeneousTranformMatrix(varargin)
+% fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX - Find the index of the largest X - value
 % after rotation
 %   
-%   Welcome to FCN_COORDX_02_ROTATION. In this assignment, you are given
+%   Welcome to fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX. In this assignment, you are given
 %   some set of random points and an angle (theta value) in degrees. The
-%   user is supposed to rotate the random points using the given theta and
+%   user is supposed to rotate the random points using given theta and
 %   find the index of the maximum X - value after rotating the points.
 %   
 %   The answer to this excercise is the row_index of the rotated point with
@@ -16,11 +16,13 @@ function [random_points, noisy_points] = fcn_CoordX_05_findScalingParameter(vara
 %   How to rotate the points? 
 %   
 %   transformation_matrix = eye(3)
-
-%   T(1,1) = cos(theta); T(1,2) = -sin(theta);
-%   T(2,1) = sin(theta); T(2,2)= cos(theta);
 %
-%   For rotating the matrix, use --
+%   transformation_matrix(1,1) = cos(theta); 
+%   transformation_matrix(1,2) = -sin(theta); 
+%   transformation_matrix(2,1) = sin(theta);
+%   transformation_matrix(2,2)= cos(theta);
+%
+%   For rotating the points, use --
 %   (transformation_matrix*homogenous_random_points')'
 %   
 %   " ' "  --  Transpose of a matrix
@@ -115,7 +117,7 @@ nargin_lock_number = 42;
 
 % List all the code dependencies.
 % NOTE: a function is assumed in the error checking to be self-dependent. 
-dependencies = 'fcn_CoordX_04_practiceScaling, fcn_CoordX_05_findScalingParameter';
+dependencies = 'fcn_CoordX_05_findScalingParameter, fcn_CoordX_06_produce2DHomogeneousTranformMatrix';
 dependencies_cells = fcn_DebugTools_parseStringIntoCells(dependencies);
 
 
@@ -140,7 +142,7 @@ end
 %     this_fname = this_fname(1:end-5);
 % end
 % this_fname = upper(this_fname);
-this_fname = 'fcn_CoordX_05_findScalingParameter';
+this_fname = 'fcn_CoordX_06_produce2DHomogeneousTranformMatrix';
 
 %% Main code starts here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,38 +169,22 @@ if ~(strcmpi(inverse_entry,this_fname) || any(strcmpi(inverse_entry,dependencies
     end
 end
 
-%% Step 1 - Generate Random Points 
+%% Step 1 - Generate Random Points and Translation Vector
 
 rng(student_number);
 
-Npoints = 100; % No. of Points
+S = randn(1,1)*student_number; % Scaling Parameter
 
-random_points = randn(Npoints,2);  % N Random Points are generated
+theta = randn(1,1)*360*(pi/180); % the angle of rotation
 
-%% Step 2 - Generate Noise Points
+tx = randn(1,1); % the translation in x
+ty = randn(1,1); % the translation in y
 
-homogenous_random_points = [random_points ones(Npoints,1)];
+perms = {'rts','rst','trs','tsr','str','srt','s','r','t'};
 
-% Transformation matrix
-T = eye(3);
+order_string = string(perms(randi([1, length(perms)], 1, 1))); % a string of the form 'srt' that indicates the order of operations to create matrix T
 
-S = student_number*rand(1,1);
-
-T(1,1) = S;
-T(2,2) = S;
-
-% Scaling the original points
-moved_points = (T*homogenous_random_points')';
-
-% Noise 
-noise_to_points = zeros(Npoints,3);
-noise_to_points(:,1:2) = randn(Npoints,2)*0.001;
-
-% Adding noise to the transformed points
-noisy_points = moved_points + noise_to_points;
-
-
-%% Step 3 - grade student answer
+%% Step 2 - grade student answer
 % Do we enter grading mode?
 if nargin==nargin_lock_number
    
@@ -210,9 +196,9 @@ if nargin==nargin_lock_number
         % Grader is correct - return requested information
         % 1) Return the correct answer   
 
-        S_calculated = fcn_AlignCoords_regressionFitScaleFactor(random_points(:,1:2), noisy_points(:,1:2));
+        T = fcn_AlignCoords_generate2DTransformMatrix(S, theta, tx, ty, order_string);
 
-        correct_answer = S_calculated;
+        correct_answer = T;
         temp{1} = correct_answer; 
         
         % 2) Grade the students answer
