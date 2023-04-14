@@ -3,9 +3,9 @@ function [x_data, y_noisy] = fcn_CoordX_03_practiceRegression(varargin)
 % y using regression
 %   
 %   Welcome to FCN_COORDX_03_PRACTICEREGRESSION. In this assignment, you
-%   are given x and y co-ordinates of N points. The y values are generated
+%   are given the x and y coordinates of N points. The y values are generated
 %   from - y = mx + b + noise. The user needs to fit the noisy data using
-%   regression techinques
+%   regression techniques.
 %   
 %   The answer to this excercise is the predicted values (y_pred) of noisy
 %   data after fitting the data
@@ -27,8 +27,8 @@ function [x_data, y_noisy] = fcn_CoordX_03_practiceRegression(varargin)
 %   x_data = random_points(:,1);
 %   y_data = random_points(:,2);
 %
-%   The user needs to find the slope (m) to fit these points. Generally, if
-%   y and x values are known, m can be determined easily - m = y/x.
+%   The user must find the slope (m) to fit these points. Generally, if
+%   y and x values are scalars, m can be determined easily - m = y/x.
 %   However, in this exercise, x and y are column vectors. Since it is not
 %   straightforward to divide the vectors, the least squares method is used
 %   in this case.
@@ -64,14 +64,14 @@ function [x_data, y_noisy] = fcn_CoordX_03_practiceRegression(varargin)
 %            answer)
 %            
 %            answer_03_yPred = y_pred
-%            fcn_GradeCodeX('fcn_CoordX_03_practiceRegression',answer_03_yPred);
+%            fcn_GradeCoordX('fcn_CoordX_03_practiceRegression',answer_03_yPred);
 %
 %
-%   Or, to skip entry of the student number, the student number can be
+%   Or, to skip the entry of the student number, the student number can be
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_03_practiceRegression',answer_03_yPred, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_03_practiceRegression',answer_03_yPred, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 

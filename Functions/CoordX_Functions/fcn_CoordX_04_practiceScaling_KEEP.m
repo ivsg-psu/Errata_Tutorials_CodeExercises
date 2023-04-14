@@ -3,18 +3,20 @@ function [random_points, S] = fcn_CoordX_04_practiceScaling(varargin)
 % after scaling the points
 %   
 %   Welcome to FCN_COORDX_04_PRACTICESCALING. In this assignment, you are given
-%   some set of random points and a scaling parameter (S value). The
-%   user is supposed to scale the random points using given S and
-%   find the index of the maximum Y - value after scaling the points.
+%   some random points and a scaling parameter (S value). The
+%   user is supposed to scale the random points using the given S and
+%   find the index of the maximum y-value after scaling the points.
 %   
-%   The answer to this excercise is the row_index of the scaled point with
-%   the largest Y - value
+%   The answer to this exercise is the row_index of the scaled point with
+%   the largest y-value
 %
 %   [random_points, theta] =
 %   fcn_CoordX_04_practiceScaling(entry_key,student_number); 
 %   
 %   How to scale the points? 
 %   
+%   You have to create the transformation matrix. 
+%
 %   transformation_matrix = eye(3)
 %
 %   transformation_matrix(1,1) = S;
@@ -25,7 +27,7 @@ function [random_points, S] = fcn_CoordX_04_practiceScaling(varargin)
 %   
 %   " ' "  --  Transpose of a matrix
 %
-%   Homogenous points: Z - co-ordinates of the randomly generated points
+%   Homogenous points: Z - coordinates of the randomly generated points
 %   should be '1'
 %
 %   To check if the answer is correct, call fcn_GradeCodeX. 
@@ -40,14 +42,14 @@ function [random_points, S] = fcn_CoordX_04_practiceScaling(varargin)
 %            answer)
 %            
 %            answer_04_largestYPoint_Index = row_index
-%            fcn_GradeCodeX('fcn_CoordX_04_practiceScaling',answer_04_largestYPoint_Index);
+%            fcn_GradeCoordX('fcn_CoordX_04_practiceScaling',answer_04_largestYPoint_Index);
 %
 %
-%   Or, to skip entry of the student number, the student number can be
+%   Or, to skip the entry of the student number, the student number can be
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_04_practiceScaling',answer_04_largestYPoint_Index, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_04_practiceScaling',answer_04_largestYPoint_Index, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 
