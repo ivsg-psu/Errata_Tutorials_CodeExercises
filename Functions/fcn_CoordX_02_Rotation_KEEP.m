@@ -7,7 +7,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   user is supposed to rotate the random points using given theta and
 %   find the index of the maximum X - value after rotating the points.
 %   
-%   The answer to this excercise is the row_index of the rotated point with
+%   The answer to this exercise is the row_index of the rotated point with
 %   the largest X - value
 %
 %   [random_points, theta] =
@@ -49,7 +49,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 
@@ -63,7 +63,7 @@ function [random_points, theta] = fcn_CoordX_02_Rotation(varargin)
 %   INPUTS:
 %
 %        entry_key: the entry key for the function, given by the
-%        fcn_GradeCodeX operations
+%        fcn_GradeCoordX operations
 %
 %        student_number: the student number. It must match the prior
 %        numbers used in the fcn_GradeCodeX operations

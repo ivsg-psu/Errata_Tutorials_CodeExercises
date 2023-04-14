@@ -48,7 +48,7 @@
 %    entered via code before calling the grading function:
 % 
 %             student_number = 1234; % <--- this must be changed                      
-%             fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
+%             fcn_GradeCoordX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
 % 
 %    If the answer is right, the grader prints information and gives you the next
 %    problem.
