@@ -65,8 +65,8 @@ entry_key_10 = '>:Ve1T-9efC*b9Ie^VNI)W^TR>U';
 %% Problem 0 - setting up, but with student number
 % Just call the function with no arguments to set up the next problem,
 % problem 1!
-student_number = 1234; % <--- this must be changed
-fcn_GradeCodeX(student_number); 
+student_number = 1; % <--- this must be changed
+fcn_GradeCoordX(student_number); 
 
 %% Problem 01 - Translation
 
