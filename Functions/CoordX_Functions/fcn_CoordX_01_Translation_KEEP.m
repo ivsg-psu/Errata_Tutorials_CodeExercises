@@ -3,12 +3,15 @@ function [random_points, translation_vector] = fcn_CoordX_01_Translation(varargi
 % the transformation
 %   
 %   Welcome to FCN_COORDX_01_TRANSLATION. In this assignment, you are given
-%   some random points and a translation_vector. The user is supposed to
-%   translate the random points using the translation vector and find the
-%   closest point to the origin after translating the points. The answer to
-%   this exercise is the row_index of the closest point to the origin after
-%   applying the translation.
+%   N points in [x,y] that are randomly normal generated and a
+%   translation_vector. The user must translate the random points
+%   using the translation vector and find the closest point to the origin
+%   after translating the points. The answer to this exercise is the
+%   row_index of the closest point to the origin after applying the
+%   translation.
 %   
+%   This function has two output arguments and two input arguments.
+%
 %   [random_points, translation_vector] =
 %   fcn_CoordX_01_Translation(entry_key,student_number);
 %   
@@ -31,10 +34,7 @@ function [random_points, translation_vector] = fcn_CoordX_01_Translation(varargi
 %   MATLAB prompt:
 %
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
-%            student_number = 1234; % <--- this must be changed row_index =
-%            fcn_CoordX_01_Translation(entry_key,student_number); (write
-%            code or inspect the list here to find which row has the
-%            answer)
+%            student_number = 1234; % <--- this must be changed
 %            
 %            answer_01_closestPoint_Index = row_index;
 %

@@ -1,55 +1,46 @@
 function [S, theta, tx, ty, order_string] = fcn_CoordX_06_produce2DHomogeneousTranformMatrix(varargin)
-% fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX - Find the index of the largest X - value
-% after rotation
+% FCN_COORDX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX - Find the 2D
+% homogeneous-form transform matrix
 %   
-%   Welcome to fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX. In this assignment, you are given
-%   some set of random points and an angle (theta value) in degrees. The
-%   user is supposed to rotate the random points using given theta and
-%   find the index of the maximum X - value after rotating the points.
+%   Welcome to FCN_COORDX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX. In this
+%   assignment, you are given S (scaling parameter), theta, tx, ty and
+%   order_string. The user must generate a 2D homogeneous
+%   transform matrix using the function below.
+%
+%   T_calculated = fcn_AlignCoords_generate2DTransformMatrix(S, theta, tx,
+%   ty, order_string);
 %   
-%   The answer to this excercise is the row_index of the rotated point with
-%   the largest X - value
+%   The answer to this exercise is the transformation matrix of the given
+%   order_string
 %
-%   [random_points, theta] =
-%   fcn_CoordX_02_Rotation(entry_key,student_number); 
+%  Supppose, 
+%
+%  order_string = 'rts' - generate the transformation matrix for rotating,
+%  translating and scaling the points, correspondingly.
+%
+%  order_string = 'tsr' - generate the transformation matrix for
+%  translating, scaling and rotating the points, correspondingly.
+%
+%   [S, theta, tx, ty, order_string] =
+%   fcn_CoordX_06_produce2DHomogeneousTranformMatrix(entry_key,student_number); 
 %   
-%   How to rotate the points? 
-%   
-%   transformation_matrix = eye(3)
 %
-%   transformation_matrix(1,1) = cos(theta); 
-%   transformation_matrix(1,2) = -sin(theta); 
-%   transformation_matrix(2,1) = sin(theta);
-%   transformation_matrix(2,2)= cos(theta);
-%
-%   For rotating the points, use --
-%   (transformation_matrix*homogenous_random_points')'
-%   
-%   " ' "  --  Transpose of a matrix
-%
-%   Homogenous points: Z - co-ordinates of the randomly generated points
-%   should be '1'
-%
-%   To check if the answer is correct, call fcn_GradeCodeX. 
+%   To check if the answer is correct, call fcn_GradeCoordX. 
 %   For example, to solve this, one could type in their script or at the
 %   MATLAB prompt:
 % 
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
 %            student_number = 1234; % <--- this must be changed                      
-%            row_index = fcn_CoordX_02_Rotation(entry_key,student_number);
-%
-%            (write code or inspect the list here to find which row has the
-%            answer)
 %            
-%            answer_02_largestXPoint_Index = row_index
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index);
+%            answer_06 = T_calculated
+%            fcn_GradeCoordX('fcn_CoordX_06_produce2DHomogeneousTranformMatrix',answer_06);
 %
 %
 %   Or, to skip entry of the student number, the student number can be
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_06_produce2DHomogeneousTranformMatrix',answer_06, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 

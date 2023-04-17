@@ -1,55 +1,53 @@
 function [random_points, moved_points] = fcn_CoordX_07_practiceKabschsAlgorithm(varargin)
-% fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX - Find the index of the largest X - value
-% after rotation
+% FCN_COORDX_07_PRACTICEKABSCHSALGORITHM - Find the 2D
+% homogeneous-form transform matrix that fits the points each other
 %   
-%   Welcome to fcn_CoordX_06_PRODUCE2DHOMOGENEOUSTRANSFORMMATRIX. In this assignment, you are given
-%   some set of random points and an angle (theta value) in degrees. The
-%   user is supposed to rotate the random points using given theta and
-%   find the index of the maximum X - value after rotating the points.
+%   Welcome to FCN_COORDX_07_PRACTICEKABSCHSALGORITHM. In this assignment,
+%   you are given N points in [x,y] that are randomly normal generated and
+%   the corresponding transformed points. The transformed points are the
+%   matching set of points which are the rotated and translated version of
+%   these points. The user must find the homogeneous transform matrix that
+%   fits the points each other. The following function can be used to
+%   perform the Kabsch's algorithm for finding the 2D homogeneous transform
+%   matrix
 %   
-%   The answer to this excercise is the row_index of the rotated point with
-%   the largest X - value
-%
-%   [random_points, theta] =
-%   fcn_CoordX_02_Rotation(entry_key,student_number); 
+%   [R_calculated,t_rotated,~] =
+%   fcn_AlignCoords_fitRotationKabsch(random_points,
+%   moved_points);
 %   
-%   How to rotate the points? 
-%   
-%   transformation_matrix = eye(3)
-%
-%   transformation_matrix(1,1) = cos(theta); 
-%   transformation_matrix(1,2) = -sin(theta); 
-%   transformation_matrix(2,1) = sin(theta);
-%   transformation_matrix(2,2)= cos(theta);
-%
-%   For rotating the points, use --
-%   (transformation_matrix*homogenous_random_points')'
-%   
+%   t_calulated = -(t_rotated/R_calculated)';
+% 
 %   " ' "  --  Transpose of a matrix
 %
-%   Homogenous points: Z - co-ordinates of the randomly generated points
-%   should be '1'
+%   R_calulated is the rotation vector, and t_calculated is the
+%   translation vector. 
+% 
+%   Note: Only the first two columns of random and moved points must be
+%   used as the input arguments of the above function. A user should not
+%   use Homogeneous points as the input arguments.
+%   
+%   The answer to this exercise is the 2D homogeneous-form transform
+%   matrix that fits the points each other
 %
-%   To check if the answer is correct, call fcn_GradeCodeX. 
+%   [random_points, moved_points] =
+%   fcn_CoordX_07_practiceKabschsAlgorithm(entry_key,student_number); 
+%   
+%   To check if the answer is correct, call fcn_GradeCoordX.
 %   For example, to solve this, one could type in their script or at the
 %   MATLAB prompt:
 % 
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
 %            student_number = 1234; % <--- this must be changed                      
-%            row_index = fcn_CoordX_02_Rotation(entry_key,student_number);
 %
-%            (write code or inspect the list here to find which row has the
-%            answer)
-%            
-%            answer_02_largestXPoint_Index = row_index
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index);
+%            answer_07 = transform_matrix_calculated
+%            fcn_GradeCoordX('fcn_CoordX_07_practiceKabschsAlgorithm',answer_07);
 %
 %
 %   Or, to skip entry of the student number, the student number can be
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_07_practiceKabschsAlgorithm',answer_07, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 
@@ -209,7 +207,7 @@ if nargin==nargin_lock_number
         coord_base_points = homogenous_random_points;
         coord_xform_points = moved_points;
 
-        [R_calculated,t_rotated,err] = fcn_AlignCoords_fitRotationKabsch(coord_base_points(:,1:2), coord_xform_points(:,1:2), fig_num); % Find optimal transform
+        [R_calculated,t_rotated,~] = fcn_AlignCoords_fitRotationKabsch(coord_base_points(:,1:2), coord_xform_points(:,1:2)); % Find optimal transform
 
 
         % Calculate unrotated version of t, and in column form. Note: it's in the

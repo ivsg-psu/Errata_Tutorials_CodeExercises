@@ -3,12 +3,13 @@ function [x_data, y_noisy] = fcn_CoordX_03_practiceRegression(varargin)
 % y using regression
 %   
 %   Welcome to FCN_COORDX_03_PRACTICEREGRESSION. In this assignment, you
-%   are given the x and y coordinates of N points. The y values are generated
-%   from - y = mx + b + noise. The user needs to fit the noisy data using
-%   regression techniques.
-%   
-%   The answer to this excercise is the predicted values (y_pred) of noisy
-%   data after fitting the data
+%   are given the x and y coordinates of N points that are randomly normal
+%   generated. The y values are generated from - y = mx + b + noise. The
+%   user needs to fit the noisy data using regression techniques. The
+%   answer to this excercise is the predicted values (y_pred) of noisy data
+%   after fitting the data
+%
+%   This function has two output arguments and two input arguments.
 %
 %   [x_data, y_noisy] =
 %   fcn_CoordX_03_practiceRegression(entry_key,student_number); 

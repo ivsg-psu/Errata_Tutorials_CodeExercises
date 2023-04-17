@@ -1,53 +1,48 @@
 function [random_points, noisy_points] = fcn_CoordX_05_findScalingParameter(varargin)
-% FCN_COORDX_02_ROTATION - Find the index of the largest X - value
-% after rotation
+% FCN_COORDX_05_FINDSCALINGPARAMETER - Find the scaling parameter 'S' that
+% scales random points to noisy points
 %   
-%   Welcome to FCN_COORDX_02_ROTATION. In this assignment, you are given
-%   some set of random points and an angle (theta value) in degrees. The
-%   user is supposed to rotate the random points using the given theta and
-%   find the index of the maximum X - value after rotating the points.
+%   Welcome to FCN_COORDX_05_FINDSCALINGPARAMETER. In this assignment, you
+%   are given N points in [x,y] that are randomly normal generated and
+%   noisy points. The noisy points are created by scaling the random points
+%   and then adding the noise to the scaled points. The user must find the
+%   scaling parameter that is used to transform random points into noisy
+%   points.
 %   
-%   The answer to this excercise is the row_index of the rotated point with
-%   the largest X - value
+%   The function "S_calculated =
+%   fcn_AlignCoords_regressionFitScaleFactor(random_points, noisy_points)"
+%   can be used to solve this assignment.
+%   
+%   Note: Only the first two columns of random and noisy points must be
+%   used as the input arguments of the above function. A user should not
+%   use Homogeneous points as the input arguments
+%   
+%   Homogenous points: Z - coordinates of the randomly generated points
+%   should be '1'   
 %
-%   [random_points, theta] =
-%   fcn_CoordX_02_Rotation(entry_key,student_number); 
-%   
-%   How to rotate the points? 
-%   
-%   transformation_matrix = eye(3)
-
-%   T(1,1) = cos(theta); T(1,2) = -sin(theta);
-%   T(2,1) = sin(theta); T(2,2)= cos(theta);
+%   The answer to this exercise is the S_calculated (scaling parameter)
+%   that scales random points to noisy points.
 %
-%   For rotating the matrix, use --
-%   (transformation_matrix*homogenous_random_points')'
-%   
-%   " ' "  --  Transpose of a matrix
+%   [random_points, noisy_points] =
+%   fcn_CoordX_05_findScalingParameter(entry_key,student_number); 
 %
-%   Homogenous points: Z - co-ordinates of the randomly generated points
-%   should be '1'
 %
-%   To check if the answer is correct, call fcn_GradeCodeX. 
+%   To check if the answer is correct, call fcn_GradeCoordX. 
 %   For example, to solve this, one could type in their script or at the
 %   MATLAB prompt:
 % 
 %            entry_key = ' 234ADH&45'; % <--- this must be changed
 %            student_number = 1234; % <--- this must be changed                      
-%            row_index = fcn_CoordX_02_Rotation(entry_key,student_number);
-%
-%            (write code or inspect the list here to find which row has the
-%            answer)
 %            
-%            answer_02_largestXPoint_Index = row_index
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index);
+%            answer_05 = S_calculated
+%            fcn_GradeCoordX('fcn_CoordX_02_Rotation',answer_05);
 %
 %
 %   Or, to skip entry of the student number, the student number can be
 %   entered via code before calling the grading function:
 %
 %            student_number = 1234; % <--- this must be changed                      
-%            fcn_GradeCodeX('fcn_CoordX_02_Rotation',answer_02_largestXPoint_Index, student_number);
+%            fcn_GradeCoordX('fcn_CoordX_02_Rotation',answer_05, student_number);
 %
 %   If the answer is right, the grader prints information and gives you the next
 %   problem. 

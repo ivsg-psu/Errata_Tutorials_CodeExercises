@@ -1,14 +1,15 @@
 function [random_points, S] = fcn_CoordX_04_practiceScaling(varargin)
-% FCN_COORDX_04_PRACTICESCALING - Find the index of the largest Y - value
+% FCN_COORDX_04_PRACTICESCALING - Find the index of the largest y-value
 % after scaling the points
 %   
-%   Welcome to FCN_COORDX_04_PRACTICESCALING. In this assignment, you are given
-%   some random points and a scaling parameter (S value). The
-%   user is supposed to scale the random points using the given S and
-%   find the index of the maximum y-value after scaling the points.
-%   
-%   The answer to this exercise is the row_index of the scaled point with
-%   the largest y-value
+%   Welcome to FCN_COORDX_04_PRACTICESCALING. In this assignment, you are
+%   given N points in [x,y] that are randomly normal generated and a
+%   scaling parameter (S value). The user must scale the random
+%   points using the given S and find the index of the maximum y-value
+%   after scaling the points. The answer to this exercise is the row_index
+%   of the scaled point with the largest y-value
+%
+%   This function has two output arguments and two input arguments.
 %
 %   [random_points, theta] =
 %   fcn_CoordX_04_practiceScaling(entry_key,student_number); 
