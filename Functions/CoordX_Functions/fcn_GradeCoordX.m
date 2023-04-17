@@ -157,7 +157,7 @@ ith_library = 1;
 
 library_name{ith_library}    = 'CoordX_2023_04_14';
 library_folders{ith_library} = {};
-library_url{ith_library}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CoordX_2023_04_14.zip';
+library_url{ith_library}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CoordX_2023_04_14.zip?raw=true';
 
 ith_library = ith_library+1;
 library_name{ith_library}    = 'AlignCoordinates_2023_03_29';
