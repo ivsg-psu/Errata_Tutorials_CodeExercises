@@ -2,15 +2,16 @@ function scrambled_answer = fcn_CodeX_01_getKey(varargin)
 %FCN_CODEX_01_GETKEY - generate student and computer-specific key
 %   
 %   Welcome to FCN_CODEX_01_GETKEY . In this assignment, you are asked to
-%   write code that queries this function, FCN_CODEX_01_GETKEY, with a key code
+%   write code that queries this function, FCN_CODEX_01_GETKEY, with an entry key code
 %   input and your student number. The solution is literally one line of
 %   code that requests a code key (a strange set of characters) from the
-%   function.
+%   function. If the entry code is correct, then the answer is graded as
+%   correct.
 %
 %   For example, to solve this, one could type in their script or at the
 %   MATLAB prompt:
 % 
-%            entry_key = ' 234ADH&45'; % <--- this must be changed
+%            entry_key = ' 234ADH&45'; % <--- this must be changed.
 %            answer = fcn_CodeX_01_getKey(entry_key,student_number);
 %            fcn_GradeCodeX('fcn_CodeX_01_getKey',answer);
 %
@@ -111,6 +112,11 @@ end
 % See: http://patorjk.com/software/taag/#p=display&f=Big&t=Inputs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Check to see if the right number of input arguments are given. We do this
+% by setting the number that is expected (the nargin_lock_number). If the
+% number of arguments is equal to this, then the function gets the "grading
+% code" and returns the correct answer to the grading algorithm that called
+% it.
 nargin_lock_number = 42;
 
 % List all the code dependencies.

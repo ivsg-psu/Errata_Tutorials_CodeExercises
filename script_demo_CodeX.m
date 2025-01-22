@@ -23,13 +23,18 @@ clc
 % from the workspace, and "close all" which closes all figures. So we'll
 % often see codes that have, at the top: "clc, clear all, close all" as
 % this makes the console, workspace variables, and plots all return to
-% "startup" mode.
+% "startup" mode. As a suggestion, use "clear all" sparingly - in many
+% codes, the workspace variables are set to avoid repeated calculations. So
+% if they are cleared each time, it very much slows code down. A good
+% practice is to use functions as these contain and use variables only when
+% they are called and within the code of the function only.
 
 
 %% Problem 0 - setting up!
-% Just call the function with no arguments to set up the next problem,
+% Just call the grading function with no arguments to set up the next problem,
 % problem 1!
-% fcn_GradeCodeX; 
+
+fcn_GradeCodeX; 
 
 % The following entry keys change with each computer, and each student.
 

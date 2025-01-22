@@ -4,22 +4,30 @@ function name_hash = fcn_CodeX_calculateNameHash(student_number_string,string_2_
 % it not a problem to be solved, but rather a function that is used often
 % in many of the problems and so is kept as a stand-alone function.
 
+%% Make sure the student number string is of char type
+if ~ischar(student_number_string)
+    if isstring(student_number_string)
+        student_number_string = char(student_number_string);
+    else
+        error('Expecting student number to be string or character');
+    end
+end
 
-%% Prep the hashing string by combining student number with MAC
+%% Prep the hashing string by interlacing student number with MAC
 mac_string = fcn_INTERNAL_getMACaddress;
 
-% Interlace strings
+% Find string lengths
 length_number = length(student_number_string);
 length_mac    = length(mac_string);
 
-% Make sure mac string is longer one
+% Make sure both strings are same size
 if length_number>length_mac
-    error('Length of student number too long!');
-    %     temp = mac_string;
-    %     mac_string = student_number_string;
-    %     student_number_string = temp;
-    %     length_mac = length(mac_string);
-    %     length_number = length(student_number_string);
+    full_number = student_number_string;
+
+    
+    
+    % Make mac number longer
+
 end
 
 % Initialize interlaced string

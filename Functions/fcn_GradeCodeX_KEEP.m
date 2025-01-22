@@ -7,9 +7,9 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   problems to "unsolved". It also asks the user, via a prompt, to enter
 %   their student number.
 %
-%   FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as no inputs,
-%   except without asking users to enter their student ID via
-%   a prompt; the value in STUDENT_NUMBER is used instead. This enables
+%   FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as with no
+%   inputs, except without asking users to enter their student ID via a
+%   prompt; the value in STUDENT_NUMBER is used instead. This enables
 %   scripts to automatically start the code. For example, the following
 %   code would cause this function to run without the student number being
 %   requested at the command line:
@@ -18,7 +18,7 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   fcn_GradeCodeX(student_number); % Initialize with this number
 %
 %   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%   FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK) will query a function
+%   FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK) will query a function
 %   given by a string in FUNCTION_NAME, checking to see if ANSWER_TO_CHECK
 %   is the correct answer. If the answer is correct, then RIGHT_OR_WRONG is
 %   set to true, and NEXT_FUNCTIONS lists a cell array of strings of the
@@ -26,18 +26,18 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   the "entry keys" for each of the next problems, listed in the same
 %   ordering as NEXT_FUNCTIONS.
 %
-%   If the answer is wrong, RIGHT_OR_WRONG is set to false and the cell
-%   arrays are empty.
+%   If the answer is wrong, RIGHT_OR_WRONG is set to false and the NEXT_XXX
+%   cell arrays are empty.
 %
 %   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%   FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK,STUDENT_NUMBER) does the
+%   FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER) does the
 %   same as the previous call, but automatically uses the given student
 %   number to avoid asking the user for this as an input.
 %
 %   FORMAT:
 %
 %        [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%           FCN_GRADECODEX(FUNCTION_NAME,ANSWER_TO_CHECK,STUDENT_NUMBER)
+%           FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER)
 %
 %   INPUTS:
 %
@@ -45,6 +45,9 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %        be solved. 
 %
 %        ANSWER_TO_CHECK: The student's answer to check.
+% 
+%        (OPTIONAL INPUT)
+%        STUDENT_NUMBER: An integer representing the student's number
 %
 %   OUTPUTS:
 %
@@ -83,15 +86,18 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 % -- improved comments (in 06)
 % 2023_03_28
 % -- improved comments (flag_is_right)
+% 2025_01_21
+% -- improved comments
 
 % TO DO
 % -- Add input argument checking
 
-% % USE THIS TO CLEAR EVERYTHING
-% 
-% clear all
-% clear global *
-% delete code_Dependencies.mat
+% USE THIS TO CLEAR EVERYTHING
+if 1==0
+    clear all
+    clear global *
+    delete code_Dependencies.mat
+end
 
 
 flag_do_debug = 0; % Flag to show the results for debugging
@@ -123,7 +129,7 @@ if flag_check_inputs
 end
 
 % First time entries always have 0 or 1 arguments
-if nargin<2
+if nargin<=1
     flag_first_time = 1;
 else
     flag_first_time = 0;
@@ -133,11 +139,12 @@ end
 student_number = [];
 if 1 == nargin  || (3 == nargin)
     temp = varargin{end};
-    % Did the user give an positive integer?
+    % Did the user give a numeric integer that is positive?
     if isnumeric(temp) && (round(temp)==temp) && (temp>0) 
+        % Yes, an integer was given
         student_number = temp;
     else
-        error('Expecting student number, but input is not a positive integer.');
+        error('Expecting positive integer student number, but input: %.0d is not a positive integer.', temp);
     end
 end
 
