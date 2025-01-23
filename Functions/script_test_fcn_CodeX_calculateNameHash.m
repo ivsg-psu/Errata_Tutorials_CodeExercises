@@ -19,6 +19,7 @@ student_number = mlreportgen.utils.hash(student_number_raw);
 string_to_hash = upper('abc123');
 fprintf(1,'\nInput that was sent for hashing: %s\n',string_to_hash);
 hash_result = fcn_CodeX_calculateNameHash_KEEP(student_number,string_to_hash);
+
 fprintf(1,'Hash that was produced: %s\n',hash_result);
 
 % Now show that the inverse hashing operation is just the same operation
