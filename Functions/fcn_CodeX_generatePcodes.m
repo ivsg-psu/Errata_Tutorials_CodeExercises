@@ -3,7 +3,8 @@ function fcn_CodeX_generatePcodes(varargin)
 % fcn_CodeX_generatePcodes creates pcode versions of all the
 % files whose name ends in _KEEP, creating both the p-code version of the
 % file and a help version of the file, by copying the top contents of the
-% file into a function.
+% file into a function. Puts all the contents into a folder called Pcodes
+% and as well copies to the Utilities directory for debugging.
 %
 % FORMAT:
 %
@@ -33,6 +34,8 @@ function fcn_CodeX_generatePcodes(varargin)
 % -- wrote the code originally 
 % 2023_02_15:
 % -- do directory check to allow this function to be called directly
+% 2025_01_25:
+% -- added test script
 
 % TO DO
 % -- Add input argument checking
@@ -84,7 +87,7 @@ CodeX_library_name = 'CodeX_2023_03_28';
 
 % Define where we will put the pcode results
 functions_directory = fullfile(core_directory,'Functions');
-pcode_directory = fullfile(core_directory,'Functions','Pcodes');
+pcode_directory     = fullfile(core_directory,'Functions','Pcodes');
 utilities_directory = fullfile(core_directory,'Utilities',CodeX_library_name);
 
 % Does the Pcodes directory exist?

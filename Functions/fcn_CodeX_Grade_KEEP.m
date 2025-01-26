@@ -1,24 +1,27 @@
-function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(varargin) %#ok<FNDEF>
-%FCN_GRADECODEX     grades problems for the CodeX challenges. 
+function [flag_answer_is_right, next_functions, next_keys] = fcn_CodeX_Grade(varargin) %#ok<FNDEF>
+%FCN_CODEX_GRADE     grades problems for the CodeX challenges. 
 %   
-%   FCN_GRADECODEX with no input arguments automatically
-%   builds a Utilities directory by downloading problems from the internet.
-%   It also sets up the work environment, including resetting all solved
-%   problems to "unsolved". It also asks the user, via a prompt, to enter
-%   their student number.
+%   FCN_CODEX_GRADE with no input arguments automatically
+%   builds a Utilities directory by downloading the default from the
+%   internet. It also sets up the work environment, including resetting all
+%   solved problems to "unsolved". It also asks the user, via a prompt, to
+%   enter their student number.
 %
-%   FCN_GRADECODEX(STUDENT_NUMBER) performs the same behavior as with no
+%   FCN_CODEX_GRADE(ZIP_FILE.ZIP) initializes installs for the files in
+%   ZIP_FILE.ZIP
+%
+%   FCN_CODEX_GRADE(STUDENT_NUMBER) performs the same behavior as with no
 %   inputs, except without asking users to enter their student ID via a
-%   prompt; the value in STUDENT_NUMBER is used instead. This enables
-%   scripts to automatically start the code. For example, the following
-%   code would cause this function to run without the student number being
-%   requested at the command line:
+%   prompt; the integer value in STUDENT_NUMBER is used instead. This
+%   enables scripts to automatically start the code. For example, the
+%   following code would cause this function to run without the student
+%   number being requested at the command line:
 %
 %   student_number = 1234; % Students would enter their number here
-%   fcn_GradeCodeX(student_number); % Initialize with this number
+%   fcn_CodeX_Grade(student_number); % Initialize with this number
 %
 %   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%   FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK) will query a function
+%   FCN_CODEX_GRADE(FUNCTION_NAME, ANSWER_TO_CHECK) will query a function
 %   given by a string in FUNCTION_NAME, checking to see if ANSWER_TO_CHECK
 %   is the correct answer. If the answer is correct, then RIGHT_OR_WRONG is
 %   set to true, and NEXT_FUNCTIONS lists a cell array of strings of the
@@ -30,14 +33,14 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   cell arrays are empty.
 %
 %   [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%   FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER) does the
+%   FCN_CODEX_GRADE(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER) does the
 %   same as the previous call, but automatically uses the given student
 %   number to avoid asking the user for this as an input.
 %
 %   FORMAT:
 %
 %        [RIGHT_OR_WRONG, NEXT_FUNCTIONS, NEXT_KEYS] = ...
-%           FCN_GRADECODEX(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER)
+%           FCN_CODEX_GRADE(FUNCTION_NAME, ANSWER_TO_CHECK, STUDENT_NUMBER)
 %
 %   INPUTS:
 %
@@ -68,10 +71,16 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 %   EXAMPLES:
 %
 %       See the script: script_demo_CodeX.m to get started.  To get
-%       started, just call the function, fcn_GradeCodeX, with no arguments.
+%       started, just call the function, fcn_CodeX_Grade, with no arguments.
 %
 %   This function was written on 2023_01_23 by S. Brennan
 %   Questions or comments? sbrennan@psu.edu
+
+% INTERNAL Dependencies
+%
+%
+%
+%
 
 % Revision history:
 % 2023_01_23:
@@ -88,25 +97,45 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_GradeCodeX(vara
 % -- improved comments (flag_is_right)
 % 2025_01_21
 % -- improved comments
+% -- renamed function for clarity
+% -- added (-1) input for resetting
+% -- added library name
 
 % TO DO
 % -- Add input argument checking
 
-% USE THIS TO CLEAR EVERYTHING
-if 1==0
-    clear all
-    clear global *
-    delete code_Dependencies.mat
+
+
+%% Debugging and Input checks
+
+% Check if flag_max_speed set. This occurs if the fig_num variable input
+% argument (varargin) is given a number of -1, which is not a valid figure
+% number.
+flag_max_speed = 0;
+if (nargin==3 && isequal(varargin{end},-1))
+    flag_do_debug = 0; % % % % Flag to plot the results for debugging
+    flag_check_inputs = 0; % Flag to perform input checking
+    flag_max_speed = 1;
+else
+    % Check to see if we are externally setting debug mode to be "on"
+    flag_do_debug = 0; % % % % Flag to plot the results for debugging
+    flag_check_inputs = 1; % Flag to perform input checking
+    MATLABFLAG_CODEX_FLAG_CHECK_INPUTS = getenv("MATLABFLAG_CODEX_FLAG_CHECK_INPUTS");
+    MATLABFLAG_CODEX_FLAG_DO_DEBUG = getenv("MATLABFLAG_CODEX_FLAG_DO_DEBUG");
+    if ~isempty(MATLABFLAG_CODEX_FLAG_CHECK_INPUTS) && ~isempty(MATLABFLAG_CODEX_FLAG_DO_DEBUG)
+        flag_do_debug = str2double(MATLABFLAG_CODEX_FLAG_DO_DEBUG);
+        flag_check_inputs  = str2double(MATLABFLAG_CODEX_FLAG_CHECK_INPUTS);
+    end
 end
 
-
-flag_do_debug = 0; % Flag to show the results for debugging
-flag_do_plots = 0; % % Flag to plot the final results
-flag_check_inputs = 1; % Flag to perform input checking
+% flag_do_debug = 1;
 
 if flag_do_debug
     st = dbstack; %#ok<*UNRCH>
     fprintf(1,'STARTING function: %s, in file: %s\n',st(1).name,st(1).file);
+    debug_fig_num = 999978; %#ok<NASGU>
+else
+    debug_fig_num = []; %#ok<NASGU>
 end
 
 
@@ -123,9 +152,11 @@ end
 % See: http://patorjk.com/software/taag/#p=display&f=Big&t=Inputs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if flag_check_inputs
-    % Are there the right number of inputs?  
-    narginchk(0,3);    
+if (0 == flag_max_speed)
+    if flag_check_inputs
+        % Are there the right number of inputs?
+        narginchk(0,3);
+    end
 end
 
 % First time entries always have 0 or 1 arguments
@@ -135,18 +166,37 @@ else
     flag_first_time = 0;
 end
 
-% Initialize student_number
+% Initialize student_number?
 student_number = [];
+library_name    = 'CodeX_2023_03_29';
 if 1 == nargin  || (3 == nargin)
+    first_input = varargin{1};
     temp = varargin{end};
     % Did the user give a numeric integer that is positive?
-    if isnumeric(temp) && (round(temp)==temp) && (temp>0) 
-        % Yes, an integer was given
-        student_number = temp;
-    else
+    if isnumeric(temp) && (round(temp)==temp) 
+        % Yes, an integer was given        
+        if (temp>0) 
+            % Positive integer
+            student_number = temp;
+        elseif (-1==temp)
+            % Clearing command
+            fcn_INTERNAL_clearUtilitiesFromPathAndFolders
+            clear global *
+            if 2==exist('code_Dependencies.mat','file')
+                delete('code_Dependencies.mat');
+            end
+            return
+        else
+            error('Expecting positive integer student number, but input: %.0d is not a positive integer.', temp);
+        end
+    elseif (ischar(first_input) || isstring(first_input)) && contains(first_input,'.zip')
+        library_name = char(extractBefore(first_input, '.zip'));
+    else       
         error('Expecting positive integer student number, but input: %.0d is not a positive integer.', temp);
     end
 end
+
+
 
 %% Main code starts here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,35 +208,15 @@ end
 %  |_|  |_|\__,_|_|_| |_|
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Say what the library is called, and where to find the codes
-library_name{1}    = 'CodeX_2023_03_29';
-library_folders{1} = {};
-library_url{1}     = 'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/CodeX_2023_03_29.zip?raw=true';
-
-% Initialize file array
-code_Names{1} = 'fcn_CodeX_01_getKey';
-code_Names{2} = 'fcn_CodeX_02_whatsYourNumber';
-code_Names{3} = 'fcn_CodeX_03_headsOrTails';
-code_Names{4} = 'fcn_CodeX_04_doubleOrNothing';
-code_Names{5} = 'fcn_CodeX_05_whatsThePassword';
-code_Names{6} = 'fcn_CodeX_06_aLongPass';
-code_Names{7} = 'fcn_CodeX_07_thatsOdd';
-code_Names{8} = 'fcn_CodeX_08_RedLightGreenLight';
-code_Names{9} = 'fcn_CodeX_09_ToTheTopOfTheMountain';
-code_Names{10} = 'fcn_CodeX_10_BuyLowSellHigh';
 
 
-
-persistent solved_problems
-% initialize all problems to unsolved (zero)
-if isempty(solved_problems)
-    solved_problems = zeros(length(code_Names),1);
-end
 
 
 
 
 %% Do we need to set up the work space?
+persistent code_Names
+
 if 1==flag_first_time
     fprintf(1,'Installing folders, getting codes ready ...\n');
 
@@ -197,7 +227,7 @@ if 1==flag_first_time
     % flag to not install them again.
     
     % Get the DebugTools
-    DebugTools_dependency_name = 'DebugTools_v2023_01_29';
+    DebugTools_dependency_name = 'DebugTools_v2024_12_18';
     DebugTools_dependency_subfolders = {'Functions','Data'};
     DebugTools_dependency_url = 'https://github.com/ivsg-psu/Errata_Tutorials_DebugTools/blob/main/Releases/DebugTools_v2023_01_29.zip?raw=true';
     fcn_INTERNAL_DebugTools_installDependencies(DebugTools_dependency_name, DebugTools_dependency_subfolders, DebugTools_dependency_url)
@@ -206,24 +236,24 @@ if 1==flag_first_time
     
     % Set dependencies for this project? Only need this in debugging mode
     if flag_do_debug
-        if ~exist('flag_functionsAdded','var') || isempty(flag_functionsAdded)  
-            fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'});
-            flag_functionsAdded = 1;  
+        if ~exist('flag_functionsAdded','var')  
+            fcn_DebugTools_addSubdirectoriesToPath(pwd,{'Functions'}); 
         end
     end
     
     disp('Done setting up environment. Adding library of problems.');
-    
+
     % Set up CodeX library
-    dependency_name = library_name{1};
-    dependency_subfolders = library_folders{1};
-    dependency_url = library_url{1};
+    dependency_name = library_name;
+    dependency_subfolders = {};
+    dependency_url = cat(2,'https://github.com/ivsg-psu/Errata_Tutorials_CodeExercises/blob/main/Releases/',library_name,'.zip?raw=true');
 
     fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url);
     clear dependency_name dependency_subfolders dependency_url
-    
-    
-    
+
+    % Check what problems are in the directory
+    code_Names = fcn_INTERNAL_queryDirectoryForProblems(library_name);
+       
     disp('Done setting up folders.');
     
 end
@@ -240,6 +270,19 @@ if isempty(student_number)
     end
 end
 
+
+%% Find which problems there are to solve
+
+
+
+
+
+persistent solved_problems
+% initialize all problems to unsolved (zero)
+if isempty(solved_problems)
+    solved_problems = zeros(length(code_Names),1);
+end
+
 % Find the dependencies for each file
 if ~exist('code_Dependencies','var')
 
@@ -251,15 +294,18 @@ if ~exist('code_Dependencies','var')
     end
 end
 
+
+
+%% Grade the problem
 if 1==flag_first_time
 
     [next_functions, next_keys] = fcn_INTERNAL_printUnlockedCodes(student_number,'fcn_CodeX_01_getKey',code_Names,code_Dependencies,solved_problems);
-    disp('Type: "help fcn_CodeX_01_getKey" to get started on the first problem!');
+    fprintf(1,'Type: "help %s" to get started on the first problem!\n\n',code_Names{1});
 
     
 else % Each function self-grades!
 
-    %% Find what problem we are working on
+    % Find what problem we are working on
 
     % Grab student inputs
     function_name = varargin{1};
@@ -389,6 +435,8 @@ for ith_codeName = 1:length(code_Names)
     else
         current_dependencies_cells = {};
     end
+
+
     if any(strcmpi(function_name,current_dependencies_cells))
         % Print the header?
         if 0 == flag_dependency_found 
@@ -513,8 +561,9 @@ file_listing = dir(which_result);
 date_lock_value = file_listing(1).date;
 end % Ends fcn_INTERNAL_calculateDateLockValue
 
+%% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES
 function fcn_INTERNAL_DebugTools_installDependencies(dependency_name, dependency_subfolders, dependency_url, varargin)
-%% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES - MATLAB package installer from URL
+% FCN_DEBUGTOOLS_INSTALLDEPENDENCIES - MATLAB package installer from URL
 %
 % FCN_DEBUGTOOLS_INSTALLDEPENDENCIES installs code packages that are
 % specified by a URL pointing to a zip file into a default local subfolder,
@@ -851,3 +900,58 @@ end % Ends function fcn_DebugTools_installDependencies
 
 
 
+%% function fcn_INTERNAL_clearUtilitiesFromPathAndFolders
+function fcn_INTERNAL_clearUtilitiesFromPathAndFolders
+% Clear out the variables
+clear global flag* FLAG*
+clear flag*
+clear path
+
+% Clear out any path directories under Utilities
+if ispc
+    path_dirs = regexp(path,'[;]','split');
+elseif ismac
+    path_dirs = regexp(path,'[:]','split');
+elseif isunix
+    path_dirs = regexp(path,'[;]','split');
+else
+    error('Unknown operating system. Unable to continue.');
+end
+
+utilities_dir = fullfile(pwd,filesep,'Utilities');
+for ith_dir = 1:length(path_dirs)
+    utility_flag = strfind(path_dirs{ith_dir},utilities_dir);
+    if ~isempty(utility_flag)
+        rmpath(path_dirs{ith_dir})
+    end
+end
+
+% Delete the Utilities folder, to be extra clean!
+if  exist(utilities_dir,'dir')
+    [status,message,message_ID] = rmdir(utilities_dir,'s');
+    if 0==status
+        error('Unable remove directory: %s \nReason message: %s \nand message_ID: %s\n',utilities_dir, message,message_ID);
+    end
+end
+
+end % Ends fcn_INTERNAL_clearUtilitiesFromPathAndFolders
+
+
+%% fcn_INTERNAL_queryDirectoryForProblems
+function code_Names = fcn_INTERNAL_queryDirectoryForProblems(library_name)
+directory_to_query = fullfile(cd,'Utilities',library_name,'fcn_CodeX_*.p');
+allfiles = dir(directory_to_query);
+
+numProblems = 0;
+for ith_file = 1:length(allfiles)
+    thisFileName = allfiles(ith_file).name;
+    remainderName = extractAfter(thisFileName,'fcn_CodeX_');
+    possibleNumberPart = extractBefore(remainderName,'_');
+    if ~isnan(str2double(possibleNumberPart))
+        fullName = extractBefore(thisFileName,'.p');
+        numProblems = numProblems + 1;
+        code_Names{numProblems} = fullName;
+    end
+end
+
+end % Ends fcn_INTERNAL_queryDirectoryForProblems
