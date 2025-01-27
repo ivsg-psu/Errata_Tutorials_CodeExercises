@@ -7,7 +7,7 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_CodeX_Grade(var
 %   solved problems to "unsolved". It also asks the user, via a prompt, to
 %   enter their student number.
 %
-%   FCN_CODEX_GRADE(ZIP_FILE.ZIP) initializes installs for the files in
+%   FCN_CODEX_GRADE('ZIP_FILE.ZIP') initializes installs for the files in
 %   ZIP_FILE.ZIP
 %
 %   FCN_CODEX_GRADE(STUDENT_NUMBER) performs the same behavior as with no
@@ -454,7 +454,10 @@ for ith_codeName = 1:length(code_Names)
         % Calculate the hash for this function
         flag_dependency_found = 1;
         student_number_string = sprintf('%.0d',student_number);
-        current_name_hash = fcn_CodeX_calculateNameHash(student_number_string,upper(current_code));
+        MAC_address = fcn_CodeX_getComputerInfo_KEEP;
+        hashing_seed = cat(2,student_number_string,MAC_address);
+        hashing_string = mlreportgen.utils.hash(hashing_seed);
+        current_name_hash = fcn_CodeX_calculateNameHash(hashing_string,upper(current_code));
 
         % Print results to fixed width
         header_1_str = sprintf('%s',current_code);
@@ -491,9 +494,14 @@ end
 nargin_lock_number = 42;
 
 % Check the problem
+
+% Calculate the hash for this function
 % 1) Build the front end with the function hash
 student_number_string = sprintf('%.0d',student_number);
-function_name_hash = fcn_CodeX_calculateNameHash(student_number_string,upper(function_name));
+MAC_address = fcn_CodeX_getComputerInfo_KEEP;
+hashing_seed = cat(2,student_number_string,MAC_address);
+hashing_string = mlreportgen.utils.hash(hashing_seed);
+function_name_hash = fcn_CodeX_calculateNameHash(hashing_string,upper(function_name));
 grading_function_call = cat(2,'results = ',function_name,'(''',sprintf('%s',function_name_hash),''',');
 
 % 2) Add the student_number as second argument

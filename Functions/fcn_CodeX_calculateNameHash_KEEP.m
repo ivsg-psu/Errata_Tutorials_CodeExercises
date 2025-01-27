@@ -1,10 +1,10 @@
-function name_hash = fcn_CodeX_calculateNameHash(student_number_string, string_2_hash, varargin) %#ok<FNDEF>
+function name_hash = fcn_CodeX_calculateNameHash(hashing_string, string_2_hash, varargin) %#ok<FNDEF>
 %% fcn_CodeX_calculateNameHash
 % This is a helper function for the CodeX library that hashes strings. It
 % it not a problem to be solved, but rather a function that is used often
 % in many of the problems and so is kept as a stand-alone function.
 
-% name_hash = fcn_CodeX_calculateNameHash(student_number_string,string_2_hash)
+% name_hash = fcn_CodeX_calculateNameHash(hashing_string,string_2_hash)
 % Creates a hashed output string using the XOR hashing. Includes
 % interlacing of the computer's MAC address to force results to be computer
 % specific. Checks also that the the output is within the correct ASCII
@@ -13,11 +13,11 @@ function name_hash = fcn_CodeX_calculateNameHash(student_number_string, string_2
 %
 % FORMAT:
 %
-%      name_hash = fcn_CodeX_calculateNameHash(student_number_string,string_2_hash)
+%      name_hash = fcn_CodeX_calculateNameHash(hashing_string,string_2_hash)
 %
 % INPUTS:
 %
-%      student_number_string: a string usually containing the student
+%      hashing_string: a string usually containing the student
 %      number or student identifier
 %
 %      string_2_hash: the string that should be XOR hashed
@@ -124,9 +124,9 @@ flag_do_plots = 0; % Nothing to plot
 
 
 %% Make sure the student number string is of char type
-if ~ischar(student_number_string)
-    if isstring(student_number_string)
-        student_number_string = char(student_number_string);
+if ~ischar(hashing_string)
+    if isstring(hashing_string)
+        hashing_string = char(hashing_string);
     else
         error('Expecting student number to be string or character');
     end
@@ -135,8 +135,8 @@ end
 %% Prep the hashing string by interlacing student number with MAC, removing colons
 mac_string = fcn_INTERNAL_getMACaddress;
 clean_mac_string = replace(mac_string,':','');
-same_length_string = fcn_INTERNAL_makeStringSameLengthAsReferenceString(clean_mac_string, student_number_string);
-interlaced_string = reshape([student_number_string;same_length_string],1,[]);
+same_length_string = fcn_INTERNAL_makeStringSameLengthAsReferenceString(clean_mac_string, hashing_string);
+interlaced_string = reshape([hashing_string;same_length_string],1,[]);
 
 name_hash = fcn_INTERNAL_scrambleString(string_2_hash,interlaced_string);
 
