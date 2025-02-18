@@ -77,10 +77,22 @@ function [flag_answer_is_right, next_functions, next_keys] = fcn_CodeX_Grade(var
 %   Questions or comments? sbrennan@psu.edu
 
 % INTERNAL Dependencies
-%
-%
-%
-%
+% fcn_INTERNAL_queryDirectoryForProblems
+% fcn_INTERNAL_clearUtilitiesFromPathAndFolders
+% fcn_INTERNAL_DebugTools_installDependencies
+% fcn_DebugTools_addSubdirectoriesToPath
+% fcn_INTERNAL_loadCodeDependencies
+% fcn_INTERNAL_printUnlockedCodes
+% fcn_INTERNAL_gradeProblemNumber
+% fcn_INTERNAL_findProblemNumber
+% fcn_CodeX_generatePcodes
+% fcn_DebugTools_parseStringIntoCells
+% fcn_DebugTools_debugPrintStringToNCharacters
+% fcn_CodeX_getComputerInfo
+% fcn_CodeX_calculateNameHash
+% fcn_DebugTools_cprintf
+% mlreportgen.utils.hash
+% fcn_INTERNAL_calculateDateLockValue
 
 % Revision history:
 % 2023_01_23:
@@ -454,7 +466,7 @@ for ith_codeName = 1:length(code_Names)
         % Calculate the hash for this function
         flag_dependency_found = 1;
         student_number_string = sprintf('%.0d',student_number);
-        MAC_address = fcn_CodeX_getComputerInfo_KEEP;
+        MAC_address = fcn_CodeX_getComputerInfo;
         hashing_seed = cat(2,student_number_string,MAC_address);
         hashing_string = mlreportgen.utils.hash(hashing_seed);
         current_name_hash = fcn_CodeX_calculateNameHash(hashing_string,upper(current_code));
@@ -498,7 +510,7 @@ nargin_lock_number = 42;
 % Calculate the hash for this function
 % 1) Build the front end with the function hash
 student_number_string = sprintf('%.0d',student_number);
-MAC_address = fcn_CodeX_getComputerInfo_KEEP;
+MAC_address = fcn_CodeX_getComputerInfo;
 hashing_seed = cat(2,student_number_string,MAC_address);
 hashing_string = mlreportgen.utils.hash(hashing_seed);
 function_name_hash = fcn_CodeX_calculateNameHash(hashing_string,upper(function_name));
@@ -561,6 +573,7 @@ end % Ends fcn_INTERNAL_findProblemNumber
 
 %% fcn_INTERNAL_calculateDateLockValue
 function date_lock_value = fcn_INTERNAL_calculateDateLockValue(this_fname)
+% Finds the date of the queried function name
 which_result = which(this_fname);
 if isempty(which_result)
     error('Unable to find self file - quitting.');
@@ -947,6 +960,8 @@ end % Ends fcn_INTERNAL_clearUtilitiesFromPathAndFolders
 
 %% fcn_INTERNAL_queryDirectoryForProblems
 function code_Names = fcn_INTERNAL_queryDirectoryForProblems(library_name)
+% Given a subdirectory name within CodeX, queries the directory to produce
+% a list of all problems
 directory_to_query = fullfile(cd,'Utilities',library_name,'fcn_CodeX_*.p');
 allfiles = dir(directory_to_query);
 
